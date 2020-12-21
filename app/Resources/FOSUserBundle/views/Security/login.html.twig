@@ -1,0 +1,173 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends 'base.html.twig' %}
+
+{% block menu %}
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-gradient-primary-to-secondary">
+        <a class="navbar-brand mr-auto mr-lg-5" href="#">IGO-Facturation</a>
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+
+            <ul class="navbar-nav ml-auto">
+
+                <li>
+                    <a class="nav-link btn btn-white-fill" href="{{ path('fos_user_security_logout') }}"> <span
+                                class="fa fa-reply"></span>  Accueil</a>
+                </li>
+
+
+                <li style="display: none">
+                    <a class="nav-link" href=""></a>
+                </li>
+
+
+            </ul>
+        </div>
+    </nav>
+    <br><br><br>
+{% endblock %}
+{% block content %}
+{% endblock %}
+
+{% block fos_user_content %}
+    <div class="row">
+        <!-- Modal -->
+      {% for message in app.session.flashbag.get('inscription') %}
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          ...
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
+        <div class="col-md-6 offset-md-3">
+
+            <main role="main" class="container">
+
+                <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+                    <img class="mr-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" alt=""
+                         width="48" height="48">
+                    <div class="lh-100">
+                        <h6 class="mb-0 text-white lh-100">Connexion </h6>
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 bg-white rounded box-shadow">
+                    <div class="card">
+
+                        <div class="card-body">
+                            {% if error %}
+                                {#<div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>#}
+                                <div class="alert alert-danger alertSucces">
+                                    <b>{{ error.messageKey|trans(error.messageData, 'security') }}</b>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endif %}
+                            {% for message in app.session.flashbag.get('success') %}
+                                <div class="alert alert-success alertSucces">
+                                    <strong>{{ message }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                            {% for message in app.session.flashbag.get('echec') %}
+                                <div class="alert alert-danger alertSucces">
+                                    <strong>{{ message }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                            {% for message in app.session.flashbag.get('sms') %}
+                                <div class="alert alert-warning">
+                                    <strong>{{ message }}</strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+
+                            <form action="{{ path("fos_user_security_check") }}" method="post">
+                                {% if csrf_token %}
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+                                {% endif %}
+
+
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for="username">{{ 'security.login.username'|trans }}</label>
+                                        <input type="text" id="username" name="_username" value="{{ last_username }}"
+                                               class="form-control" autofocus
+                                               required="required" autocomplete="username" placeholder="Identifiant"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for="password">{{ 'security.login.password'|trans }}</label>
+                                        <input type="password" id="password" name="_password" required="required"
+                                               class="form-control" placeholder="Mot de passe"
+                                               autocomplete="current-password"/>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                                        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+                                    </div>
+                                </div>
+
+                               <div class="d-flex justify-content-between">
+                                   <button class="btn btn-success" type="submit" id="_submit" name="_submit">
+                                       <span class="glyphicon  glyphicon-log-in"></span>
+                                       {{ 'security.login.submit'|trans }}
+                                       {#Se connecter#}
+                                   </button>
+                                   <a href="{{ path('fos_user_register') }}" >Je n'ai pas de compte</a>
+                               </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+  {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          let modal = $('#exampleModalCenter')
+          if (!!modal) {
+            modal.modal('show')
+          }
+        })
+
+        window.setTimeout(function () {
+            $(".alertSucces").fadeOut(300)
+        }, 3000);
+    </script>
+{% endblock %}

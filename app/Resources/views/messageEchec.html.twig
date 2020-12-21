@@ -1,0 +1,19 @@
+{% block message %}
+    {% for message in app.session.flashbag.get('fail') %}
+        <div class="alert alert-danger alertSucces">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('avertir') %}
+        <div class="alert alert-warning alertSucces">
+            <strong>{{ message }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+{% endblock %}

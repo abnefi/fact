@@ -1,0 +1,7 @@
+{% extends 'tiersBase.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#client').addClass('activecousmenu');
+    </script>
+{% endblock %}

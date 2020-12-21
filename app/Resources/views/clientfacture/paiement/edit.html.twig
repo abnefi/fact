@@ -1,0 +1,231 @@
+{% extends 'clientfacture/template.html.twig' %}
+
+{% import _self as formMacros %}
+{#macro pour afficher un formulaire de thème#}
+{% macro printDetailRow(detailForm) %}
+    {#{{ dump(detailForm.description.vars.value) }}#}
+    <tr class="paiement_item">
+        <td style="width: 200px">
+            {{ form_widget(detailForm.datePaiement) }}
+            <span class="text-danger">{{ form_errors(detailForm.datePaiement) }}</span>
+        </td>
+        <td style="width: 300px">
+            {{ form_widget(detailForm.modePaiement) }}
+            <span class="text-danger">{{ form_errors(detailForm.modePaiement) }}</span>
+        </td>
+        <td>
+            {{ form_widget(detailForm.montant) }}
+            <span class="text-danger">{{ form_errors(detailForm.montant) }}</span>
+        </td>
+        <td>
+            <a href="#" class='btn btn-danger remove_paiement' data-id="__name__"
+               data-toggle="tooltip" data-placement="top" title="Supprimer le paiement"><span
+                        class="oi oi-minus"></span></a>
+        </td>
+    </tr>
+{% endmacro %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Facture </h6>
+                <small> Paiement d'une facture</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+
+            <div class="btn-group">
+                <a type="button" class="btn btn-outline-dark"
+                   href="{{ path('clientfacture_paiement', { 'id': clientFacture.id }) }}"
+                   style="margin-bottom: 10px; margin-right: 20px"><span class="oi oi-arrow-left"></span> Retour </a>
+                {#<a class="btn btn-outline-dark"#}
+                {#href="{{ path('clientfacture_edit', { 'id': clientFacture.id }) }}"#}
+                {#style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>#}
+            </div>
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Référence</th>
+                    <td>{{ clientFacture.reference }}</td>
+                </tr>
+                <tr>
+                    <th>Client</th>
+                    <td>{{ clientFacture.client.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Date Facture</th>
+                    <td>{% if clientFacture.dateFacture %}{{ clientFacture.dateFacture|date('d/m/Y') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Date Règlement</th>
+                    <td>{% if clientFacture.dateReglement %}{{ clientFacture.dateReglement|date('d/m/Y') }}{% endif %}</td>
+                </tr>
+
+                {#<tr>#}
+                {#<th>Est payé</th>#}
+                {#<td>{% if clientFacture.estRegle %}Oui{% else %}Non{% endif %}</td>#}
+                {#</tr>#}
+                <tr>
+                    <th>Montant net à payer</th>
+                    <td>
+                        <b>{{ montantTotalAPayer |number_format(0, ',', ' ') }} {{ clientFacture.devise.symbole }}</b>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Déjà payé</th>
+                    <td>
+                        <b>{{ montantDejaPaye |number_format(0, ',', ' ') }} {{ clientFacture.devise.symbole }}</b>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Restant à payer</th>
+                    <td>
+                        <b>{{ montantRestantAPayer |number_format(0, ',', ' ') }} {{ clientFacture.devise.symbole }}</b>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <input type="hidden" id="net_a_payer" value="{{ montantTotalAPayer |number_format(0, ',', '') }}">
+
+            {{ form_start(form) }}
+            <br>
+            <hr>
+            <h5>Détails des paiements</h5>
+            {#<p>#}
+            {#<button type="button" class='btn btn-primary' data-toggle="modal" data-target="#modal_paiement">#}
+            {#<span class="oi oi-plus"></span> Ajouter un paiement#}
+            {#</button>#}
+            {#</p>#}
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+            <div id="message_etat_save"></div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Date Paiement</th>
+                    <th>Mode Paiement</th>
+                    <th>Montant</th>
+                    {#<th>Taux TVA</th>#}
+                    {#<th>Taux AIB</th>#}
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody class="paiements_wrapper"
+                       data-prototype="{{ formMacros.printDetailRow(form.paiements.vars.prototype)|e('html_attr') }}"
+                       data-index="{{ form.paiements|length }}">
+                {% for paiement in form.paiements %}
+                    {{ formMacros.printDetailRow(paiement) }}
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if montantRestantAPayer > 0 %}
+                <a href="#" class='btn btn-primary' id="addPaiement"
+                   data-toggle="tooltip" data-placement="top" title="Ajouter un paiement">
+                    <span class="oi oi-plus"></span> Ajouter un paiement</a>
+                {#prevents weird label from showing up in new#}
+                {{ form_widget(form.paiements) }}
+                {#<br>#}
+                <button id="btn_save_paiements" class="btn btn-success pull-right" type="submit">Enregistrer</button>
+                <br>
+                <br>
+                {#{% else %}#}
+                {#<button type="button" class='btn btn-primary' id="btn_marquer_paye" data-toggle="modal"#}
+                {#data-target="#modal_paiement"> Marquer "Payée"</button>#}
+            {% endif %}
+
+            {{ form_end(form) }}
+
+
+            <!-- Modal classer payée -->
+            {#<div class="modal fade" id="modal_paiement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"#}
+            {#aria-hidden="true">#}
+            {#<div class="modal-dialog" role="document">#}
+            {#<div class="modal-content">#}
+            {#<div class="modal-header">#}
+            {#<h5 class="modal-title" id="exampleModalLabel">Marquer payée</h5>#}
+            {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+            {#<span aria-hidden="true">&times;</span>#}
+            {#</button>#}
+            {#</div>#}
+            {#<div class="modal-body">#}
+            {#<div id="form_new_paiement"></div>#}
+            {#<p>Confirmez-vous le passage de la facture au statut payée  ?</p> </div>#}
+            {#<div class="modal-footer">#}
+            {#<button type="button" class="btn btn-primary">Save changes</button>#}
+            {#<a type="button" class="btn btn-primary" href="{{ path('personnecandidat_valider', {'id': candidatEntretien.id }) }}">#}
+            {#<span class="oi oi-check"></span> Valider</a>#}
+            {#<button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>#}
+            {#</div>#}
+            {#</div>#}
+            {#</div>#}
+            {#</div>#}
+
+        </div>
+    </main>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/clientfacture/paiementsForm.js') }}"></script>
+    <script src="{{ asset('frontend/js/clientfacture/facture.js') }}"></script>
+    {#<script>#}
+    {#$(document).ready(function () {#}
+    {#// $('#addPaiement').on('click', function (e) {#}
+    {#$('#modal_paiement').on('show.bs.modal', function () {#}
+    {#// e.preventDefault()#}
+    {#// $(this).button('loading')#}
+    {#console.log(('work !'));#}
+    {#ajaxFacture.showFormNewPaiement({{ clientFacture.id }});#}
+    {#});#}
+
+    {#$('[data-toggle="popover"]').popover();#}
+    {#});#}
+    {#</script>#}
+
+    <script>
+        $(document).ready(function () {
+            {% if clientFacture.paiements |length == 0 %} //si il n'y a eu encore aucun paiement
+            $('#addPaiement').click();
+            {% endif %}
+            // $('#btn_save_paiements').on('click', function (e) {
+            // $('#form_paiements').on('submit', function (e) {
+            $('#form_paiements').submit(function (e) {
+                // e.preventDefault()
+                console.log('work !');
+                var montantTotal = 0;
+                $(".input_montant_paiement").each(function () {
+                    montantTotal = parseInt(montantTotal) + parseInt($(this).val());
+
+                });
+                var netAPayer = parseInt($('#net_a_payer').val());
+                console.log(montantTotal, netAPayer);
+                if (montantTotal > netAPayer) {
+                    $('#message_etat_save').html('<div class="alert alert-danger">\n' +
+                        '            <b>Le montant à entrer est supérieur au montant net à payer.</b>\n' +
+                        '            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                        '                <span aria-hidden="true">&times;</span>\n' +
+                        '            </button>\n' +
+                        '        </div>')
+                    return false
+                }
+                // else {
+                //     // if(montantTotal = 0){
+                //     // $('#form_paiements').submit();
+                //     return true;
+                // }
+
+            });
+
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'configabonnementsociete/template.html.twig' %}
+
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100"> Historique Abonnement </h6>
+                <small> Historique des Abonnements</small>
+            </div>
+        </div>
+
+        <div class="col-md-12 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configabonnementsociete_index') }}"
+               style="margin-bottom: 10px;margin-right: 10px"><span class="oi oi-arrow-left"></span> Retour à abonnement</a>
+
+            {{ include("messageEchec.html.twig") }}
+            {{ include("messageSucces.html.twig") }}
+
+
+            {% if configAbonnementsSocietes is not empty %}
+                <table class="table table-bordered dataTable" id="tableuser">
+                    <thead>
+                    <tr>
+                        <td>Id</td>
+                        <th>Libelle</th>
+                        <th>Abonnement</th>
+                        <th>Debut</th>
+                        <th>Echéance</th>
+                        <th>Auto</th>
+                        <th>Actif</th>
+                        <th>Fait le</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for configAbonnement in configAbonnementsSocietes %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('configabonnementsociete_show', { 'id': configAbonnement.id }) }}">{{ loop.index }}</a>
+                            </td>                            <td>{{ configAbonnement.libelle }}</td>
+                            <td>{{ configAbonnement.typeAbonnement }}</td>
+                            <td>{% if configAbonnement.debutAbonnement %}{{ configAbonnement.debutAbonnement|date('Y-m-d') }}{% endif %}</td>
+                            <td>{% if configAbonnement.finAbonnement %}{{ configAbonnement.finAbonnement|date('Y-m-d') }}{% endif %}</td>
+                            <td>{% if configAbonnement.reabonnementAuto %}Oui{% else %}Non{% endif %}</td>
+                            <td>{% if configAbonnement.estActif  and configAbonnement.etatDemande==0 %}Oui{% elseif configAbonnement.estActif==0  and configAbonnement.etatDemande==1  %}En attente {% elseif configAbonnement.estActif==0  and configAbonnement.etatDemande==0  %} Invalide {% else  %}Non Actif{% endif %}</td>
+                            <td>{% if configAbonnement.createdAt %}{{ configAbonnement.createdAt|date('Y-m-d') }}{% endif %}</td>
+                            <td>
+                                <div class="btn-group">
+
+                                    <a class="btn btn-primary" data-toggle="tooltip"
+                                       data-placement="top" title="Voir"
+                                       href="{{ path('configabonnementsociete_show', { 'id': configAbonnement.id }) }}">
+                                        <span class="oi oi-eye"></span>
+                                    </a>
+
+                                    {% if configAbonnement.estSupprimer == 0 %}
+                                        <a class="btn btn--anon" data-toggle="tooltip" data-placement="top"
+                                           title="Supprimmer"
+                                           href="{{ path('supprimmer_abonnement_societe_par_admin_clt', { 'id': configAbonnement.id }) }}">
+                                            <span class="oi oi-trash"></span>
+                                        </a>
+                                    {% endif %}
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <table class="table table-bordered dataTable">
+                    <thead>
+                    <tr>
+                    <tr>
+                        <td>Id</td>
+                        <th>Libelle</th>
+                        <th>Abonnement</th>
+                        <th>Debut</th>
+                        <th>Echéance</th>
+                        <th>Auto</th>
+                        <th>Actif</th>
+                        <th>Fait le</th>
+                        <th>Actions</th>
+                    </tr>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td colspan="9" class="alert-danger">Aucun abonnement de societe trouver !</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <div id="mliste">
+            </div>
+
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block sousmenu %}
+    <div class="nav-scroller bg-white box-shadow">
+        <nav class="nav nav-underline">
+            {% set typeActivite = app.session.get('type_activite') %}
+
+            {% if typeActivite == 'vente_article' or typeActivite == 'article_service' %}
+                <a id="article" class="nav-link " href="{{ path('stockarticle_index') }}"> <b>Article</b></a>
+            {% endif %}
+            {% if typeActivite == 'prestation_service' or typeActivite == 'article_service' %}
+                <a id="service" class="nav-link " href="{{ path('stockservice_index') }}"> <b>Service</b></a>
+            {% endif %}
+            {% if typeActivite != 'prestation_service' %}
+                <a id="appro" class="nav-link " href="{{ path('stockapprovisionnement_index') }}">
+                <b>Approvisionnement</b></a>
+                <a id="inventaire" class="nav-link " href="{{ path('stockinventaire_index') }}">
+                    <b>Inventaire</b></a>
+            {% endif %}
+        </nav>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#stock').addClass('active_menu');
+    </script>
+{% endblock %}

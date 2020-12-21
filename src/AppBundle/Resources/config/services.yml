@@ -1,0 +1,86 @@
+services:
+#    admin.example:
+#        class: AdminBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    code_generate:
+        class: AppBundle\Service\CodeAleatoire
+        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+
+    update_status:
+        class: AppBundle\Service\UpdateStatusAbonnement
+        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+
+    generateur_mouchards:
+        class: AppBundle\Service\GenerateurMouchard
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - '@service_container'
+
+    service_user:
+        class: AppBundle\Service\ServiceUser
+        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+
+    stock_operations:
+        class: AppBundle\Service\StockOperations
+        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+
+    client_operations:
+        class: AppBundle\Service\ClientOperations
+        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+
+    app.facture:
+        class: AppBundle\Service\InvoiceGenerator
+        public: true
+        arguments: ['@client_operations']
+
+
+    app.doctrine_listener.approvisionnementdetailpersist:
+        class: AppBundle\DoctrineListener\ApprovisionnementDetailPersistListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    app.doctrine_listener.approvisionnementdetailremove:
+        class: AppBundle\DoctrineListener\ApprovisionnementDetailRemoveListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: preRemove }
+
+    twig.extension.app:
+        class: AppBundle\Twig\AppExtension
+        arguments: ['@doctrine.orm.entity_manager', '@service_container']
+        autowire: true
+        tags:
+            - { name: twig.extension }
+
+    file_uploader:
+        class: AppBundle\Service\FileUpload
+        arguments: ["@service_container"]
+
+    app.doctrine_listener.agencepersist:
+        class: AppBundle\DoctrineListener\AgencePersistListener
+        arguments: ["@service_container"]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
+    ecriture_comptable:
+        class: AppBundle\Service\EcritureComptable
+        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+
+    app.form.registration:
+        class: UserBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }
+
+    user.listener.registration:
+            class: UserBundle\EventListener\RegistrationListener
+            arguments: ['@router']
+            tags:
+               - { name: kernel.event_subscriber, event: fos_user.registration}
+
+    app.doctrine_listener.facturepersist:
+            class: AppBundle\DoctrineListener\FacturePersistListener
+            arguments: ["@service_container"]
+            tags:
+                - { name: doctrine.event_listener, event: prePersist }

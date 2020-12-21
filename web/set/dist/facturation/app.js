@@ -1,0 +1,1 @@
+$(function(){Formulaire.bind("#main-invoice")});

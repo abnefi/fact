@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block sousmenu %}
+    <div class="nav-scroller bg-white box-shadow">
+        <nav class="nav nav-underline">
+            {% if is_granted(['ROLE_ADMIN', 'ROLE_FNS_ADMIN']) %}
+                <a id="messocietes" class="nav-link " href="{{ path('index_gestion_societe') }}"> <b>Sociétés</b></a>
+                <a id="mesagences" class="nav-link " href="{{ path('configagence_index_for_super_admin') }}"> <b>Agences</b></a>
+                <a id="mesadmins" class="nav-link " href="{{ path('index_liste_users') }}"> <b>Administrateurs</b></a>
+                <a id="mesusers" class="nav-link " href="{{ path('liste_of_simple_users_index_for_super_admin') }}"> <b>Utilisateurs</b></a>
+            {% if is_granted(['ROLE_ADMIN']) %}
+                <a id="mesaabonnements" class="nav-link " href="{{ path('index_liste_abonnement_par_societe') }}"> <b>Abonnements</b></a>
+                {% endif %}
+                <a id="mesagences" class="nav-link " href="{{ path('logpageindex') }}"> <b>Logs Page</b></a>
+            {% endif %}
+        </nav>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#gestion_compte').addClass('active_menu');
+
+        window.setTimeout(function () {
+            $(".alertSucces").fadeOut(300)
+        }, 3000);
+    </script>
+{% endblock %}

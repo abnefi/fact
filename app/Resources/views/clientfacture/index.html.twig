@@ -1,0 +1,238 @@
+{% extends 'clientfacture/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container" xmlns="">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Facture </h6>
+                <small> Liste des factures</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+
+            <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown"
+                    id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false"
+                    style="margin-bottom: 10px;"><i class="oi oi-plus"></i> Nouvelle facture
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for typeFacture in typesFactures %}
+                    {% if typeFacture.avoir == false %}
+                        {# {% if typeFacture.export == false %} #}
+                        <a class="dropdown-item"
+                           href="{{ path('clientfacturevente_new', { 'id': typeFacture.id }) }}">
+                            {{ typeFacture.libelle }}
+                        </a>
+                        {# {% endif %} #}
+                    {% else %}
+
+                        {# {% if typeFacture.export == false %} #}
+                        <button type="button" class="dropdown-item btn_facture_avoir" data-toggle="modal"
+                                data-id="{{ typeFacture.id }}"
+                                data-target="#modal_facture_avoir"> {{ typeFacture.libelle }}
+                        </button>
+                        {# {% endif %} #}
+
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <fieldset>
+                <legend>FILTRAGE</legend>
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <div class="btn-group" role="group" aria-label="basic-addon1">
+                            <input id="date_facture_radio" type="radio" name="type_temps_facture"
+                                   value="date" style="padding-right: 20px" disabled>Date
+                            <span style="color: white">____</span>
+                            <input id="periode_facture_radio" type="radio" name="type_temps_facture"
+                                   value="periode" disabled>Période<br>
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" id="check_temps_facture">
+                                </div>
+                            </div>
+                            <input id="temps_facture" type="text" class="form-control date_etat" name="temps_facture"
+                                   disabled onchange="ajaxFacture.filtrerFactures()"/>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label>Type Facture</label>
+                        <select class="form- chosen-select" id="type_facture" name="type_facture"
+                                multiple data-placeholder="Veuillez sélectionner"
+                                onchange="ajaxFacture.filtrerFactures()">
+                            {# <option value="0">Choisir un type de facture</option> #}
+                            {% for typeFacture in typesFactures %}
+                                <option value="{{ typeFacture.id }}">{{ typeFacture.libelle }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label>Client</label>
+                        <select class="form-control chosen-select" id="select_clients" name="select_clients"
+                                multiple data-placeholder="Veuillez sélectionner"
+                                onchange="ajaxFacture.filtrerFactures()">
+                            {% for client in clients %}
+                                <option value="{{ client.id }}">{{ client.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label>Etat</label>
+                        <select class="form-control chosen-select" id="select_etats" name="select_etats"
+                                 data-placeholder="Veuillez sélectionner"
+                                onchange="ajaxFacture.filtrerFactures()">
+                            {% for etat in etats %}
+                                <option value="{{ etat.id }}">{{ etat.libelle }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <br>
+                </div>
+
+            </fieldset>
+            <br>
+
+            <div id="table_factures">
+                <table class="table table-bordered dataTable_facture">
+                    <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Référence</th>
+                        <th>Date Facture</th>
+                        <th>Date Règlement</th>
+                        <th>Client</th>
+                        <th>Est validé ?</th>
+                        <th>Est payé ?</th>
+                        <th>Déclaration</th>
+
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for clientFacture in clientFactures %}
+                        <tr>
+                            <td><a href="{% if clientFacture.typeFacture.avoir == false %}
+                            {{ path('clientfacturevente_show', { 'id': clientFacture.id }) }}
+                             {% else %} {{ path('clientfactureavoir_show', { 'id': clientFacture.id }) }}{% endif %}">{{ loop.index }}</a>
+                            </td>
+                            <td>{{ clientFacture.reference }}</td>
+                            <td>{% if clientFacture.dateFacture %}{{ clientFacture.dateFacture|date('d/m/Y') }}{% endif %}</td>
+                            <td>{% if clientFacture.dateReglement %}{{ clientFacture.dateReglement|date('d/m/Y') }}{% endif %}</td>
+                            <td>{{ clientFacture.client.nom }}</td>
+                            <td>{% if clientFacture.estValide %}Oui{% else %}Non{% endif %}</td>
+                            <td>{% if clientFacture.estPayee %}Oui{% else %}Non{% endif %}</td>
+                            <td>
+                                {% if clientFacture.etatDeclaration is not null %}
+                                    {{ clientFacture.etatDeclaration.libelle }}
+                                {% else %}
+                                    Non effectué
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" data-toggle="tooltip"
+                                       data-placement="top" title="Voir"
+                                       href="{% if clientFacture.typeFacture.avoir == false %}
+                                 {{ path('clientfacturevente_show', { 'id': clientFacture.id }) }}
+                                  {% else %} {{ path('clientfactureavoir_show', { 'id': clientFacture.id }) }}{% endif %}">
+                                        <span class="oi oi-eye"></span>
+                                    </a>
+                                    {% if clientFacture.estValide == false %}
+                                        <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                           title="Modifier"
+                                           href="{% if clientFacture.typeFacture.avoir == false %}
+                                 {{ path('clientfacturevente_edit', { 'id': clientFacture.id }) }}
+                                  {% else %}
+                                      {{ path('clientfactureavoir_edit', { 'id': clientFacture.id }) }}{% endif %}">
+                                            <span class="oi oi-pencil"></span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {# Modal avoir #}
+            <div class="modal fade" id="modal_facture_avoir" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabtype_facture_avoirel">Créer une facture
+                                d'avoir</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="{{ path('clientfacture_choisir_avoir') }}"
+                              enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <label> Clients </label>
+                                <select class="form-control searchClientAjax" name="client" id="client"
+                                        required></select>
+                                <input type="hidden" id="type_facture_avoir" name="type_facture_avoir" required/>
+
+                                <br><br>
+                                <div id="list_facture" class="text-center"></div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    {# , {'id': clientFacture.id } #}
+                                    <span class="oi oi-check"></span> Valider
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+
+{% block javascripts %}
+  {{ parent() }}
+
+    <script src="{{ asset('frontend/js/clientfacture/facture.js') }}"></script>
+
+    <script type="text/javascript">
+      // $('modal_facture_avoir').on('show.bs.modal', function () {
+      $('.btn_facture_avoir').on('click', function () {
+        $('#type_facture_avoir').val($(this).data('id'));
+        console.log($(this).data('id'))
+      })
+
+      //si le contenus du champs client chande afficher la liste de ses facture
+      $("#client").on("change", function (e) {
+        var client = $('#client').val();
+
+
+        $('#list_facture').html('<div class="spinner-border text-primary"></div>');
+        $.ajax({
+            type: "POST",
+            url: Routing.generate('facture_by_client'),
+            data: {
+              client: client
+            },
+            success: function (data) {
+              $('#list_facture').html(data)
+            }
+          }
+        )
+      });
+    </script>
+
+
+{% endblock %}

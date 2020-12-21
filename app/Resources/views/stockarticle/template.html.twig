@@ -1,0 +1,7 @@
+{% extends 'stockBase.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#article').addClass('activecousmenu');
+    </script>
+{% endblock %}

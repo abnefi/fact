@@ -1,0 +1,88 @@
+{% extends 'base2.html.twig' %}
+
+{% block menu %}
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-gradient-primary-to-secondary">
+        <a class="navbar-brand mr-auto mr-lg-5" href="#">IGO-Facturation</a>
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+
+            <ul class="navbar-nav ml-auto">
+
+                <li>
+                    <a class="nav-link btn btn-white-fill" href="{{ path('fos_user_security_login') }}"> <span
+                                class="fa fa-sign-in"></span> Se connecter</a>
+                </li>
+
+                <li>
+                    <a class="nav-link btn btn-white-fill" href="{{ path('fos_user_security_logout') }}"> <span
+                                class="fa fa-reply"></span> Accueil</a>
+                </li>
+
+
+                <li style="display: none">
+                    <a class="nav-link" href=""></a>
+                </li>
+
+
+            </ul>
+        </div>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block fos_user_content %}
+
+    <div class="row">
+        <div class="col-md-6 py-5 offset-md-3">
+            {% for message in app.session.flashbag.get('success') %}
+                <div class="alert alert-success alertSucces text-center">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {% for message in app.session.flashbag.get('echec') %}
+                <div class="alert alert-danger alertSucces text-center">
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            <main role="main" class="container" style="opacity: inherit">
+                <div class="my-3 p-3 bg-white rounded box-shadow text-center">
+                    {% if error != null %}
+                        {% for message in error %}
+                            <div class="text-danger text-center">
+                               <form action="{{ path('mail_sender') }}" method="POST">
+                                   <strong> <span class="fa fa-warning"></span> {{ message }} </strong>
+                                   <br><br>
+                                   <input type="email" class="form-control" name="confirmMail" placeholder="veuillez répéter votre adresse mail" required><br>
+                                   <button type="submit" class="btn btn-outline-primary"><span class="fa fa-mail-reply"></span>   Renvoyer le mail de confirmation</button>
+                               </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="text-align: center"><img src="{{ asset('set/guest/img/images.png') }}" width="100" height="100"></p>
+                        <p class="text-secondary" style="text-align: center">Inscription réussie. Veuillez bien suivre le lien envoyé dans votre boite de messagerie pour valider votre compte.<br>
+                            Si aucun mail n'a été envoyé, veuillez réenvoyé le mail</p>
+                        <form action="{{ path('mail_sender') }}" method="POST">
+                            <input type="email" class="form-control" name="confirmMail" placeholder="veuillez répéter votre adresse mail" required><br>
+                            <button type="submit" class="btn btn-outline-primary"><span class="fa fa-mail-reply"></span>   Renvoyer le mail de confirmation</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}

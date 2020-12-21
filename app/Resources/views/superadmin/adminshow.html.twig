@@ -1,0 +1,83 @@
+{% extends 'superadmin/templateUserAdmin.html.twig' %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% block fos_user_content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Administrateurs </h6>
+                <small> Affichage d'un Administrateur</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('index_liste_users') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            {% if user.estSupprimer == 0 %}
+            <a class="btn btn-outline-dark"
+               href="{{ path('supprimmer_admin', { 'id': user.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-delete"></span>Supprimer</a>
+            {% else %}
+            <a class="btn btn-outline-dark"
+               href="{{ path('supprimmer_admin', { 'id': user.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-delete"></span> Annuler Suppression</a>
+            {% endif %}
+
+            {{ include("messageSucces.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ user.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom(s)</th>
+                    <td>{{ user.prenoms }}</td>
+                </tr>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Agence</th>
+                    <td>{{ user.agence.libelle }}</td>
+                </tr>
+                <tr>
+                    <th>Rôles</th>
+                    <td>{{ user.roles|join(', ') }}</td>
+                </tr>
+                <tr>
+                    <th>Verifier</th>
+                    <td>{% if user.estVerifier %} Oui {% else %} Non {% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Activer</th>
+                    <td>{% if user.estActiver %} Oui {% else %} Non {% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Supprimer</th>
+                    <td>{% if user.estSupprimer %} Oui {% else %} Non {% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+            {#{% endblock fos_user_content %}#}
+            {#            {{ form_start(delete_form) }}#}
+            {#                <input type="submit" value="Delete">#}
+            {#            {{ form_end(delete_form) }}#}
+        </div>
+
+
+
+    </main>
+  
+{% endblock fos_user_content %}
+

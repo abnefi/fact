@@ -1,0 +1,129 @@
+/*.navbar-custom-menu>.navbar-nav>li {*/
+    /*position: relative;*/
+/*}*/
+/*!*@media (min-width: 768px)*!*/
+    /*.navbar-nav>li {*/
+        /*float: left;*/
+    /*}*/
+    /*.nav>li {*/
+        /*position: relative;*/
+        /*display: block;*/
+    /*}*/
+    /*.dropdown, .dropup {*/
+        /*position: relative;*/
+    /*}*/
+    /** {*/
+        /*-webkit-box-sizing: border-box;*/
+        /*-moz-box-sizing: border-box;*/
+        /*box-sizing: border-box;*/
+    /*}*/
+    /*!*user agent stylesheet*!*/
+    /*li {*/
+        /*display: list-item;*/
+        /*text-align: -webkit-match-parent;*/
+    /*}*/
+    /*.nav {*/
+        /*padding-left: 0;*/
+        /*margin-bottom: 0;*/
+        /*list-style: none;*/
+    /*}*/
+    /*!*user agent stylesheet*!*/
+    /*ul {*/
+        /*list-style-type: disc;*/
+    /*}*/
+    /*body {*/
+        /*font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;*/
+        /*font-weight: 400;*/
+        /*overflow-x: hidden;*/
+        /*overflow-y: auto;*/
+    /*}*/
+    /*body {*/
+        /*font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;*/
+        /*font-size: 14px;*/
+        /*line-height: 1.42857143;*/
+        /*color: #333;*/
+        /*background-color: #fff;*/
+    /*}*/
+    /*html {*/
+        /*font-size: 10px;*/
+        /*-webkit-tap-highlight-color: rgba(0,0,0,0);*/
+    /*}*/
+    /*html {*/
+        /*font-family: sans-serif;*/
+        /*-ms-text-size-adjust: 100%;*/
+        /*-webkit-text-size-adjust: 100%;*/
+    /*}*/
+    /*!*user agent stylesheet*!*/
+    /*!*html {*!*/
+        /*!*color: -internal-root-color;*!*/
+    /*!*}*!*/
+    /*:after, :before {*/
+        /*-webkit-box-sizing: border-box;*/
+        /*-moz-box-sizing: border-box;*/
+        /*box-sizing: border-box;*/
+    /*}*/
+    /*:after, :before {*/
+        /*-webkit-box-sizing: border-box;*/
+        /*-moz-box-sizing: border-box;*/
+        /*box-sizing: border-box;*/
+    /*}*/
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

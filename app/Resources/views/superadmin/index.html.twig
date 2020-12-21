@@ -1,0 +1,201 @@
+{% extends 'superadmin/templateSociete.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Mes Sociétés </h6>
+                <small> Liste des Sociétés</small>
+            </div>
+        </div>
+        <div class="col-md-12 bg-white rounded box-shadow">
+
+            <a type="button" class="btn btn-outline-dark bnow activebtnnow" href="{{ path('index_gestion_societe') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-dashboard"></span> Toutes</a>
+
+            <a type="button" id="listeAttente" class="btn btn-outline-dark bnow"
+               style="margin-bottom: 10px;"><span class="oi oi-warning"></span> En Attentes</a>
+
+            <a type="button" id="listeIncomplete" class="btn btn-outline-dark bnow"
+               style="margin-bottom: 10px;"><span class="oi oi-sort-ascending"></span> Incompletes</a>
+
+            <a type="button" id="listeDejaActiver" class="btn btn-outline-dark bnow"
+               style="margin-bottom: 10px;"><span class="oi oi-play-circle"></span> Déja Autorisé</a>
+
+
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            {% if Societes is not empty %}
+                <table class="table table-bordered dataTable " id="tablesoc">
+                    <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Date</th>
+                        <th>Code</th>
+                        <th>Raison Sociale</th>
+                        <th>Forme Juridique</th>
+                        <th>Telephone</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for societe in Societes %}
+                        <tr>
+                            <td> {{ loop.index }} </td>
+                            <td> {{ societe.created|date('d/m/Y') }} </td>
+                            <td> {{ societe.code }} </td>
+                            <td> {{ societe.raisonSociale }} </td>
+                            <td> {{ societe.formeJuridique }} </td>
+                            <td> {{ societe.telephone }} </td>
+                            <td>{% if societe.estActif %}Oui{% else %}Non{% endif %}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" data-toggle="tooltip"
+                                       data-placement="top" title="Voir"
+                                       href=" {{ path('show_une_societe', { 'id': societe.id }) }} ">
+                                        <span class="oi oi-eye"></span>
+                                    </a>
+                                    {% if societe.estActif == 0 and societe.estSupprimer == 0%}
+                                        <a class="btn btn-success activer_societe" data-toggle="tooltip"
+                                           data-placement="top" data-val="{{ societe.id }}"
+                                           title="Activation" data-target="#modal_activation_societe"
+                                           data-toggle="modal">
+                                            <span class="oi oi-play-circle"></span>
+                                        </a>
+                                        <a class="btn btn-primary rejeter_societe" data-toggle="tooltip" data-placement="top" data-val="{{ societe.id }}"
+                                           title="Rejeter" data-target="#modal_activation_societe" data-toggle="modal"
+                                           href="{# {{ path('activer_societe', { 'id': societe.id }) }} #}">
+                                            <span class="fa fa-times"></span>
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                                           title="Désactiver"
+                                           href=" {{ path('desactiver_societe', { 'id': societe.id }) }} ">
+                                            <span class="oi oi-trash"></span>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <table class="table table-bordered dataTable">
+                    <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Date</th>
+                        <th>Code</th>
+                        <th>Raison Sociale</th>
+                        <th>Forme Juridique</th>
+                        <th>Telephone</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td colspan="8" class="alert-danger">Aucune société trouver !</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <div id="maliste">
+            </div>
+
+            {# Modal ativation SOCIETE #}
+            <div class="modal fade" id="modal_activation_societe" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Activation d'agence</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="{{ path('activer_societe') }}">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Port Serveur</label>
+                                        <input class="form-control" name="portServeur" id="portServeur"
+                                               type="number" required="true"/>
+                                    </div>
+
+                                    <input id="idSocieteCliquer" name="idSocieteCliquer" hidden>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary" value="Valider"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {# Modal rejet societe #}
+            <div class="modal fade" id="modal_rejet_societe" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: #14346c">
+                            <h5 class="modal-title" style="margin-left: 5%;color: #fff">
+                                Rejet d'activation société</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="{{ path('rejeter_societe_par_admin') }}" >
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Raison rejet</label>
+                                        <textarea class="form-control" name="raisonrejet" id="raisonrejet"  required="true" ></textarea>
+                                    </div>
+
+                                        <input id="idSocieteCliquer" name="idSocieteCliquer" hidden>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                    <input type="submit" class="btn btn-primary" value="Valider" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/parametrage/dsgf615df.js') }}"></script>
+    <script>
+
+        $(function () {
+            $('.rejeter_societe').on('click', function (e) {
+                e.preventDefault()
+                idesociete = $(this).data('val')
+                $("#idSocieteCliquer").val(idesociete)
+                $('#modal_rejet_societe').modal('show')
+            })
+        })
+
+        $(function () {
+            $('.activer_societe').on('click', function (e) {
+                e.preventDefault()
+                idSociete = $(this).data('val')
+                $("#idSocieteCliquer").val(idSociete)
+                $('#modal_activation_societe').modal('show')
+            })
+        })
+    </script>
+{% endblock %}

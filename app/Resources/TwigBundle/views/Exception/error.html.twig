@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="{{ _charset }}" />
+    <title>An Error Occurred: {{ status_text }}</title>
+    <link rel="stylesheet" href="{{ asset('set/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/exception/exception.css') }}">
+</head>
+<body id="notfound">
+<div class="container row justify-content-center">
+    <div class="col-sm-12 offset-4">
+        <div id="corp" class="text-white py-5">
+            <h1 class="">Oups! Une erreur s'est produite</h1>
+            <h2>Le serveur a renvoyé une erreur "{{ status_code }} {{ status_text }}".</h2>
+
+            <div>
+                Quelque chose s'est mal passé. Veuillez nous indiquer ce que vous faisiez lorsque cette erreur s'est produite.
+                Nous le réparerons dès que possible. Désolé pour tout inconvénient causé.
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% block javascripts %}
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}
+</html>

@@ -1,0 +1,209 @@
+{% extends 'clientfacture/template.html.twig' %}
+
+{% import _self as formMacros %}
+
+{% macro printDetailRow(detailForm) %}
+    <tr class="article_item"></tr>
+  
+    <tr id="second_line_item" class="second_line_item">
+        <td colspan="2">
+            <button type="button" class="btn btn-outline-info add_description" href="#">Ajouter une description</button>
+          {{ form_widget(detailForm.description) }}
+            <span class="text-danger">{{ form_errors(detailForm.description) }}</span>
+        </td>
+        <td colspan="2">
+            <div class="row">
+                <div class="form-group col-md-12">
+                  {{ form_label(detailForm.produit.hasTaxeSpecifique) }}
+                  {{ form_widget(detailForm.produit.hasTaxeSpecifique) }}
+                    <span class="text-danger">{{ form_errors(detailForm.produit.hasTaxeSpecifique) }}</span>
+                </div>
+            </div>
+            <div class="box_taxe_specifique">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                      {{ form_widget(detailForm.taxeSpecifique) }}
+                        <span class="text-danger">{{ form_errors(detailForm.taxeSpecifique) }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                      {{ form_widget(detailForm.descriptionTaxeSpecifique) }}
+                        <span class="text-danger">{{ form_errors(detailForm.descriptionTaxeSpecifique) }}</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td colspan="3">
+            <div class="row">
+                <div class="form-group col-md-12">
+                  {{ form_label(detailForm.changementPrixUnitaireTTC) }}
+                  {{ form_widget(detailForm.changementPrixUnitaireTTC) }}
+                    <span class="text-danger">{{ form_errors(detailForm.changementPrixUnitaireTTC) }}</span>
+                </div>
+            </div>
+            <div class="box_prix_origine">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                      {{ form_widget(detailForm.dernierPrixOrigine) }}
+                        <span class="text-danger">{{ form_errors(detailForm.dernierPrixOrigine) }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                      {{ form_widget(detailForm.descriptionPrixOrigine) }}
+                        <span class="text-danger">{{ form_errors(detailForm.descriptionPrixOrigine) }}</span>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+{% endmacro %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Facture </h6>
+                <small> Création d'une facture</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('clientfacture_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+          {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-4 form-group">
+                  {{ form_label(form.reference) }}
+                  {{ form_widget(form.reference) }}
+                    <span class="text-danger">{{ form_errors(form.reference) }}</span>
+                </div>
+
+              {#<div class="col-md-6 form-group">#}
+              {#{{ form_label(form.typeFacture) }}#}
+              {#{{ form_widget(form.typeFacture) }}#}
+              {#<span class="text-danger">{{ form_errors(form.typeFacture) }}</span>#}
+              {#</div>#}
+                <div class="col-md-4 form-group">
+                    <label>Facture Origine</label>
+                    <input type="text" class="form-control" value="{{ factureOrigine.reference }}" readonly="true" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label>Client</label>
+                    <input type="text" class="form-control" value="{{ factureOrigine.client.nom }}" readonly="true" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                  {{ form_label(form.dateFacture) }}
+                    <input type="text" class="form-control" value="{{ factureOrigine.dateFacture|date("d-m-Y")}}" readonly="true" />
+                    <span class="text-danger">{{ form_errors(form.dateFacture) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                  {{ form_label(form.dateReglement) }}
+                    <input type="text" class="form-control" value="{{ factureOrigine.dateReglement|date("d-m-Y")}}" readonly="true" />
+                    <span class="text-danger">{{ form_errors(form.dateReglement) }}</span>
+                </div>
+
+                <div hidden>
+                  {{ form_widget(form.dateFacture, {'attr': {'value': 'today'}}) }}
+                  {{ form_widget(form.dateReglement, {'attr': {'value': 'today'}})}}
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                  {{ form_label(form.tauxTVA) }}
+                  {{ form_widget(form.tauxTVA) }}
+                    <span class="text-danger">{{ form_errors(form.tauxTVA) }}</span>
+                </div>
+              {#<div class="col-md-4 form-group">
+                  {{ form_label(form.tauxAIB) }}
+                  {{ form_widget(form.tauxAIB) }}
+                  <span class="text-danger">{{ form_errors(form.tauxAIB) }}</span>
+              </div>#}
+                <div class="col-md-4 form-group" >
+                  {{ form_label(form.devise) }}
+                  {{ form_widget(form.devise, {'attr': {'readonly': 'true'}})}}
+                    <span class="text-danger">{{ form_errors(form.devise) }}</span>
+                </div>
+            </div>
+            <br>
+          {#<hr>#}
+            <h5>Détails Facture Origine</h5>
+            <table class="table table-bordered dataTableResponsive">
+                <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Référence</th>
+                    <th>Désignation</th>
+                    <th>Unité Mesure</th>
+                    <th>Quantité</th>
+                    <th>Prix Vente Unitaire</th>
+                    {#<th>Taux Remise (%)</th>#}
+                    <th>Montant HT</th>
+                    <th>Taxe Groupe</th>
+                    <th>Description</th>
+                    <th>Taxe Spécifique</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for detail in factureOrigine.details %}
+                    <tr>
+                      {#                        <td><a href="{{ path('stockarticle_show', { 'id': stockArticle.id }) }}">{{ loop.index }}</a>#}
+                        <td>{{ loop.index }}</td>
+                        <td>{{ detail.produit.reference }}</td>
+                        <td>{{ detail.produit.designation }}</td>
+                        <td>{{ detail.uniteMesure.libelle }}</td>
+                        <td>
+                            <input name="quantite_detail_{{ detail.id }}" type="text" class="form-control quantite_detail" value="{{ detail.quantite }}"/>
+                        </td>
+                        <td><input name="prix_detail_{{ detail.id }}" type="text" class="form-control prix_detail" readonly="true" value="{{ detail.prixVenteUnitaire }}"/> </td>
+                        {#<td><input name="remise_detail_{{ detail.id }}" type="text" class="form-control remise_detail"  value="{{ detail.tauxRemise }}"/> </td>#}
+                        <td><input readonly="true" name="montant_detail_{{ detail.id }}" type="text" class="form-control montant_detail" value="{{ ((detail.quantite * detail.prixVenteUnitaire)*(1-(detail.tauxRemise/100))) |number_format(0, ',', ' ') }}"/> </td>
+
+                        <input name="mesId" hidden value={{ mesId }} />
+                      {#<td>{{ ((detail.quantite * detail.prixVenteUnitaire)*(1-(detail.tauxRemise/100))) |number_format(0, ',', ' ') }}</td>#}
+                        <td class="text-center">{{ detail.produit.taxeGroupe.code }}</td> {#<td>{{ detail.tauxTVA }}</td>#}
+                        <td>
+                          {% if detail.description %}
+                              <p class="card-header text-center"><b>Description Article</b></p>
+                              <div class="card">
+                                  <div class="card-body">
+                                      <span><b><u>Description:</u></b></span>
+                                    {{ detail.description }}
+                                  </div>
+                              </div>
+                          {% endif %}
+                        </td>
+                        <td>
+                          {% if detail.hasTaxeSpecifique %}
+                              <p class="card-header text-center">
+                                  <b>Taxe Spécifique:</b> {{ detail.taxeSpecifique }} %</p>
+                              <div class="card">
+                                  <div class="card-body">
+                                    {#<span><b><u>Taxe Spécifique:</u></b></span> {{ detail.produit.valeurTaxeSpecifique }} %#}
+                                      <span><b><u>Description:</u></b></span>
+                                    {{ detail.descriptionTaxeSpecifique }}
+                                  </div>
+                              </div>
+                          {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div id="divTest"></div>
+            <button class="btn btn-success" type="submit">Enregistrer</button>
+          {{ form_end(form) }}
+
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+    <script src="{{ asset('frontend/js/clientfacture/detailForm.js') }}"></script>
+    <script src="{{ asset('frontend/js/clientfacture/facture.js') }}"></script>
+{% endblock %}

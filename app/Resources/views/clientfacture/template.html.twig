@@ -1,0 +1,8 @@
+{% extends 'operationsClientBase.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $('#facture').addClass('activecousmenu');
+    </script>
+{% endblock %}

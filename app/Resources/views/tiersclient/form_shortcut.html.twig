@@ -1,0 +1,87 @@
+{{ form_start(form, {
+    'attr': {
+        'id': 'shortcut_form_client',
+        'class': 'shortcut_form',
+    }
+}) }}
+{#'novalidate': 'novalidate'#}
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label>Code *</label>
+        {{ form_widget(form.code) }}
+        <span class="text-danger">{{ form_errors(form.code) }}</span>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>Nom Client *</label>
+        {{ form_widget(form.nom) }}
+        <span class="text-danger">{{ form_errors(form.nom) }}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label>Adresse *</label>
+        {{ form_widget(form.adresse) }}
+        <span class="text-danger">{{ form_errors(form.adresse) }}</span>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>Téléphone *</label>
+        {{ form_widget(form.telephone) }}
+        <span class="text-danger">{{ form_errors(form.telephone) }}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label>Mail</label>
+        {{ form_widget(form.mail) }}
+        <span class="text-danger">{{ form_errors(form.mail) }}</span>
+    </div>
+    <div class="col-md-6 form-group">
+        <label>N° IFU</label>
+        {{ form_widget(form.ifu) }}
+        <span class="text-danger">{{ form_errors(form.ifu) }}</span>
+    </div>
+</div>
+{#<div class="row">#}
+    {#<div class="col-md-12 form-group">#}
+        {#<label>Code *</label>#}
+        {#{{ form_widget(form.code) }}#}
+        {#<span class="text-danger">{{ form_errors(form.code) }}</span>#}
+    {#</div>#}
+{#</div>#}
+{#<div class="row">#}
+    {#<div class="col-md-12 form-group">#}
+        {#<label>Nom Client *</label>#}
+        {#{{ form_widget(form.nom) }}#}
+        {#<span class="text-danger">{{ form_errors(form.nom) }}</span>#}
+    {#</div>#}
+{#</div>#}
+{#<div class="row">#}
+    {#<div class="col-md-12 form-group">#}
+        {#<label>Adresse *</label>#}
+        {#{{ form_widget(form.adresse) }}#}
+        {#<span class="text-danger">{{ form_errors(form.adresse) }}</span>#}
+    {#</div>#}
+{#</div>#}
+{#<div class="row">#}
+    {#<div class="col-md-12 form-group">#}
+        {#<label>Téléphone *</label>#}
+        {#{{ form_widget(form.telephone) }}#}
+        {#<span class="text-danger">{{ form_errors(form.telephone) }}</span>#}
+    {#</div>#}
+{#</div>#}
+{#<div class="row">#}
+    {#<div class="col-md-12 form-group">#}
+        {#<label>Mail</label>#}
+        {#{{ form_widget(form.mail) }}#}
+        {#<span class="text-danger">{{ form_errors(form.mail) }}</span>#}
+    {#</div>#}
+{#</div>#}
+{#<div class="row">#}
+    {#<div class="col-md-12 form-group">#}
+        {#<label>N° IFU</label>#}
+        {#{{ form_widget(form.ifu) }}#}
+        {#<span class="text-danger">{{ form_errors(form.ifu) }}</span>#}
+    {#</div>#}
+{#</div>#}
+<button class="btn btn-success" type="submit">Enregistrer</button>
+{{ form_end(form) }}

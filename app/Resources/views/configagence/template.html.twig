@@ -1,0 +1,7 @@
+{% extends 'configBase.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#agence').addClass('activecousmenu');
+    </script>
+{% endblock %}

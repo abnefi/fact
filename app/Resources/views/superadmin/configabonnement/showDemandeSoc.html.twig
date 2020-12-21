@@ -1,0 +1,319 @@
+{% extends 'superadmin/configabonnement/templateAbonnement.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Demande d'abonnement </h6>
+                <small> Affichage de demande d'abonnement'</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('index_liste_abonnement_par_societe') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            <div class="carousel-inner" style="background-color: #dee2e6   !important;width: 100%;height: 350px">
+                <div class="carousel-item active" style="background-color: #dee2e6   !important">
+                    <div class="col-md-12 separa">
+                        <div class="col-md-5">
+                            <img src="{{ configAbonnement.typeAbonnement.flyerImage }}" width="100%"
+
+                                 height="100%">
+                            <div class="carousel-caption">
+                                <h3 style="color: #dee2e6">IGO-Facturation</h3>
+                                <p style="color: #dee2e6">La solusion pour votre gestion de stock <br/>
+                                    et facture normalisée</p>
+                            </div>
+                        </div>
+                        <div class="col-md-7" style=" background-color: #b8f0ff; margin-top: 10px">
+                            <div class="card-header">
+                            </div>
+                            <div class="card-body">
+                                <p class="taxonomy">Idéal enseignes du commerce spécialisé</p>
+                                <h3>{{ configAbonnement.typeAbonnement.libelle }}</h3>
+
+                                {{ configAbonnement.typeAbonnement.description |striptags('<li>,<ul>,<p>,<div>,<b>,<a>,<pre>')|raw }}
+                                <div class="col-md-6">
+                                    <ul class="pl-1-5">
+                                        <li>Prix {{ configAbonnement.typeAbonnement.prix }} Fcfa</li>
+                                        <li>Nombre d'Agence {{ configAbonnement.typeAbonnement.limiteAgence }}</li>
+                                        <li>Durée {{ configAbonnement.typeAbonnement.nombreJour }} Jours
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br/>
+
+        {% if configAbonnement.estSupprimer == 0 %}
+
+            {% if configAbonnement.estActif == 0 %}
+                <a type="button" class="btn btn-outline-dark activebtnnow" id="activationAbonnement"
+                   data-target="#modal_activationAbonnement" data-toggle="modal"
+                   style="margin-bottom: 15px;"><span class="oi oi-check"></span> Valider l'abonnement</a>
+            {% else %}
+                <a type="button" class="btn btn-outline-dark activebtnnow" id="desactivationAbonnement"
+                   data-target="#modal_activationAbonnement" data-toggle="modal"
+                   style="margin-bottom: 15px;"><span class="oi oi-trash"></span> Suspendre l'abonnement</a>
+            {% endif %}
+
+        {% else %}
+            <a type="button" class="btn btn-outline-dark "
+               style="margin-bottom: 15px;"> Demande spprimmer par CLT_ADMIN</a>
+        {% endif %}
+
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <th>Libelle</th>
+                <td style="color: green">{{ configAbonnement.libelle }}</td>
+                <th>Type D'abonnement</th>
+                <td style="color: green">{{ configAbonnement.typeAbonnement.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Durée (Jours)</th>
+                <td style="color: green"> {{ configAbonnement.typeAbonnement.nombreJour }} </td>
+                <th>Montant (Fcfa)</th>
+                <td style="color: green"> {{ configAbonnement.typeAbonnement.prix }} </td>
+            </tr>
+            <tr>
+                <th>Banque</th>
+                <td style="color: green"> {{ configAbonnement.banque.libelle }} </td>
+                <th>Fichier Paiement</th>
+                <td style="color: #9fcdff">
+                    <a class="btn btn-primary" data-url="{{ asset(fichierPaie) }}"
+                       title="Cliquer pour voir le fichier"
+                       id="soc_abonnement_file">{{ configAbonnement.fichierPaie }}</a>
+                </td>
+            </tr>
+            <tr>
+                <th>Début Abonnement</th>
+                <td style="color: green">{% if configAbonnement.debutAbonnement %}{{ configAbonnement.debutAbonnement|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <th>Fin Abonnement</th>
+                <td style="color: red">{% if configAbonnement.finAbonnement %}{{ configAbonnement.finAbonnement|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Société</th>
+                <td style="color: green">{{ configAbonnement.societe }}</td>
+                <th>Actif</th>
+                {% if configAbonnement.estActif %}
+                <td style="color: green">Oui</td>{% else %}
+                <td style="color: red">Non</td>
+                {% endif %}</td>
+            </tr>
+            <tr>
+                <th>Demande d'Abonnement</th>
+                {% if configAbonnement.etatDemande %}
+                <td style="color: green">Oui</td>{% else %}
+                <td style="color: red">Non</td>
+                {% endif %}</td>
+                <th>Automatique</th>
+                {% if configAbonnement.reabonnementAuto %}
+                <td style="color: green">Oui</td>{% else %}
+                <td style="color: red">Non</td>
+                {% endif %}</td>
+            </tr>
+            <tr>
+                <th>Supprimer</th>
+                {% if configAbonnement.estSupprimer %}
+                <td style="color: red">Oui</td>{% else %}
+                <td style="color: green">Non</td>
+                {% endif %}</td>
+                <th>Date Demande</th>
+                <td style="color: green">{% if configAbonnement.createdAt %}{{ configAbonnement.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Détails</th>
+                <td colspan="3" style="color: green">{{ configAbonnement.noteDetails }}</td>
+            </tr>
+            <tr>
+                <th>Observations (Admin)</th>
+                <td colspan="3" style="color: green">{{ configAbonnement.decisionAdmin }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        {# Modal d'activation de d'abonnement #}
+        <div class="modal fade" id="modal_activationAbonnement" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document" style="width:auto">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #14346c">
+                        <h5 class="modal-title" style="margin-left: 5%;color: #fff">
+                            Activer un abonnement pour une société </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color: red">&times;</span>
+                        </button>
+                    </div>
+                    <br/>
+
+                    {{ form_start(form, {'action': path('activation_configabonnementsociete_edit_by_fns_admin',{ id:configAbonnement.id }), 'method': 'POST'} ) }}
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    {{ form_label(form.libelle) }}
+                                    {{ form_widget(form.libelle, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                                    <span class="text-danger">{{ form_errors(form.libelle) }}</span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    {{ form_label(form.typeAbonnement) }}
+                                    <input type="text" value="{{ configAbonnement.typeAbonnement.libelle }}"
+                                           readonly class="form-control">
+                                    <span class="text-danger">{{ form_errors(form.typeAbonnement) }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 form-group">
+                                    <label for="configbundle_configabonnementsociete_duree">Durée (Jours)</label>
+                                    <input type="text" value="{{ configAbonnement.typeAbonnement.nombreJour }}"
+                                           readonly class="form-control">
+                                    <span class="text-danger">{{ form_errors(form.duree) }}</span>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <label for="montant_abonnement">Montant(Fcfa)</label>
+                                    <input type="text" id="montant_abonnement" name="montant_abonnement"
+                                           value="{{ configAbonnement.typeAbonnement.prix }}" readonly
+                                           class="form-control">
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    {{ form_label(form.banque) }}
+                                    <input type="text" value="{{ configAbonnement.banque.libelle }}" readonly
+                                           class="form-control">
+                                    <span class="text-danger">{{ form_errors(form.banque) }}</span>
+                                </div>
+                                <div class="col-md-3 form-group" align="center" style="margin-top: 10px">
+                                    {{ form_label(form.reabonnementAuto) }}
+                                    {{ form_widget(form.reabonnementAuto, {'attr' : {'class' : 'form-control','disabled':'true'}}) }}
+                                    <span class="text-danger">{{ form_errors(form.reabonnementAuto) }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    {{ form_label(form.noteDetails) }}
+                                    {{ form_widget(form.noteDetails, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                                    <span class="text-danger">{{ form_errors(form.noteDetails) }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    {{ form_label(form.debutAbonnement) }}
+                                    {{ form_widget(form.debutAbonnement, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                                    <span class="text-danger">{{ form_errors(form.debutAbonnement) }}</span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    {{ form_label(form.finAbonnement) }}
+                                    {{ form_widget(form.finAbonnement, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                                    <span class="text-danger">{{ form_errors(form.finAbonnement) }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    {{ form_label(form.decisionAdmin) }}
+                                    {{ form_widget(form.decisionAdmin, {'attr' : {'class' : 'form-control','required':'required'}}) }}
+                                    <span class="text-danger">{{ form_errors(form.decisionAdmin) }}</span>
+                                </div>
+                                <div class="col-md-3 form-group" align="center" hidden>
+                                    {{ form_label(form.estSupprimer) }}
+                                    {{ form_widget(form.estSupprimer, {'attr' : {'class' : 'form-control'}}) }}
+                                    <span class="text-danger">{{ form_errors(form.estSupprimer) }}</span>
+                                </div>
+                            </div>
+                            <div class="row" hidden>
+                                <div class="col-md-3 form-group" align="center">
+                                    {{ form_widget(form.duree, {'attr' : {'class' : 'form-control'}}) }}
+                                    {{ form_widget(form.typeAbonnement, {'attr' : {'class' : 'form-control'}}) }}
+                                    {{ form_widget(form.banque, {'attr' : {'class' : 'form-control'}}) }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="margin-right: 5%">
+                        <div class="row">
+                            <input type="submit" class="btn btn-primary" value="Valider"/>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+
+                </div>
+
+            </div>
+        </div>
+
+        {# Modal show societe files #}
+        <div class="modal fade" id="modal_show_files" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="titreDoc">Fichier Reçu Paiement</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="overflow-y: auto">
+                        <input id="filepath_can" type="hidden" name="filepath"/>
+                        <div id="loading_frame" class="text-center"></div>
+                        <div id="preview_file" style="width: 100%; height: 500px;" class="pdfContainer">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </main>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/abonnement/demandeAbonnement.js') }}"></script>
+    <script>
+        let url = null
+
+        // Déclencheur du lanceur de modal
+        $(function () {
+            $('#soc_abonnement_file').on('click', function (e) {
+                e.preventDefault()
+                url = $(this).data('url')
+                console.log(url)
+                if (url !== '') {
+                    $('#modal_show_files').modal('show')
+                }
+            })
+        })
+
+        //Lanceur du modal
+        $('#modal_show_files').on('shown.bs.modal', function () {
+            $('#preview_file').empty();
+            $('#preview_file').html('<iframe  src="' + url + '" ' +
+                'type="application/pdf" width="100%" height="100%" ></iframe>');
+        })
+
+    </script>
+
+{% endblock %}

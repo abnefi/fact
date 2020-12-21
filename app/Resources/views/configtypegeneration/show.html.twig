@@ -1,0 +1,79 @@
+{% extends 'configtypegeneration/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Codes / Référence</h6>
+                <small> Affichage Codes / Références </small>
+            </div>
+        </div>
+        {% for message in app.session.flashbag.get('success') %}
+            <div class="alert alert-success alertSucces">
+                <strong>{{ message }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configtypegeneration_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            <a class="btn btn-outline-dark"
+               href="{{ path('configtypegeneration_edit', { 'id': configTypeGeneration.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>
+            {{ include("messageSucces.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+
+                <tr>
+                    <th>Code</th>
+                    <td>{{ configTypeGeneration.code }}</td>
+                </tr>
+                <tr>
+                    <th>Libelle</th>
+                    <td>{{ configTypeGeneration.libelle }}</td>
+                </tr>
+                <tr>
+                    <th>Codesociete</th>
+                    <td>{{ configTypeGeneration.codeSociete }}</td>
+                </tr>
+                <tr>
+                    <th>Codeagence</th>
+                    <td>{{ configTypeGeneration.codeAgence }}</td>
+                </tr>
+                <tr>
+                    <th>Codefournisseur</th>
+                    <td>{{ configTypeGeneration.codeFournisseur }}</td>
+                </tr>
+                <tr>
+                    <th>Codeclient</th>
+                    <td>{{ configTypeGeneration.codeClient }}</td>
+                </tr>
+                <tr>
+                    <th>Referencearticle</th>
+                    <td>{{ configTypeGeneration.referenceArticle }}</td>
+                </tr>
+                <tr>
+                    <th>Referenceservice</th>
+                    <td>{{ configTypeGeneration.referenceService }}</td>
+                </tr>
+                <tr>
+                    <th>Referenceapprovisionnement</th>
+                    <td>{{ configTypeGeneration.referenceApprovisionnement }}</td>
+                </tr>
+                <tr>
+                    <th>Referencefacture</th>
+                    <td>{{ configTypeGeneration.referenceFacture }}</td>
+                </tr>
+                <tr>
+                    <th>Referenceinventaire</th>
+                    <td>{{ configTypeGeneration.referenceInventaire }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock content %}

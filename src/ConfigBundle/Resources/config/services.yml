@@ -1,0 +1,71 @@
+services:
+#    config.example:
+#        class: ConfigBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+#    code_generate:
+#        class: AppBundle\Service\CodeAleatoire
+#        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+#
+#    generateur_mouchards:
+#        class: AppBundle\Service\GenerateurMouchard
+#        arguments:
+#            - "@doctrine.orm.entity_manager"
+#            - '@service_container'
+#
+#    service_user:
+#        class: AppBundle\Service\ServiceUser
+#        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+#
+#    stock_operations:
+#        class: AppBundle\Service\StockOperations
+#        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+#
+#    client_operations:
+#            class: AppBundle\Service\ClientOperations
+#            arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+#
+#    app.doctrine_listener.approvisionnementdetailpersist:
+#        class: AppBundle\DoctrineListener\ApprovisionnementDetailPersistListener
+#        arguments: ["@service_container"]
+#        tags:
+#            - { name: doctrine.event_listener, event: prePersist }
+#
+#    app.doctrine_listener.approvisionnementdetailremove:
+#        class: AppBundle\DoctrineListener\ApprovisionnementDetailRemoveListener
+#        arguments: ["@service_container"]
+#        tags:
+#            - { name: doctrine.event_listener, event: preRemove }
+#
+#    twig.extension.app:
+#        class: AppBundle\Twig\AppExtension
+#        arguments: ['@doctrine.orm.entity_manager', '@service_container']
+#        autowire: true
+#        tags:
+#            - { name: twig.extension }
+#
+#    file_uploader:
+#        class: AppBundle\Service\FileUpload
+#        arguments: ["@service_container"]
+#
+#    app.doctrine_listener.agencepersist:
+#        class: AppBundle\DoctrineListener\AgencePersistListener
+#        arguments: ["@service_container"]
+#        tags:
+#            - { name: doctrine.event_listener, event: prePersist }
+#
+#    ecriture_comptable:
+#        class: AppBundle\Service\EcritureComptable
+#        arguments: ['@doctrine.orm.entity_manager', "@service_container"]
+#
+#    app.form.registration:
+#        class: AdminBundle\Form\RegistrationType
+#        tags:
+#            - { name: form.type, alias: app_user_registration }
+#
+#    user.listener.registration_initialize:
+#        class: UserBundle\EventListener\RegistrationListener
+#        arguments: ['@router']
+#        tags:
+##            - { name: kernel.event_subscriber }
+#            - { name: kernel.event_listener, event: fos_user.registration.initialize, method: onRegistrationInitialize }

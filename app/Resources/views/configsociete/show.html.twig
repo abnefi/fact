@@ -1,0 +1,159 @@
+{% extends 'configsociete/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Société </h6>
+                <small> Affichage de la société</small>
+            </div>
+        </div>
+        {% for message in app.session.flashbag.get('succes') %}
+            <div class="alert alert-success">
+                <strong>{{ message }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a class="btn btn-outline-dark" href="{{ path('configsociete_edit', { 'id': configSociete.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span> Modifier</a>
+            {{ include("messageSucces.html.twig") }}
+
+            <div class="pull-right" style="margin-right: 50px">
+                <div class="row">
+                    {% if configSociete.logo %}
+                        <img src="{{ asset('uploads/societe/'~configSociete.logo) }}"
+                             height="150" width="150" class="img-thumbnail">
+                    {% else %}
+                        <img src="{{ asset('frontend/img/icone_default_societe.jpg') }}"
+                             height="150" width="150" class="img-thumbnail">
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <button class="btn btn-outline-info" data-toggle="modal" data-target="#modal_edit_logo"
+                            style="margin-bottom: 10px;"><span class="oi oi-pencil"></span> Modifier le logo
+                    </button>
+                </div>
+                <br>
+            </div>
+            <table class="table table-bordered table-striped">
+                <tbody>
+                {#<tr>#}
+                    {#<th>Sigle</th>#}
+                    {#<td>{{ configSociete.sigle }}</td>#}
+                {#</tr>#}
+                <tr>
+                    <th>Raison Sociale</th>
+                    <td>{{ configSociete.raisonSociale }}</td>
+                </tr>
+                <tr>
+                    <th>Type Activité</th>
+                    <td>{% if configSociete.typeActivite %}{{ configSociete.typeActivite.libelle }}{% endif %}</td>
+                </tr>
+                {#<tr>#}
+                    {#<th>Siège Social</th>#}
+                    {#<td>{{ configSociete.siegeSocial }}</td>#}
+                {#</tr>#}
+                <tr>
+                    <th>Pays</th>
+                    <td>{{ configSociete.pays }}</td>
+                </tr>
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ configSociete.adresse }}</td>
+                </tr>
+                <tr>
+                    <th>Téléphone</th>
+                    <td>{{ configSociete.telephone }}</td>
+                </tr>
+                <tr>
+                    <th>Registre Commerce</th>
+                    <td>{{ configSociete.registreCommerce }}</td>
+                </tr>
+                <tr>
+                    <th>N° Ifu</th>
+                    <td>{{ configSociete.ifu }}</td>
+                </tr>
+                <tr>
+                    <th>Nom du représentant</th>
+                    <td>{{ configSociete.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom du représentant</th>
+                    <td>{{ configSociete.prenom }}</td>
+                </tr>
+                <tr>
+                    <th>Fonction Réprésentant</th>
+                    <td>{{ configSociete.fonctionRepresentant }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ configSociete.email }}</td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ configSociete.ville }}</td>
+                </tr>
+                <tr>
+                    <th>Capital</th>
+                    <td>{{ configSociete.capital }}</td>
+                </tr>
+                <tr>
+                    <th>Site web</th>
+                    <td>{{ configSociete.siteweb }}</td>
+                </tr>
+                <tr>
+                    <th>Rib</th>
+                    <td>{{ configSociete.rib }}</td>
+                </tr>
+                <tr hidden>
+                    <th>Assujeti à la TVA ?</th>
+                    <td>{% if configSociete.assujetiTva %}Oui{% else %}Non{% endif %}</td>
+                </tr>
+                <tr hidden>
+                    <th>Assujeti à l'exportation</th>
+                    <td>{% if configSociete.exportation %}Oui{% else %}Non{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Devise</th>
+                    <td>{{ configSociete.devise }} ({{ configSociete.devise }})</td>
+                </tr>
+                </tbody>
+            </table>
+
+            {# Modal edit logo #}
+            <div class="modal fade" id="modal_edit_logo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabtype_facture_avoirel">Logo société</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="post" action="{{ path('configsociete_edit_logo', { 'id': configSociete.id }) }}"
+                              enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label>Logo </label>
+                                    <input type="file" id="logo_societe" name="logo_societe" class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Ok</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {#            {{ form_start(delete_form) }}#}
+            {#                <input type="submit" value="Delete">#}
+            {#            {{ form_end(delete_form) }}#}
+        </div>
+    </main>
+{% endblock %}

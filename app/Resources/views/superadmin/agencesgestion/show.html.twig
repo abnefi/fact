@@ -1,0 +1,124 @@
+{% extends 'superadmin/agencesgestion/templateMesAgences.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Agence </h6>
+                <small> Affichage Agence</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configagence_index_for_super_admin') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Libellé</th>
+                    <th>Code</th>
+                    <th>Numéro MCF</th>
+                    <th>Pays</th>
+                    <th>Ville</th>
+                    <th>Port Serveur</th>
+                    <th>Etat</th>
+                    <th>Supprimer</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ configAgence.libelle }}</td>
+                    <td>{{ configAgence.code }}</td>
+                    <td>{{ configAgence.numeroMCF }}</td>
+                    <td>{{ configAgence.paysSise }}</td>
+                    <td>{{ configAgence.ville }}</td>
+                    <td>{{ configAgence.portServeur }}</td>
+                    {% if configAgence.estActif %}
+                    <td style="color:green"> Active  </td>
+                    {% elseif configAgence.etatDemande ==0 %}
+                    <td style="color:red"> Désactiver </td>
+                    {% else %}
+                    <td style="color:#4b134f"> En attente </br> d'activation </td>
+                    {% endif %}</td>
+                    <td> {% if configAgence.estActif %} Oui {% else %} Non {% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Configagence</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ configAgence.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ configAgence.code }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ configAgence.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{% if configAgence.created %}{{ configAgence.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Numeromcf</th>
+                <td>{{ configAgence.numeroMCF }}</td>
+            </tr>
+            <tr>
+                <th>Estactif</th>
+                <td>{% if configAgence.estActif %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('configagence_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('configagence_edit', { 'id': configAgence.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
+#}

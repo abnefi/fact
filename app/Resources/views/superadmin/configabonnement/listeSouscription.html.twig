@@ -1,0 +1,138 @@
+{% extends 'superadmin/configabonnement/templateAbonnement.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Liste des Abonnements Société </h6>
+                <small> Souscription par société</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+
+            <a type="button" class="btn btn-outline-dark dbnow activebtnnow"
+               href="{{ path('index_liste_abonnement_par_societe') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-dashboard"></span> Tout</a>
+
+            <a type="button" id="demandeAttente" class="btn btn-outline-dark dbnow"
+               style="margin-bottom: 10px;"><span class="oi oi-sort-ascending"></span> En attente</a>
+
+            <a type="button" id="demandeAutoriser" class="btn btn-outline-dark dbnow"
+               style="margin-bottom: 10px;"><span class="oi oi-play-circle"></span> Déja Autorisé</a>
+
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configabonnement_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-aperture"></span> Mes Produits</a>
+
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            {% if Abonnements is not empty %}
+                <table class="table table-bordered dataTable" id="tabledemande">
+
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Societe</th>
+                        <th>Raison sociale</th>
+                        <th>Libelle</th>
+                        <th>Abonnement</th>
+                        <th>Debut</th>
+                        <th>Echéance</th>
+                        <th>Auto</th>
+                        <th>Actif</th>
+                        <th>Fait le</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for configAbonnement in Abonnements %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('configabonnement_show', { 'id': configAbonnement.id }) }}">{{ loop.index }}</a>
+                            </td>
+                            <td>{{ configAbonnement.societe }}</td>
+                            <td>{{ configAbonnement.societe.raisonSociale }}</td>
+                            <td>{{ configAbonnement.libelle }}</td>
+                            <td>{{ configAbonnement.typeAbonnement }}</td>
+                            <td>{% if configAbonnement.debutAbonnement %}{{ configAbonnement.debutAbonnement|date('Y-m-d') }}{% endif %}</td>
+                            <td>{% if configAbonnement.finAbonnement %}{{ configAbonnement.finAbonnement|date('Y-m-d') }}{% endif %}</td>
+                            {% if configAbonnement.reabonnementAuto %}
+                            <td style="color: green">Oui</td>{% else %}
+                            <td style="color: red">Non</td>
+                            {% endif %}</td>
+                            {% if configAbonnement.estActif %}
+                            <td style="color: green">Oui</td>{% else %}
+                            <td style="color: red">Non</td>
+                            {% endif %}</td>
+                            <td>{% if configAbonnement.createdAt %}{{ configAbonnement.createdAt|date('Y-m-d') }}{% endif %}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" data-toggle="tooltip"
+                                       data-placement="top" title="Voir"
+                                       href="{{ path('configabonnement_show_demande', { 'id': configAbonnement.id }) }}">
+                                        <span class="oi oi-eye"></span>
+                                    </a>
+
+                                    {#{% if configAbonnement.estActif == 0 %}
+                                        <a class="btn btn--anon" data-toggle="tooltip" data-placement="top"
+                                           title="Activer"
+                                           href="#">
+                                            <span class="oi oi-check"></span>
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                                           title="Désactiver"
+                                           href="#">
+                                            <span class="oi oi-trash"></span>
+                                        </a>
+                                    {% endif %}#}
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <table class="table table-bordered dataTable">
+                    <thead>
+                    <tr>
+                    <tr>
+                        <th>Id</th>
+                        <th>Societe</th>
+                        <th>Raison sociale</th>
+                        <th>Libelle</th>
+                        <th>Abonnement</th>
+                        <th>Debut</th>
+                        <th>Echéance</th>
+                        <th>Auto</th>
+                        <th>Actif</th>
+                        <th>Fait le</th>
+                        <th>Actions</th>
+                    </tr>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td colspan="11" class="alert-danger">Aucun abonnement trouver !</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <div id="mliste">
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/parametrage/dsgf615df.js') }}"></script>
+    <script>
+
+    </script>
+{% endblock %}

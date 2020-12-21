@@ -1,0 +1,60 @@
+{% extends 'admin/template.html.twig' %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% block fos_user_content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Utilisateur </h6>
+                <small> Affichage d'un utilisateur</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('fosuser_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            <a class="btn btn-outline-dark"
+            href="{{ path('fosuser_edit', { 'id': user.id }) }}"
+            style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>
+            {{ include("messageSucces.html.twig") }}
+
+            {#{% block fos_user_content %}#}
+            {#<p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>#}
+            {#{% if targetUrl %}#}
+            {#<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>#}
+            {#{% endif %}#}
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ user.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Prénom(s)</th>
+                    <td>{{ user.prenoms }}</td>
+                </tr>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Agence</th>
+                    <td>{{ user.agence.libelle }}</td>
+                </tr>
+                <tr>
+                    <th>Rôles</th>
+                    <td>{{ user.roles|join(', ') }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock fos_user_content %}

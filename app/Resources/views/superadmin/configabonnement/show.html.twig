@@ -1,0 +1,72 @@
+{% extends 'superadmin/configabonnement/templateAbonnement.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Abonnement </h6>
+                <small> Affichage d'abonnement'</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configabonnement_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+            <a class="btn btn-outline-dark"
+               href="{{ path('configabonnement_edit', { 'id': configAbonnement.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>
+            {% if configAbonnement.estSupprimer == 0 %}
+                <a class="btn btn-outline-dark"
+                   href="{{ path('supprimmer_abonnement_par_admin', { 'id': configAbonnement.id }) }}"
+                   style="margin-bottom: 10px;"><span class="oi oi-trash"></span>Supprimer</a>
+            {% else %}
+                <a class="btn btn-outline-dark"
+                   href="{{ path('supprimmer_abonnement_par_admin', { 'id': configAbonnement.id }) }}"
+                   style="margin-bottom: 10px;"><span class="oi oi-delete"></span> Annuler Suppression</a>
+            {% endif %}
+
+
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ configAbonnement.id }}</td>
+                    <th>Libelle</th>
+                    <td>{{ configAbonnement.libelle }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre de jour</th>
+                    <td>{{ configAbonnement.nombreJour }}</td>
+                    <th>Prix</th>
+                    <td>{{ configAbonnement.prix }}</td>
+                </tr>
+                <tr>
+                    <th>Limite Agence</th>
+                    <td>{{ configAbonnement.limiteAgence }}</td>
+                    <th>Actif</th>
+                    <td>{% if configAbonnement.estActif %}Oui{% else %}Non{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td>{% if configAbonnement.createdAt %}{{ configAbonnement.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <th>Supprimer</th>
+                    <td>{% if configAbonnement.estSupprimer %}Oui{% else %}Non{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Lien Image  </th>
+                    <td colspan="3">{{ configAbonnement.flyerImage }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td colspan="3">{{ configAbonnement.description }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

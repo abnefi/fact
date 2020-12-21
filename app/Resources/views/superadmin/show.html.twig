@@ -1,0 +1,464 @@
+{% extends 'superadmin/templateSociete.html.twig' %}
+
+{% block content %}
+  <main role="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+      <div class="lh-100">
+        <h6 class="mb-0 text-white lh-100">Société </h6>
+        <small> Affichage de la société</small>
+      </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+      <a type="button" class="btn btn-outline-dark" href="{{ path('index_gestion_societe') }}"
+         style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+      {% if societe.estSupprimer == 0 %}
+        <a class="btn btn-outline-dark"
+           href="{{ path('supprimmer_societe_par_admin', { 'id': societe.id }) }}"
+           style="margin-bottom: 10px;"><span class="oi oi-trash"></span>Supprimer</a>
+      {% else %}
+        <a class="btn btn-outline-dark"
+           href="{{ path('supprimmer_societe_par_admin', { 'id': societe.id }) }}"
+           style="margin-bottom: 10px;"><span class="oi oi-delete"></span> Annuler Suppression</a>
+      {% endif %}
+
+
+      {{ include("messageSucces.html.twig") }}
+      {{ include("messageEchec.html.twig") }}
+
+      <div class="my-3 p-3 bg-white rounded box-shadow" style="margin-right: 50px">
+        <div class="row">
+          <div class="col-md-12 form-group">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 form-group">
+          </div>
+          <div class="col-md-4 form-group">
+          </div>
+
+          <div class="col-md-4 form-group">
+
+            <div class="col" align="center">
+              {% if societe.logo %}
+                <img src="{{ asset('uploads/societe/'~societe.logo) }}"
+                     height="150" width="150" class="img-thumbnail">
+              {% else %}
+                <img src="{{ asset('frontend/img/icone_default_societe.jpg') }}"
+                     height="150" width="150" class="img-thumbnail">
+              {% endif %}
+
+              {% if societe.estActif == 0 and societe.estSupprimer == 0 %}
+
+                <div>
+                  <a class="btn btn--anon activer_societe" data-toggle="tooltip"
+                     data-placement="top" data-val="{{ societe.id }}"
+                     title="Activation" data-target="#modal_activation_societe"
+                     data-toggle="modal">
+                    <span class="oi oi-play-circle"></span> Activer
+                  </a>
+                  <a class="btn btn-outline-warning rejeter_societe" data-toggle="tooltip"
+                     data-placement="top" data-val="{{ societe.id }}"
+                     title="Rejeter" data-target="#modal_activation_societe" data-toggle="modal"
+                     style="margin-top: 10px;"
+                     href=" {{ path('activer_societe', { 'id': societe.id }) }} ">
+                    <span class="fa fa-times"></span>Rejeter
+                  </a>
+                </div>
+
+              {% else %}
+                <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                   title="Désactiver" style="margin-bottom: 10px;"
+                   href=" {{ path('desactiver_societe', { 'id': societe.id }) }} ">
+                  <span class="oi oi-trash"></span> Désactiver
+                </a>
+              {% endif %}
+
+            </div>
+
+          </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+          <tbody>
+
+          <tr>
+            <th> Raison Sociale</th>
+            <td style="color: green"> {{ societe.raisonSociale }} </td>
+            <th> Type Activité</th>
+            <td style="color: green"> {% if societe.typeActivite %}{{ societe.typeActivite.libelle }}{% endif %} </td>
+          </tr>
+          <tr>
+            <th>Pays</th>
+            <td style="color: green">{{ societe.pays }}</td>
+            <th>Adresse</th>
+            <td style="color: green">{{ societe.adresse }}</td>
+          </tr>
+          <tr>
+
+          </tr>
+          <tr>
+            <th>Téléphone</th>
+            <td style="color: green">{{ societe.telephone }}</td>
+            <th>Site</th>
+            <td style="color: green">{{ societe.siteWeb }}</td>
+          </tr>
+
+          <tr>
+            <th>N° Ifu</th>
+            <td style="color: #9fcdff">
+              <a class="btn btn-primary" data-url="{{ asset(urlIfu) }}"
+                 id="societe_ifu">{{ societe.ifu }}</a>
+            </td>
+
+            <th>Registre Commerce</th>
+            <td style="color: #9fcdff">
+              <a class="btn btn-primary" data-url="{{ asset(urlRegiste) }}"
+                 id="societe_registe"> {{ societe.registreCommerce }}</a>
+            </td>
+          </tr>
+          <tr>
+
+          </tr>
+          <tr>
+            <th>Fonction Réprésentant</th>
+            <td style="color: green">{{ societe.fonctionRepresentant }}</td>
+            <th>Forme Juridique</th>
+            <td style="color: green">{{ societe.formeJuridique }}</td>
+          </tr>
+          <tr>
+
+          </tr>
+          <tr>
+            <th>Capital</th>
+            <td style="color: green">{{ societe.capital }}</td>
+            <th>Devise</th>
+            <td style="color: green">{{ societe.devise }} ({{ societe.devise }})</td>
+          </tr>
+          <tr>
+            <th>Banque</th>
+            <td style="color: green">{{ societe.banque }}</td>
+            <th>Rib</th>
+            <td style="color: green">{{ societe.rib }}</td>
+          </tr>
+          <tr hidden>
+            <th>Assujeti à la TVA ?</th>
+            <td style="color: green">{% if societe.assujetiTva %}Oui{% else %}Non{% endif %}</td>
+          </tr>
+          <tr hidden>
+            <th>Assujeti à l'exportation</th>
+            <td>{% if societe.exportation %}Oui{% else %}Non{% endif %}</td>
+          </tr>
+          <tr>
+            <th>Supprimer</th>
+            {% if societe.estSupprimer %}
+            <td style="color: green">Oui</td>{% else %}
+            <td style="color: red">Non</td>
+            {% endif %}</td>
+            <th>Etat</th>
+            {% if societe.estActif %}
+            <td style="color: green">Oui</td>{% else %}
+            <td style="color: red">Non</td>
+            {% endif %}</td>
+          </tr>
+          <tr>
+          </tr>
+          </tbody>
+        </table>
+
+        <br/>
+        <br/>
+        <br/>
+
+
+        <table class="table table-bordered dataTable">
+          <thead>
+          <tr>
+            <th>N°</th>
+            <th>Libellé</th>
+            <th>Code</th>
+            <th>Numéro MCF</th>
+            <th>Pays</th>
+            <th>Ville</th>
+            <th style="">PS</th>
+            <th>Etat</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for configAgence in configAgences %}
+            <tr>
+              <td>
+                <a href="{{ path('configagence_show', { 'id': configAgence.id }) }}">{{ loop.index }}</a>
+              </td>
+              <td>{{ configAgence.libelle }}</td>
+              <td>{{ configAgence.code }}</td>
+              <td>{{ configAgence.numeroMCF }}</td>
+              <td>{{ configAgence.paysSise }}</td>
+              <td>{{ configAgence.ville }}</td>
+              <td>{{ configAgence.portServeur }}</td>
+              {% if configAgence.estActif ==1   and  configAgence.etatDemande ==0 %}
+              <td style="color:green"> Active</td>
+              {% elseif configAgence.estActif==0 and  configAgence.etatDemande ==0 %}
+              <td style="color:red"> Désactiver</td>
+              {% elseif configAgence.estActif==0 and  configAgence.etatDemande ==1 %}
+              <td style="color: #00bb00"> En attente </br> d'activation</td>
+              {% else %}
+              <td style="color:#4b134f"> Etat </br> incorrete</td>
+              {% endif %}</td>
+              <td>
+                <div class="btn-group">
+                  {% if configAgence.estActif == 0 %}
+                    <a class="btn btn--anon activer_agence" data-toggle="tooltip"
+                       data-placement="top" data-val="{{ configAgence.id }}"
+                       title="Activation" data-target="#modal_activation_agence"
+                       data-toggle="modal">
+                      <span class="oi oi-play-circle"></span>
+                    </a>
+                  {% else %}
+                    <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                       title="Désactiver"
+                       href=" {{ path('desactivation_par_admin_de_agence', { 'id': configAgence.id }) }} ">
+                      <span class="oi oi-trash"></span>
+                    </a>
+                  {% endif %}
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+
+        <div class="modal fade" id="modal_edit_logo" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabtype_facture_avoirel">Logo société</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="post" action="{{ path('configsociete_edit_logo', { 'id': societe.id }) }}"
+                    enctype="multipart/form-data">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label>Logo </label>
+                    <input type="file" id="logo_societe" name="logo_societe" class="form-control"
+                           required/>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Ok</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {# Modal show societe files #}
+        <div class="modal fade" id="modal_show_files" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="titreDoc">Fichier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                          aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="overflow-y: auto">
+                <input id="filepath_can" type="hidden" name="filepath"/>
+                <div id="loading_frame" class="text-center"></div>
+                <div id="preview_file" style="width: 100%; height: 500px;" class="pdfContainer">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {# Modal ativation SOCIETE #}
+        <div class="modal fade" id="modal_activation_societe" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  Activation d'agence</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="post" action="{{ path('activer_societe') }}">
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Port Serveur</label>
+                      <input class="form-control" name="portServeur" id="portServeur"
+                             type="number" required="true"/>
+                    </div>
+
+                    <input id="idSocieteCliquer" name="idSocieteCliquer" hidden>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-primary" value="Valider"/>
+                </div>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+
+        {# Modal ativation agence #}
+        <div class="modal fade" id="modal_activation_agence" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  Activation d'agence</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="post" action="{{ path('activer_agence_par_admin') }}">
+                <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <label>Port Serveur</label>
+                          <input class="form-control" name="portServeur" id="portServeur"
+                               type="number" required="true"/>
+                      </div>
+
+                      <input id="idAgenceCliquer" name="idAgenceCliquer" hidden>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Valider"/>
+                </div>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+
+
+        {# Modal rejet societe #}
+        <div class="modal fade" id="modal_rejet_societe" role="dialog"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header" style="background-color: #14346c">
+                <h5 class="modal-title" style="margin-left: 5%;color: #fff">
+                  Rejet d'activation société</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form method="post" action="{{ path('rejeter_societe_par_admin') }}" >
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Raison rejet</label>
+                      <textarea class="form-control" name="raisonrejet" id="raisonrejet"  required="true" ></textarea>
+                    </div>
+
+                    <input id="idSocieteCliquer" name="idSocieteCliquer" hidden>
+                  </div>
+                </div>
+                <div class="modal-footer" style="margin-right: 5%">
+                  <input type="submit" class="btn btn-primary" value="Valider" />
+                </div>
+              </form>
+
+
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </main>
+{% endblock %}
+
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+
+    let url = null
+    let idagence = null
+
+    $(function () {
+      $('#societe_ifu').on('click', function (e) {
+        e.preventDefault()
+        url = $(this).data('url')
+        console.log(url)
+        if (url !== '') {
+          $('#modal_show_files').modal('show')
+        }
+      })
+    })
+
+    $(function () {
+      $('#societe_registe').on('click', function (e) {
+        e.preventDefault()
+        url = $(this).data('url')
+        $('#modal_show_files').modal('show')
+      })
+    })
+
+    $('#modal_show_files').on('shown.bs.modal', function () {
+      $('#preview_file').empty();
+      $('#preview_file').html('<iframe  src="' + url + '" ' +
+        'type="application/pdf" width="100%" height="100%" ></iframe>');
+    })
+
+    $(function () {
+      $('.activer_agence').on('click', function (e) {
+        e.preventDefault()
+        idagence = $(this).data('val')
+        $("#idAgenceCliquer").val(idagence)
+        $('#modal_activation_agence').modal('show')
+      })
+    })
+
+    $(function () {
+      $('.activer_societe').on('click', function (e) {
+        e.preventDefault()
+        idSociete = $(this).data('val')
+          console.log('ok');
+        $("#idSocieteCliquer").val(idSociete)
+        $('#modal_activation_societe').modal('show')
+      })
+    })
+
+    $(function () {
+      $('.rejeter_societe').on('click', function (e) {
+        e.preventDefault()
+        idesociete = $(this).data('val')
+        $("#idSocieteCliquer").val(idesociete)
+        $('#modal_rejet_societe').modal('show')
+      })
+    })
+
+
+  </script>
+{% endblock %}

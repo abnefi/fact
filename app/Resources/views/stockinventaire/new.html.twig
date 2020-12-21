@@ -1,0 +1,29 @@
+{% extends 'stockinventaire/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Inventaire</h6>
+                <small> Création d'un inventaire</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('stockinventaire_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>Référence de l'inventaire</label>
+                    {{ form_widget(form.referenceInventaire) }}
+                </div>
+            </div>
+            <button class="btn btn-success" type="submit">Démarrer l'inventaire</button>
+            {{ form_end(form) }}
+
+        </div>
+    </main>
+{% endblock %}

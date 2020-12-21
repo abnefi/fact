@@ -1,0 +1,69 @@
+{% extends 'stockservice/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Service </h6>
+                <small> Fiche Service</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('stockservice_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            <a class="btn btn-outline-dark"
+               href="{{ path('stockservice_edit', { 'id': stockService.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>
+            {{ include("messageSucces.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Référence</th>
+                    <td>{{ stockService.reference }}</td>
+                </tr>
+                <tr>
+                    <th>Référence Interne</th>
+                    <td>{{ stockService.referenceInterne }}</td>
+                </tr>
+                <tr>
+                    <th>Désignation</th>
+                    <td>{{ stockService.designation }}</td>
+                </tr>
+                <tr>
+                    <th>Categorie</th>
+                    <td>{{ stockService.categorie.libelle }}</td>
+                </tr>
+                <tr>
+                    <th>Prix Unitaire Vente</th>
+                    <td>{{ stockService.prixUnitaireVente |number_format(0, ',', ' ')  }}</td>
+                </tr>
+                <tr>
+                    <th>Unité Mesure</th>
+                    <td>{{ stockService.uniteMesure.libelle }}</td>
+                </tr>
+                <tr>
+                    <th>Prix Unitaire TTC</th>
+                    <td>{{ prixUnitaireTTC |number_format(0, ',', ' ')  }}</td>
+                </tr> <tr>
+                    <th>Description</th>
+                    <td>{{ stockService.description  }}</td>
+                </tr>
+                <tr>
+                    <th>Groupe de taxe</th>
+                    <td>{{ stockService.taxeGroupe  }}</td>
+                </tr> <tr>
+                    <th>Agence</th>
+                    <td>{{ stockService.agenceId  }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            {#            {{ form_start(delete_form) }}#}
+            {#                <input type="submit" value="Delete">#}
+            {#            {{ form_end(delete_form) }}#}
+        </div>
+    </main>
+{% endblock %}

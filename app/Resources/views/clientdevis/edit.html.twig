@@ -1,0 +1,289 @@
+{% extends 'clientdevis/template.html.twig' %}
+
+{% import _self as formMacros %}
+{#macro pour afficher un formulaire de thème#}
+{% macro printDetailRow(detailForm) %}
+    <div class="col-md-12 article_item">
+        <fieldset>
+            {#<div style="border: 1px solid #ddd !important;">#}
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    {{ form_label(detailForm.produit) }}
+                    {{ form_widget(detailForm.produit) }}
+                    <span class="text-danger">{{ form_errors(detailForm.produit) }}</span>
+                </div>
+                <div class="col-md-2 form-group">
+                    {{ form_label(detailForm.uniteMesure) }}
+                    {{ form_widget(detailForm.uniteMesure) }}
+                    <span class="text-danger">{{ form_errors(detailForm.uniteMesure) }}</span>
+                </div>
+                <div class="col-md-2 form-group">
+                    {{ form_label(detailForm.quantite) }}
+                    {{ form_widget(detailForm.quantite) }}
+                    <span class="text-danger">{{ form_errors(detailForm.quantite) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            {{ form_label(detailForm.prixVenteUnitaire) }}
+                            {{ form_widget(detailForm.prixVenteUnitaire) }}
+                            <span class="text-danger">{{ form_errors(detailForm.prixVenteUnitaire) }}</span>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>PU TTC</label>
+                            <input type="number" class="form-control prix_unitaire_ttc" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 form-group">
+                    {{ form_label(detailForm.tauxRemise) }}
+                    {{ form_widget(detailForm.tauxRemise) }}
+                    <span class="text-danger">{{ form_errors(detailForm.tauxRemise) }}</span>
+                </div>
+            </div>
+            {#<br>#}
+            <hr>
+            <div class="row">
+                {#<div class="col-md-2 form-group div_taxable">#}
+                <div class="div_taxable">
+                    <label>Taxable ?</label>
+                    <input type="checkbox" class="checkbox_taxable" disabled="disabled">
+                </div>
+                <div class="col-md-5 form-group">
+                    <button type="button" class="btn btn-outline-info add_description">Ajouter une description</button>
+                    <div class="div_description hidden">
+                        {{ form_widget(detailForm.description) }}
+                        <span class="text-danger">{{ form_errors(detailForm.description) }}</span>
+                    </div>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Total TTC</label>
+                    <input type="number" class="form-control sousTotalTTC"
+                           disabled="disabled">
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="row div_changement_prix">
+                        <div class="form-group col-md-12">
+                            {{ form_label(detailForm.changementPrixUnitaireTTC) }}
+                            {{ form_widget(detailForm.changementPrixUnitaireTTC) }}
+                            <span class="text-danger">{{ form_errors(detailForm.changementPrixUnitaireTTC) }}</span>
+                        </div>
+                    </div>
+                    {#<div class="box_prix_origine">#}
+                    <div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                {{ form_label(detailForm.dernierPrixOrigine) }}
+                                {{ form_widget(detailForm.dernierPrixOrigine) }}
+                                <span class="text-danger">{{ form_errors(detailForm.dernierPrixOrigine) }}</span>
+                            </div>
+                        </div>
+                        <div class="row box_prix_origine">
+                            <div class="form-group col-md-12">
+                                {{ form_widget(detailForm.descriptionPrixOrigine) }}
+                                <span class="text-danger">{{ form_errors(detailForm.descriptionPrixOrigine) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 form-group">
+                    <p style="margin-top: 25px"><a href="#" class='btn btn-danger remove_article pull-right'
+                                                   data-toggle="tooltip" data-placement="top"
+                                                   title="Supprimer l'article"><span class="oi oi-minus"></span></a></p>
+                </div>
+            </div>
+            {#</div>#}
+        </fieldset>
+        <br>
+    </div>
+{% endmacro %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Devis </h6>
+                <small> Création d'un devis</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('clientdevis_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    {{ form_label(form.reference) }}
+                    {{ form_widget(form.reference) }}
+                    <span class="text-danger">{{ form_errors(form.reference) }}</span>
+                </div>
+                <div class="col-md-4 form-group">
+                    {{ form_label(form.client) }}
+                    {{ form_widget(form.client) }}
+                    <span class="text-danger">{{ form_errors(form.client) }}</span>
+                </div>
+                <div class="col-md-4 form-group">
+                    {{ form_label(form.dateFacture) }}
+                    {{ form_widget(form.dateFacture) }}
+                    <span class="text-danger">{{ form_errors(form.dateFacture) }}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.devise) }}
+                    {{ form_widget(form.devise) }}
+                    <span class="text-danger">{{ form_errors(form.devise) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.tauxTVA) }}
+                    {{ form_widget(form.tauxTVA) }}
+                    <span class="text-danger">{{ form_errors(form.tauxTVA) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.tauxAIB) }}
+                    {{ form_widget(form.tauxAIB) }}
+                    <span class="text-danger">{{ form_errors(form.tauxAIB) }}</span>
+                </div>
+                <div class="col-md-2 form-group">
+                    {{ form_label(form.applicationAIB) }}
+                    {{ form_widget(form.applicationAIB) }}
+                    <span class="text-danger">{{ form_errors(form.applicationAIB) }}</span>
+                </div>
+            </div>
+            {#<input type="number" id="quantity" name="quantity" min="1" max="5">#}
+            <br>
+            {#<hr>#}
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {#<div class="row">#}
+                    {#<div class="col-md-3">#}
+                    {#<legend>Articles</legend>#}
+                    {#</div>#}
+                    {#</div>#}
+                    <br>
+
+                    <div class="row articles_wrapper"
+                         data-prototype="{{ formMacros.printDetailRow(form.details.vars.prototype)|e('html_attr') }}"
+                         data-index="{{ form.details|length }}">
+                        {% for detail in form.details %}
+                            {{ formMacros.printDetailRow(detail) }}
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-4 col-md-offset-8 form-group">
+                        <p><a href="#" class='btn btn-primary' id="addDetail"
+                              data-toggle="tooltip" data-placement="top" title="Ajouter un article">
+                                <span class="oi oi-plus"></span> Ajouter un article</a></p>
+                    </div>
+                    {#prevents weird label from showing up in new#}
+                    {{ form_widget(form.details) }}
+                </div>
+                <br>
+            </div>
+            <br>
+            <hr>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.notes) }}
+                    {{ form_widget(form.notes) }}
+                    <span class="text-danger">{{ form_errors(form.notes) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <table class="table table-striped table-responsive">
+                        <tbody>
+                        <tr>
+                            <th>Total HT</th>
+                            <td style="width: 200px">
+                                <b><span id="totalHT"></span></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Total TVA</th>
+                            <td>
+                                <b><span id="totalTVA"></span></b>
+                            </td>
+                        </tr>
+                        <tr id="rowTotal_TaxeSpecifique">
+                            <th>Total Taxe spécifique</th>
+                            <td>
+                                <b><span id="totalTaxeSpecifique"></span></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Total AIB</th>
+                            <td>
+                                <b><span id="totalAIB"></span></b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Total TTC</th>
+                            <td>
+                                <b><span id="totalTTC"></span></b>
+                            </td>
+                        </tr>
+                        {#<tr>#}
+                        {#<th>Net à payer</th>#}
+                        {#<td>#}
+                        {#<b><span id="netAPayer">{{ montantTotalAPayer |number_format(0, ',', ' ') }} {{ clientFacture.devise.symbole }}</b>#}
+                        {#</td>#}
+                        {#</tr>#}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div id="divTest"></div>
+
+            <button class="btn btn-success" type="submit">Enregistrer</button>
+            {{ form_end(form) }}
+            {#<textarea id="mytextarea">Hello, World!</textarea>#}
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/clientfacture/detailForm.js') }}"></script>
+    <script src="{{ asset('frontend/js/clientfacture/facture.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+            $("#rowTotal_TaxeSpecifique").hide();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            initEditForm();
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            ajaxFacture.getInfosSociete($('#operationsclientbundle_clientdevis_devise'));
+        })
+    </script>
+    <script>
+        $("#operationsclientbundle_clientdevis_client").on('change', function (e) {
+            // console.log('work');
+            ajaxFacture.getAibByClient($(this).val(), $("#operationsclientbundle_clientdevis_tauxAIB"));
+        })
+    </script>
+    <script>
+        $("#operationsclientbundle_clientdevis_applicationAIB").change(function () {
+            // console.log('work !');
+            if ($(this).prop("checked") == true) {
+                if ($("#operationsclientbundle_clientdevis_client").val() != "") {
+                    ajaxFacture.getAibByClient($("#operationsclientbundle_clientdevis_client").val(),
+                        $("#operationsclientbundle_clientdevis_tauxAIB"));
+                }
+                else {
+                    $("#operationsclientbundle_clientdevis_tauxAIB").val(0);
+                }
+            }
+            else {
+                $("#operationsclientbundle_clientdevis_tauxAIB").val(0);
+            }
+        })
+    </script>
+{% endblock %}

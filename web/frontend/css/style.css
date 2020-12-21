@@ -1,0 +1,332 @@
+
+
+.listeProduit
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification_link:hover {
+  color: dodgerblue;
+  background-color: lightgray ;
+}
+.activebtnnow{
+    color:#fff!important;
+    background-color: #14346c;
+;
+}
+
+#show-sidebar,
+#close-sidebar {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+#wrapper.toggled #show-sidebar {
+    left: -40px;
+}
+
+.bg-gradient-primary-to-secondary {
+    background-color: #0061f2;
+    background-image: linear-gradient(135deg, #0061f2 0%, rgba(105, 0, 199, 0.8) 100%);
+}
+
+.bg-dark {
+    background-color: #1d4d9d !important;
+}
+.active {
+    background-color: white ;
+
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.active_menu {
+    /*background-color: blueviolet;*/
+    /*background-color: #14346c;*/
+    /*background-color: #17448C;*/
+    border: 1px solid white;
+    /*border-radius: 5px;*/
+    color:white;
+}
+
+.active_tab {
+    background-color: white !important;
+
+}
+
+.activecousmenu {
+    background-color: #dee2e6   !important;
+    /*background-color: rgb(122,179,224);*/
+/*color: white;*/
+   /* background-color: #2868d7   !important;*/
+}
+
+.btn-outline-success {
+    color: #195541 !important;
+    border-color: #195541 !important;
+}
+
+.btn.btn-success {
+   /* background-color: #195541;
+    border-color: #195541;*/
+
+    background-color: #1d4d9d;
+    border-color: #1d4d9d;
+}
+
+fieldset
+{
+    border: 1px solid #ddd !important;
+    margin: 0;
+    xmin-width: 0;
+    padding: 10px;
+    position: relative;
+    border-radius:4px;
+    background-color:#f5f5f5;
+    padding-left:10px!important;
+}
+
+legend
+{
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom: 0px;
+    width: 35%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 5px 5px 10px;
+    background-color: #ffffff;
+}
+
+.ligneOrange
+{
+   background-color:orange;
+}
+
+.ligneRouge
+{
+  background-color: #ff5546;
+}
+
+.greenCell
+{
+    background-color: green;
+}
+
+.yellowCell
+{
+    background-color: yellow;
+}
+
+.chart-outer {
+    max-width: 800px;
+    margin: 2em auto;
+}
+#containerEffectif {
+    height: 400px;
+    margin-top: 2em;
+    min-width: 380px;
+    max-width: 600px;
+}
+
+#containerMasseSalariale {
+    height: 400px;
+    margin-top: 2em;
+    min-width: 380px;
+    max-width: 600px;
+}
+
+#containerDossiers {
+    height: 400px;
+    margin-top: 2em;
+    min-width: 380px;
+    max-width: 600px;
+}
+
+#containerRappels {
+    height: 400px;
+    margin-top: 2em;
+    min-width: 380px;
+    max-width: 600px;
+}
+
+.highcharts-data-table table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: white;
+    min-width: 100%;
+    margin-top: 10px;
+    font-family: sans-serif;
+    font-size: 0.9em;
+}
+.highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+    border: 1px solid silver;
+    padding: 0.5em;
+}
+.highcharts-data-table tr:nth-child(even), .highcharts-data-table thead tr {
+    background: #f8f8f8;
+}
+.highcharts-data-table tr:hover {
+    background: #eff;
+}
+.highcharts-data-table caption {
+    border-bottom: none;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    /*background-color: #acf;*/
+}
+
+.treegrid-indent {
+    width: 0px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+}
+
+.treegrid-expander {
+    width: 0px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+    left:-17px;
+    cursor: pointer;
+}
+
+.action_btn{
+    margin-right: 3px;
+}
+
+.vertical-line{
+    border-left: 2px solid #000;
+    display: inline-block;
+    height: 130px;
+    margin: 0 20px;
+}
+
+
+/*step form css*/
+/* Style the form */
+/*#regForm {*/
+    /*!*background-color: #ffffff;*!*/
+    /*margin: 30px auto;*/
+    /*padding: 40px;*/
+    /*width: 70%;*/
+    /*min-width: 300px;*/
+/*}*/
+
+/* Style the input fields */
+/*input {*/
+    /*padding: 10px;*/
+    /*width: 100%;*/
+    /*font-size: 17px;*/
+    /*font-family: Raleway;*/
+    /*border: 1px solid #aaaaaa;*/
+/*}*/
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+    background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+    display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+    opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+    background-color: #1d4d9d;
+}
+
+#configbundle_configagence_societe_typeEntreprise_0{
+    margin-right: 10px;
+}
+
+#configbundle_configsociete_typeEntreprise_0{
+    margin-right: 10px;
+}
+
+#configbundle_configsociete_typeEntreprise_1{
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+#configbundle_configsociete_typeEntreprise_2{
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+#configbundle_configagence_societe_typeEntreprise_1{
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+#configbundle_configagence_societe_typeEntreprise_2{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+#configbundle_configagence_societe_estProfessionLiberale_0{
+    margin-right: 10px;
+}
+
+#configbundle_configagence_societe_estProfessionLiberale_1{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+#configbundle_configagence_societe_estProfessionLiberale_placeholder{
+    margin-right: 10px;
+}
+
+#configbundle_configsociete_estProfessionLiberale_placeholder{
+    margin-right: 10px;
+}
+.productShadow{
+    box-shadow: 0px 10px 20px -11px rgba(0,0,0,0.3)
+}
+.productShadow:hover{
+    transition: 300ms ease-in-out all;
+    position:relative;
+    top:-5px;
+    box-shadow: 0px 10px 20px -5px rgba(10,10,10,0.5);
+    /*border: 1px solid red;*/
+}

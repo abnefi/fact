@@ -1,0 +1,95 @@
+{% extends 'stockcategorie/template.html.twig' %}
+
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Categorie </h6>
+                <small> Affichage d'une catégorie </small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('stockcategorie_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            <a class="btn btn-outline-dark"
+               href="{{ path('stockcategorie_edit', { 'id': stockCategorie.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Libelle</th>
+                    <td>{{ stockCategorie.libelle }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ stockCategorie.description }}</td>
+                </tr>
+                <tr>
+                    <th>Date de création</th>
+                    <td>{% if stockCategorie.createdAt %}{{ stockCategorie.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Est suprimer</th>
+                    <td>{% if stockCategorie.estSupprimer %}Oui{% else %}Non{% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+            {#{% endblock fos_user_content %}#}
+            {#            {{ form_start(delete_form) }}#}
+            {#                <input type="submit" value="Delete">#}
+            {#            {{ form_end(delete_form) }}#}
+        </div>
+    </main>
+{% endblock content %}
+
+
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block body %}#}
+    {#<h1>Stockcategorie</h1>#}
+
+    {#<table>#}
+        {#<tbody>#}
+            {#<tr>#}
+                {#<th>Id</th>#}
+                {#<td>{{ stockCategorie.id }}</td>#}
+            {#</tr>#}
+            {#<tr>#}
+                {#<th>Libelle</th>#}
+                {#<td>{{ stockCategorie.libelle }}</td>#}
+            {#</tr>#}
+            {#<tr>#}
+                {#<th>Description</th>#}
+                {#<td>{{ stockCategorie.description }}</td>#}
+            {#</tr>#}
+            {#<tr>#}
+                {#<th>Createdat</th>#}
+                {#<td>{% if stockCategorie.createdAt %}{{ stockCategorie.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>#}
+            {#</tr>#}
+            {#<tr>#}
+                {#<th>Estsupprimer</th>#}
+                {#<td>{% if stockCategorie.estSupprimer %}Yes{% else %}No{% endif %}</td>#}
+            {#</tr>#}
+        {#</tbody>#}
+    {#</table>#}
+
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('stockcategorie_index') }}">Back to the list</a>#}
+        {#</li>#}
+        {#<li>#}
+            {#<a href="{{ path('stockcategorie_edit', { 'id': stockCategorie.id }) }}">Edit</a>#}
+        {#</li>#}
+        {#<li>#}
+            {#{{ form_start(delete_form) }}#}
+                {#<input type="submit" value="Delete">#}
+            {#{{ form_end(delete_form) }}#}
+        {#</li>#}
+    {#</ul>#}
+{#{% endblock %}#}

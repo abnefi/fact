@@ -1,0 +1,123 @@
+{% extends 'stockarticle/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Article </h6>
+                <small> Création d'un article</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('stockarticle_index') }}"
+               style="margin-bottom: 20px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label>Référence *</label>
+                    {{ form_widget(form.reference) }}
+                    <span class="text-danger">{{ form_errors(form.reference) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Désignation *</label>
+                    {{ form_widget(form.designation) }}
+                    <span class="text-danger">{{ form_errors(form.designation) }}</span>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Prix Unitaire vente *</label>
+                    {{ form_widget(form.prixUnitaireVente) }}
+                    <span class="text-danger">{{ form_errors(form.prixUnitaireVente) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label>Description </label>
+                    {{ form_widget(form.description) }}
+                    <span class="text-danger">{{ form_errors(form.description) }}</span>
+                </div>
+                <div class="col-md-2 form-group">
+                    {{ form_label(form.taxeGroupe) }}
+                    {{ form_widget(form.taxeGroupe) }}
+                    <span class="text-danger">{{ form_errors(form.taxeGroupe) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    {{ form_label(form.referenceInterne) }}
+                    {{ form_widget(form.referenceInterne) }}
+                    <span class="text-danger">{{ form_errors(form.referenceInterne) }}</span>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Stock alerte *</label>
+                    {{ form_widget(form.stockAlerte) }}
+                    <span class="text-danger">{{ form_errors(form.stockAlerte) }}</span>
+                </div>
+                <div class="col-md-2 form-group">
+                    <label>Stock minimum *</label>
+                    <div hidden>
+                        {{ form_widget(form.stockMinimum) }}
+                    </div>
+                    <input class="form-control" type="number" min="0" id="stockMinimum" name="stockbundle_stockarticle[stockMinimum] stockmin" required />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label> Categorie *</label>
+                    {{ form_widget(form.categorie) }}
+                </div>
+                <div class="col-md-2 form-group">
+                    {{ form_label(form.agenceId) }}
+                    {{ form_widget(form.agenceId) }}
+                    <span class="text-danger">{{ form_errors(form.agenceId) }}</span>
+                </div>
+            </div>
+            <div class="row" id="div_taxe_specifique">
+                <div class="col-md-4 form-group">
+                    {#{{ form_label(form.valeurTaxeSpecifique) }}
+                    {{ form_widget(form.valeurTaxeSpecifique) }}
+                    <span class="text-danger">{{ form_errors(form.valeurTaxeSpecifique) }}</span>#}
+                </div>
+                <div class="col-md-4 form-group">
+                    {#{{ form_label(form.descriptionTaxeSpecifique) }}
+                    {{ form_widget(form.descriptionTaxeSpecifique) }}
+                    <span class="text-danger">{{ form_errors(form.descriptionTaxeSpecifique) }}</span>#}
+                </div>
+            </div>
+            <button class="btn btn-success" type="submit">Enregistrer</button>
+            {{ form_end(form) }}
+
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('frontend/js/clientfacture/facture.js') }}"></script>
+
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $("#div_taxe_specifique").hide();
+
+            $('#stockbundle_stockarticle_stockAlerte').keyup(function (){
+                var alertMin = parseInt($('.stockalert').val());
+                var minstock = parseInt($('#stockMinimum').val());
+                var inputmin = $('#stockMinimum');
+                inputmin.attr('max',alertMin)
+            })
+        });
+
+        $("#stockbundle_stockarticle_hasTaxeSpecifique").change(function () {
+            // alert('work');
+            // $(this).hide();
+            if ($(this).prop("checked") == true) {
+                $('#div_taxe_specifique').show();
+            }
+            else {
+                $('#div_taxe_specifique').hide();
+            }
+        })
+    </script>
+    <script>
+
+
+    </script>
+{% endblock %}

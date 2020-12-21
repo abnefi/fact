@@ -1,0 +1,91 @@
+{% extends 'superadmin/configabonnement/templateAbonnement.html.twig' %}
+{% block content %}
+
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Abonnement </h6>
+                <small> Modification d'un abonnement</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <div class="row">
+                <a type="button" class="btn btn-outline-dark" href="{{ path('configabonnement_index') }}"
+                   style="margin-bottom: 10px;margin-right: 10px"><span class="oi oi-arrow-left"></span> Retour à la
+                    liste</a>
+
+                {% if configAbonnement.estSupprimer == 0 %}
+                    <a class="btn btn-outline-dark"
+                       href="{{ path('supprimmer_abonnement_par_admin', { 'id': configAbonnement.id }) }}"
+                       style="margin-bottom: 10px;margin-right: 10px"><span class="oi oi-trash"></span>Supprimer</a>
+                {% else %}
+                    <a class="btn btn-outline-dark"
+                       href="{{ path('supprimmer_abonnement_par_admin', { 'id': configAbonnement.id }) }}"
+                       style="margin-bottom: 10px;margin-right: 10px"><span class="oi oi-delete"></span> Annuler Suppression</a>
+                {% endif %}
+
+
+            </div>
+
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            {{ form_start(edit_form) }}
+
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    {{ form_label(edit_form.libelle) }}
+                    {{ form_widget(edit_form.libelle, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.libelle) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(edit_form.nombreJour) }}
+                    {{ form_widget(edit_form.nombreJour, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.nombreJour) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(edit_form.prix) }}
+                    {{ form_widget(edit_form.prix, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.prix) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(edit_form.limiteAgence) }}
+                    {{ form_widget(edit_form.limiteAgence, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.limiteAgence) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(edit_form.description) }}
+                    {{ form_widget(edit_form.description, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.description) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(edit_form.estActif) }}
+                    {{ form_widget(edit_form.estActif, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.estActif) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(edit_form.estSupprimer) }}
+                    {{ form_widget(edit_form.estSupprimer, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.estSupprimer) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {{ form_label(edit_form.flyerImage) }}
+                    {{ form_widget(edit_form.flyerImage, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.flyerImage) }}</span>
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+            </div>
+
+            {{ form_end(edit_form) }}
+        </div>
+    </main>
+{% endblock content %}

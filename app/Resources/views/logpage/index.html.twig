@@ -1,0 +1,25 @@
+{% extends 'logpage/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Mes logs </h6>
+                <small> Etat des interactions </small>
+            </div>
+        </div>
+
+        <div class="col-md-12 bg-white rounded box-shadow">
+            <p>L'utulisateur a1 vient de s'"inscrire
+            </p>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/parametrage/dsgf615df.js') }}"></script>
+    <script>
+
+    </script>
+{% endblock %}

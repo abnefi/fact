@@ -1,0 +1,75 @@
+{% extends 'superadmin/usersgestion/templateMesUsers.html.twig' %}
+
+{% block content %}
+
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Utilisateur </h6>
+                <small> Liste des utilisateurs</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            <table class="table table-bordered dataTable ">
+                <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Nom Prénoms</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Agence</th>
+                    <th>Actif</th>
+                    <th>Dernière connexion</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for user in users %}
+                    <tr>
+                        {# <td><a href="{{ path('stockarticle_show', { 'id': user.id }) }}">{{ loop.index }}</a> #}
+                        <td>{{ loop.index }}</td>
+                        <td>{{ user.nom }} {{ user.prenoms }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{% if user.agence %}{{ user.agence.libelle }}{% endif %}</td>
+                        <td>{% if user.enabled %}Oui {% else %} Non {% endif %}</td>
+                        <td>{% if user.lastLogin %}{{ user.lastLogin | date('d/m/Y') }}{% endif %}</td>
+
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" data-toggle="tooltip"
+                                   data-placement="top" title="Voir"
+                                   href="{{ path('fosuser_show_for_super_admin', { 'id': user.id }) }}">
+                                    <span class="oi oi-eye"></span>
+                                </a>
+
+                                {% if user.enabled %}
+                                    <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                       title="Désactiver"
+                                       href="{{ path('desactivation_par_admin_de_user', { 'id': user.id }) }}">
+                                        <span class="oi oi-trash"></span>
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                       title="Activer"
+                                       href="{{ path('activation_par_admin_de_user', { 'id': user.id }) }}">
+                                        <span class="oi oi-play-circle"></span>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

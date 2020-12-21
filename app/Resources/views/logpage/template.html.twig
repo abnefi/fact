@@ -1,0 +1,7 @@
+{% extends 'superadmin/adminbase.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#logpage').addClass('activecousmenu');
+    </script>
+{% endblock %}

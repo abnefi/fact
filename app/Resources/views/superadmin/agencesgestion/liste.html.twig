@@ -1,0 +1,84 @@
+{% if configAgences is not empty %}
+    <table class="table table-bordered dataTable" >
+        <thead>
+        <tr>
+            <th>N°</th>
+            <th>Libellé</th>
+            <th>Code</th>
+            <th>Numéro MCF</th>
+            <th>Pays</th>
+            <th>Ville</th>
+            <th title="Port Serveur">PS</th>
+            <th>Etat</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for configAgence in configAgences %}
+            <tr>
+                <td>
+                    <a href="{{ path('configagence_show_for_super_admin', { 'id': configAgence.id }) }}">{{ loop.index }}</a>
+                </td>
+                <td>{{ configAgence.libelle }}</td>
+                <td>{{ configAgence.code }}</td>
+                <td>{{ configAgence.numeroMCF }}</td>
+                <td>{{ configAgence.paysSise }}</td>
+                <td>{{ configAgence.ville }}</td>
+                <td>{{ configAgence.portServeur }}</td>
+                {% if configAgence.estActif %}
+                    <td style="color:green"> Active  </td>
+                {% elseif configAgence.etatDemande ==0 %}
+                    <td style   ="color:red"> Désactiver </td>
+                {% else %}
+                    <td style="color:#4b134f"> En attente </br> d'activation </td>
+                {% endif %}
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                           title="Afficher"
+                           href=" {{ path('configagence_show_for_super_admin', { 'id': configAgence.id }) }} ">
+                            <span class="oi oi-eye"></span>
+                        </a>
+
+                        {% if configAgence.estActif == 0 %}
+                            <a class="btn btn--anon activer_agence" data-toggle="tooltip"
+                               data-placement="top" data-val="{{ configAgence.id }}"
+                               title="Activation" data-target="#modal_activation_agence"
+                               data-toggle="modal">
+                                <span class="oi oi-play-circle"></span>
+                            </a>
+                        {% else %}
+                            <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                               title="Désactiver"
+                               href=" {{ path('desactivation_par_admin_de_agence_for_super_admin', { 'id': configAgence.id }) }} ">
+                                <span class="oi oi-trash"></span>
+                            </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <table class="table table-bordered dataTable ">
+        <thead>
+        <tr>
+            <th>N°</th>
+            <th>Libellé</th>
+            <th>Code</th>
+            <th>Numéro MCF</th>
+            <th>Pays</th>
+            <th>Ville</th>
+            <th title="Port Serveur">PS</th>
+            <th>Etat</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr align="center">
+            <td colspan="9" class="alert-danger" >Aucune agence trouver ! </td>
+        </tr>
+        </tbody>
+    </table>
+{% endif %}

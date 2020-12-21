@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block sousmenu %}
+    <div class="nav-scroller bg-white box-shadow">
+        <nav class="nav nav-underline">
+            {% if is_granted(['ROLE_ADMIN', 'ROLE_CLT_ADMIN']) %}
+                <a id="societe" class="nav-link " href="{{ path('configsociete_show') }}"> <b>Société</b></a>
+                <a id="agence" class="nav-link " href="{{ path('configagence_index') }}"> <b>Agence</b></a>
+                <a id="fosuser" class="nav-link " href="{{ path('fosuser_index') }}"> <b>Utilisateurs</b></a>
+                <a id="abonnement" class="nav-link " href="{{ path('configabonnementsociete_index') }}"> <b>Mes Abonnements</b></a>
+            {% endif %}
+            <a id="pays" class="nav-link " href="{{ path('configpays_index') }}"> <b>Pays</b></a>
+            <a id="categorie" class="nav-link " href="{{ path('stockcategorie_index') }}"> <b>Catégorie Produit</b></a>
+            <a id="generationCode" class="nav-link " href="{{ path('configtypegeneration_index') }}"> <b>Génerer Code</b></a>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#config').addClass('active_menu');
+
+        window.setTimeout(function () {
+            $(".alertSucces").fadeOut(300)
+        }, 3000);
+    </script>
+{% endblock %}

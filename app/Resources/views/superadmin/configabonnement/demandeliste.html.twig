@@ -1,0 +1,93 @@
+{% if demandesAbonnements is not empty %}
+    <table class="table table-bordered dataTable" id="tableuser">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Societe</th>
+            <th>Raison sociale</th>
+            <th>Libelle</th>
+            <th>Abonnement</th>
+            <th>Debut</th>
+            <th>Echéance</th>
+            <th>Auto</th>
+            <th>Actif</th>
+            <th>Fait le</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for configAbonnement in demandesAbonnements %}
+            <tr>
+                <td>
+                    <a href="{{ path('configabonnement_show', { 'id': configAbonnement.id }) }}">{{ loop.index }}</a>
+                </td>
+                <td>{{ configAbonnement.societe }}</td>
+                <td>{{ configAbonnement.societe.raisonSociale }}</td>
+                <td>{{ configAbonnement.libelle }}</td>
+                <td>{{ configAbonnement.typeAbonnement }}</td>
+                <td>{% if configAbonnement.debutAbonnement %}{{ configAbonnement.debutAbonnement|date('Y-m-d') }}{% endif %}</td>
+                <td>{% if configAbonnement.finAbonnement %}{{ configAbonnement.finAbonnement|date('Y-m-d') }}{% endif %}</td>
+                {% if configAbonnement.reabonnementAuto %}
+                <td style="color: green">Oui</td>{% else %}
+                <td style="color: red">Non</td>
+                {% endif %}</td>
+                {% if configAbonnement.estActif %}
+                <td style="color: green">Oui</td>{% else %}
+                <td style="color: red">Non</td>
+                {% endif %}</td>
+                <td>{% if configAbonnement.createdAt %}{{ configAbonnement.createdAt|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" data-toggle="tooltip"
+                           data-placement="top" title="Voir"
+                           href="{{ path('configabonnement_show_demande', { 'id': configAbonnement.id }) }}">
+                            <span class="oi oi-eye"></span>
+                        </a>
+
+                        {#{% if configAbonnement.estActif == 0 %}
+                                        <a class="btn btn--anon" data-toggle="tooltip" data-placement="top"
+                                           title="Activer"
+                                           href="#">
+                                            <span class="oi oi-check"></span>
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                                           title="Désactiver"
+                                           href="#">
+                                            <span class="oi oi-trash"></span>
+                                        </a>
+                                    {% endif %}#}
+
+
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <table class="table table-bordered dataTable">
+        <thead>
+        <tr>
+        <tr>
+            <th>Id</th>
+            <th>Societe</th>
+            <th>Raison sociale</th>
+            <th>Libelle</th>
+            <th>Abonnement</th>
+            <th>Debut</th>
+            <th>Echéance</th>
+            <th>Auto</th>
+            <th>Actif</th>
+            <th>Fait le</th>
+            <th>Actions</th>
+        </tr>
+        </tr>
+        </thead>
+        <tbody>
+        <tr align="center">
+            <td colspan="11" class="alert-danger">Aucun abonnement trouver !</td>
+        </tr>
+        </tbody>
+    </table>
+{% endif %}

@@ -1,0 +1,103 @@
+{% extends 'stockinventaire/template.html.twig' %}
+{% import _self as formMacros %}
+{#macro pour afficher un formulaire de thème#}
+{% macro printDetailRow(detailForm) %}
+    <tr class="article_item">
+        {% if detailForm.vars.data %}
+            <td>{{ detailForm.vars.data.article.reference }} - {{ detailForm.vars.data.article.designation }}</td>
+            <td class="stock_theorique">{{ detailForm.vars.data.stockTheorique }}</td>
+        {% else %}
+            <td></td>
+            <td></td>
+        {% endif %}
+        <td>
+            {{ form_widget(detailForm.stockReel) }}
+            <span class="text-danger">{{ form_errors(detailForm.stockReel) }}</span>
+        </td>
+        <td class="difference"></td>
+        <td>
+            <a href="#" class='btn btn-danger remove_article pull-right' data-id="__name__"
+               data-toggle="tooltip" data-placement="top" title="Supprimer l'article"><span
+                        class="oi oi-minus"></span></a>
+        </td>
+    </tr>
+{% endmacro %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Inventaire</h6>
+                <small> Edition d'un inventaire</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('stockinventaire_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            <a type="button" class="btn btn-outline-dark"
+               href="{{ path('supprimmer_stock_Inventaire', { 'id': stockInventaire.id }) }}"
+               style="margin-bottom: 10px;margin-left: 10px"><span class="oi oi-delete"></span> Supprimer</a>
+            <div>
+                <h4> Référence: <b> {{ stockInventaire.referenceInventaire }}</b></h4>
+            </div>
+            {{ form_start(form) }}
+
+            <table class="table table-bordered dataTable">
+                <thead>
+                <tr>
+                    {#<th>N°</th>#}
+                    {#<th>Référence Article</th>#}
+                    {#<th>Désignation Article</th>#}
+                    <th>Article</th>
+                    <th>Stock théorique</th>
+                    <th>Stock réel</th>
+                    <th>Différence</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody class="articles_wrapper"
+                       data-prototype="{{ formMacros.printDetailRow(form.details.vars.prototype)|e('html_attr') }}"
+                       data-index="{{ form.details|length }}">
+                {% for detail in form.details %}
+                    {{ formMacros.printDetailRow(detail) }}
+                {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-success" type="submit">Enregistrer</button>
+            <div hidden>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/inventaire/detailForm.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $(".articles_wrapper").find('.article_item').each(function () {
+                // initialisation des masques d'entrée pour les chiffres à virgule
+                var idInput = $(this).find('.stock_reel').attr('id');
+                var element = document.getElementById(idInput);
+                initInputMaskDouble(element);
+
+                // calcul et affichage de la différence de l'inventaire
+                var stockReel = $(this).find('.stock_reel').val().replace(/,/g, '.');
+                var stockTheorique = $(this).find('.stock_theorique').text();
+                var difference = stockReel - stockTheorique;
+                $(this).find('.difference').html(difference);
+
+                $(this).find('.stock_reel').on('keyup', function () {
+                    var stockReel = $(this).val().replace(/,/g, '.');
+                    var stockTheorique = $(this).parents('.article_item').find('.stock_theorique').text();
+                    var difference = stockReel - stockTheorique;
+                    // console.log($(this).val(), stockReel, stockTheorique, difference);
+                    $(this).parents('.article_item').find('.difference').html(difference);
+                })
+            })
+        })
+    </script>
+{% endblock %}

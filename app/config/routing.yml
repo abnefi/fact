@@ -1,0 +1,107 @@
+app_super_admin:
+    resource: "@AppBundle/Controller/SuperAdminController.php"
+    type:     annotation
+
+config_config_type_generation_societe:
+    resource: "@ConfigBundle/Controller/ConfigTypeGenerationSocieteController.php"
+    type:     annotation
+
+config_config_type_generation:
+    resource: "@ConfigBundle/Controller/ConfigTypeGenerationController.php"
+    type:     annotation
+
+config_config_pays:
+    resource: "@ConfigBundle/Controller/ConfigPaysController.php"
+    type:     annotation
+
+stock_stock_categorie:
+    resource: "@StockBundle/Controller/StockCategorieController.php"
+    type:     annotation
+
+admin:
+    resource: "@AdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+stock_stock_inventaire_detail:
+    resource: "@StockBundle/Controller/StockInventaireDetailController.php"
+    type:     annotation
+
+stock_stock_inventaire:
+    resource: "@StockBundle/Controller/StockInventaireController.php"
+    type:     annotation
+
+config_config_agence:
+    resource: "@ConfigBundle/Controller/ConfigAgenceController.php"
+    type:     annotation
+
+operations_client:
+    resource: "@OperationsClientBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+stock_stock_service:
+    resource: "@StockBundle/Controller/StockServiceController.php"
+    type:     annotation
+
+config_config_societe:
+    resource: "@ConfigBundle/Controller/ConfigSocieteController.php"
+    type:     annotation
+
+stock_stock_approvisionnement:
+    resource: "@StockBundle/Controller/StockApprovisionnementController.php"
+    type:     annotation
+
+user:
+    resource: "@UserBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+stock_stock_article:
+    resource: "@StockBundle/Controller/StockArticleController.php"
+    type:     annotation
+
+tiers_tiers_client:
+    resource: "@TiersBundle/Controller/TiersClientController.php"
+    type:     annotation
+
+tiers_tiers_fournisseur:
+    resource: "@TiersBundle/Controller/TiersFournisseurController.php"
+    type:     annotation
+
+stock:
+    resource: "@StockBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+tiers:
+    resource: "@TiersBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+config:
+    resource: "@ConfigBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+user_user:
+    resource: "@UserBundle/Controller/RegisterController.php"
+    type:     annotation
+    prefix:
+
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+EndroidQrCodeBundle:
+#    resource: "@EndroidQrCodeBundle/Controller/"
+    resource: "@EndroidQrCodeBundle/Controller/"
+    type:     annotation
+    prefix:   /qrcode

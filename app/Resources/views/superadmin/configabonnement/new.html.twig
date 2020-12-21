@@ -1,0 +1,80 @@
+{% extends 'superadmin/configabonnement/templateAbonnement.html.twig' %}
+
+{% block content %}
+
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100"> Abonnement </h6>
+                <small> Création d'un abonnement</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configabonnement_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            {{ form_start(form) }}
+
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.libelle) }}
+                    {{ form_widget(form.libelle, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.libelle) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.nombreJour) }}
+                    {{ form_widget(form.nombreJour, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.nombreJour) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.prix) }}
+                    {{ form_widget(form.prix, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.prix) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.limiteAgence) }}
+                    {{ form_widget(form.limiteAgence, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.limiteAgence) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.description) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.estActif) }}
+                    {{ form_widget(form.estActif, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.estActif) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.estSupprimer) }}
+                    {{ form_widget(form.estSupprimer, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.estSupprimer) }}</span>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {{ form_label(form.flyerImage) }}
+                    {{ form_widget(form.flyerImage, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.flyerImage) }}</span>
+                </div>
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+            </div>
+
+            {{ form_end(form) }}
+            
+        </div>
+    </main>
+
+{% endblock %}

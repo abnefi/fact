@@ -1,0 +1,190 @@
+{% extends 'configagence/template.html.twig' %}
+
+{% import _self as formMacros %}
+{% macro printDetailRow(detailForm) %}
+  <tr class="agence_item">
+    <td style="width: 200px">
+      {{ form_widget(detailForm.libelle) }}
+      <span class="text-danger">{{ form_errors(detailForm.libelle) }}</span>
+    </td>
+    <td style="width: 300px" class="agence-code">
+      {{ form_widget(detailForm.code) }}
+      <span class="text-danger">{{ form_errors(detailForm.code) }}</span>
+    </td>
+    <td style="width: 300px">
+      {{ form_widget(detailForm.numeroMCF) }}
+      <span class="text-danger">{{ form_errors(detailForm.numeroMCF) }}</span>
+    </td>
+    <td style="width: 300px">
+      {{ form_widget(detailForm.ville) }}
+      <span class="text-danger">{{ form_errors(detailForm.ville) }}</span>
+    </td>
+    <td style="width: 300px">
+      {{ form_widget(detailForm.paysSise) }}
+      <span class="text-danger">{{ form_errors(detailForm.paysSise) }}</span>
+    </td>
+
+    <td style="width: 300px">
+      {{ form_widget(detailForm.portServeur) }}
+      <span class="text-danger">{{ form_errors(detailForm.portServeur) }}</span>
+    </td>
+
+    <td style="width: 100px">
+      <button class="btn btn-danger remove_agence pull-right"
+              data-toggle="tooltip" data-placement="top" title="Annuler l'agence"><span
+                class="oi oi-minus"></span></button>
+    </td>
+  </tr>
+{% endmacro %}
+
+{% block content %}
+  <main role="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+      <div class="lh-100">
+        <h6 class="mb-0 text-white lh-100">Agence </h6>
+        <small> Edition de la liste des agences</small>
+      </div>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+
+      <div class="btn-group">
+        <a type="button" class="btn btn-outline-dark"
+           href="{{ path('configagence_index') }}"
+           style="margin-bottom: 10px; margin-right: 20px"><span class="oi oi-arrow-left"></span> Retour </a>
+      </div>
+      {{ include("messageSucces.html.twig") }}
+      {{ include("messageEchec.html.twig") }}
+
+      {{ form_start(form) }}
+
+      <table class="table table-bordered dataTableResponsive">
+        <thead>
+        <tr>
+          <th>Nom Agence</th>
+          <th>Code</th>
+          <th>Numéro MCF</th>
+          <th>Ville</th>
+          <th>Pays</th>
+          <th>Port Serveur</th>
+          {#
+                              <th title="Supprimer"><span class="oi oi-trash"></span></th>
+          #}
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody class="agences_wrapper"
+               data-prototype="{{ formMacros.printDetailRow(form.agences.vars.prototype)|e('html_attr') }}"
+               data-index="{{ form.agences|length }}">
+        {% for agence in form.agences %}
+          {{ formMacros.printDetailRow(agence) }}
+        {% endfor %}
+        </tbody>
+      </table>
+      <a href="#" class='btn btn-primary' id="addAgence" data-toggle="tooltip" data-placement="top">
+        <span class="oi oi-plus"></span> Ajouter une agence</a>
+      {{ form_widget(form.agences) }}
+      <button id="btn_save_agences" class="btn btn-success pull-right" type="submit">Enregistrer</button>
+      <br>
+      <br>
+      {{ form_end(form) }}
+
+      <div id="modalConfirmerSuppressionAgence" class="modal fade bd-numero-client" tabindex="-1" role="dialog"
+           aria-labelledby="myLargeModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form action="{{ path('supprimmer_config_Agence') }}" method="post">
+              <div class="modal-header" style="background-color: #14346c">
+                <h5 class="modal-title" style="margin-left: 5%;color: #fff">
+                  Suppression d'agence</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body" align="center">
+                <h5>Voulez vous vraiment supprimer cette agence ?</h5>
+              </div>
+              <input id="codeAgenceCliquer" name="codeAgenceCliquer" hidden>
+
+              <div class="modal-footer">
+                <div class="row">
+                  <button type="submit" id="validerSupAgence" class="btn btn-success">Valider</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal" href="">Annuler
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </main>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('frontend/js/clientfacture/paiementsForm.js') }}"></script>
+  <script src="{{ asset('frontend/js/clientfacture/facture.js') }}"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#addAgence').click();
+    });
+  </script>
+
+  <script>
+    (function ($) {
+      $(document).ready(function () {
+        var $wrapperTheme = $('.agences_wrapper');
+
+        $('#addAgence').on('click', function (e) {
+          e.preventDefault();
+          // Get the data-prototype explained earlier
+          var prototypeTheme = $wrapperTheme.data('prototype');
+          // get the new index
+          var index = $wrapperTheme.data('index');
+          // console.log(index);
+          // Replace '__name__' in the prototype's HTML to
+          // instead be a number based on how many items we have
+          var newForm = prototypeTheme.replace(/__name__/g, index);
+
+          // increase the index with one for the next item
+          $wrapperTheme.data('index', index + 1);
+          // Display the form in the page before the "new" link
+          // $(this).before(newForm);
+          $wrapperTheme.append(newForm);
+          // $wrapperTheme.before(newForm);
+
+        });
+
+        $('.remove_agence').parent().append('<button class="remove_existant_agence btn btn-danger pull-right"><span class="oi oi-minus"></span></button>')
+        $('.remove_agence').remove()
+
+        $('.remove_existant_agence').on('click', function (e) {
+          const code = $(this).closest('tr').find('.agence-code').find('input').val();
+          console.log("Mon id cliker ")
+          $("#codeAgenceCliquer").val(code)
+          $('#modalConfirmerSuppressionAgence').modal('show')
+          $('#validerSupAgence').on('click', function (e) {
+            $(this).closest('tr').hide()
+            window.location.pathname = window.location.pathname
+
+          })
+
+          e.preventDefault()
+        })
+
+        $wrapperTheme.on('click', '.remove_agence', function (e) {
+          $(this).closest('tr').remove()
+          e.preventDefault();
+        });
+
+      });
+    })(jQuery);
+  </script>
+
+
+{% endblock %}

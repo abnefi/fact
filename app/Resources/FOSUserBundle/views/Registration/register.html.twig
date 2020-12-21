@@ -1,0 +1,96 @@
+{% extends 'admin/template.html.twig' %}
+
+{% block content %}
+
+{% endblock content %}
+
+{% block fos_user_content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Utilisateur </h6>
+                <small> Création d'un utilisateur</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('fosuser_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+            {% trans_default_domain 'FOSUserBundle' %}
+            {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'),
+            'attr': {'class': 'fos_user_registration_register'}}) }}
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom) }}
+                    <span class="text-danger">{{ form_errors(form.nom) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.prenoms) }}
+                    {{ form_widget(form.prenoms) }}
+                    <span class="text-danger">{{ form_errors(form.prenoms) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.email) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.username) }}
+                    {{ form_widget(form.username, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.username) }}</span>
+                </div>
+                {#<div class="col-md-4 form-group">#}
+                    {#{{ form_label(form.agence) }}#}
+                    {#{{ form_widget(form.agence) }}#}
+                    {#<span class="text-danger">{{ form_errors(form.agence) }}</span>#}
+                {#</div>#}
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.agence) }}
+                    {{ form_widget(form.agence) }}
+                    <span class="text-danger">{{ form_errors(form.agence) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.roles) }}
+                    {{ form_widget(form.roles) }}
+                    <span class="text-danger">{{ form_errors(form.roles) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.plainPassword.first) }}
+                    {{ form_widget(form.plainPassword.first, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.plainPassword.first) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.plainPassword.second) }}
+                    {{ form_widget(form.plainPassword.second, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.plainPassword.second) }}</span>
+                </div>
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}"/>
+            </div>
+
+            {#<button class="btn btn-success" type="submit">Enregistrer</button>#}
+            {{ form_end(form) }}
+        </div>
+    </main>
+{% endblock fos_user_content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {#<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>#}
+    {#<script>#}
+    {#tinymce.init({#}
+    {#selector: '#stockbundle_stockarticle_descriptionTaxeSpecifique'#}
+    {#});#}
+    {#</script>#}
+{% endblock %}

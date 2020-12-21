@@ -1,0 +1,30 @@
+.article_title {
+  border-bottom: 1px solid #0000002b;
+}
+
+.articles_wrapper {
+  border-left: 1px solid #0000002b;
+  border-radius: 10px 0px;
+}
+
+.ajout_btn_container {
+  border-left: 1px solid #0000002b
+}
+
+.checkbox_span {
+  border: 1px solid #0000002b;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+.check_personne_moral {
+  margin-top: 1em;
+}
+
+.separa {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -1,0 +1,47 @@
+{% extends 'stockcategorie/template.html.twig' %}
+
+{#{% block content %}#}
+
+{#{% endblock content %}#}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Catégorie Produit </h6>
+                <small> Modification d'une catégorie </small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('stockcategorie_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            {{ form_start(edit_form) }}
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {{ form_label(edit_form.libelle) }} <br>
+                    {{ form_widget(edit_form.libelle, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.libelle) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    {{ form_label(edit_form.description) }}
+                    {{ form_widget(edit_form.description, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.description) }}</span>
+                </div>
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary" value="Modifier"/>
+            </div>
+            {{ form_widget(edit_form.estSupprimer, {'attr' : {'hidden' : true}}) }}
+            {{ form_widget(edit_form.createdAt, {'attr' : {'hidden' : true}}) }}
+            {{ form_end(edit_form) }}
+        </div>
+    </main>
+{% endblock content %}
+

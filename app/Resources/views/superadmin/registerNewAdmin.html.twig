@@ -1,0 +1,105 @@
+{% extends 'superadmin/templateUserAdmin.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Utilisateur </h6>
+                <small> Création d'un utilisateur</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('index_liste_users') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour </a>
+
+            {% if not form.vars.valid %}
+                {%for error in form.vars.errors%}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-danger"> {{error.message}}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+            {%endif%}
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom) }}
+                    <span class="text-danger">{{ form_errors(form.nom) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.prenoms) }}
+                    {{ form_widget(form.prenoms) }}
+                    <span class="text-danger">{{ form_errors(form.prenoms) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.email) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.username) }}
+                    {{ form_widget(form.username, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.username) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col form-group">
+                    {{ form_label(form.roles) }}
+                    {{ form_widget(form.roles) }}
+                    <span class="text-danger">{{ form_errors(form.roles) }}</span>
+                </div>
+                <div class="col form-group role_hide">
+                    {{ form_label(form.agence) }}
+                    {{ form_widget(form.agence) }}
+                    <span class="text-danger">{{ form_errors(form.agence) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.plainPassword.first) }}
+                    {{ form_widget(form.plainPassword.first, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.plainPassword.first) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(form.plainPassword.second) }}
+                    {{ form_widget(form.plainPassword.second, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.plainPassword.second) }}</span>
+                </div>
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary" value="{{ 'Enregistrer'|trans }}"/>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </main>
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        //cacher l'agence compte tenu du rôle
+        $( "#app_user_registration_roles" ).change(function() {
+            let role = $('#app_user_registration_roles').val();
+            if ( role == 'ROLE_FNS_ADMIN' || role == 'ROLE_ADMIN'){
+                $('.role_hide').hide();
+            }else{
+                $('.role_hide').show();
+            }
+
+        });
+
+    </script>
+
+{% endblock %}

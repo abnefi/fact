@@ -1,0 +1,143 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends 'base.html.twig' %}
+
+{% block menu %}
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-gradient-primary-to-secondary">
+        <a class="navbar-brand mr-auto mr-lg-5" href="#">IGO-Facturation</a>
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+
+            <ul class="navbar-nav ml-auto">
+
+                <li>
+                    <a class="nav-link btn btn-white-fill" href="{{ path('fos_user_security_logout') }}"> <span
+                                class="fa fa-reply"></span>  Accueil</a>
+                </li>
+
+
+                <li style="display: none">
+                    <a class="nav-link" href=""></a>
+                </li>
+
+
+            </ul>
+        </div>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block fos_user_content %}
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <main role="main" class="container">
+
+                <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+                    <img class="mr-3" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" alt=""
+                         width="48" height="48">
+                    <div class="lh-100">
+                        <h6 class="mb-0 text-white lh-100">Inscription </h6>
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 bg-white rounded box-shadow">
+                    <div class="card">
+
+                        <div class="card-body">
+                          {% if not userform.vars.valid %}
+                            {%for error in userform.vars.errors%}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-danger"> {{error.message}}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {%endfor%}
+                          {%endif%}
+                          {#{% if error %}#}
+                          {#<div class="row">#}
+                          {#<div class="col-sm-12">#}
+                          {#<div class="alert alert-danger"> veuillez renseigné tout les champs#}
+                          {#<button type="button" class="close" data-dismiss="alert" aria-label="Close">#}
+                          {#<span aria-hidden="true">&times;</span>#}
+                          {#</button>#}
+                          {#</div>#}
+                          {#</div>#}
+                          {#</div>#}
+                          {#{% endif %}#}
+                          {% trans_default_domain 'FOSUserBundle' %}
+                          {{ form_start(userform, {'method': 'post', 'action': path('fos_user_register'),
+                            'attr': {'class': 'fos_user_registration_register'}}) }}
+                          {{ form_start(userform) }}
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                  {{ form_label(userform.nom) }}
+                                  {{ form_widget(userform.nom) }}
+                                    <span class="text-danger">{{ form_errors(userform.nom) }}</span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                  {{ form_label(userform.prenoms) }}
+                                  {{ form_widget(userform.prenoms) }}
+                                    <span class="text-danger">{{ form_errors(userform.prenoms) }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                  {{ form_label(userform.email) }}
+                                  {{ form_widget(userform.email, {'attr' : {'class' : 'form-control'}}) }}
+                                    <span class="text-danger">{{ form_errors(userform.email) }}</span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                  {{ form_label(userform.username) }}
+                                  {{ form_widget(userform.username, {'attr' : {'class' : 'form-control'}}) }}
+                                    <span class="text-danger">{{ form_errors(userform.username) }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                  {{ form_label(userform.plainPassword.first) }}
+                                  {{ form_widget(userform.plainPassword.first, {'attr' : {'class' : 'form-control'}}) }}
+                                    <span class="text-danger">{{ form_errors(userform.plainPassword.first) }}</span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                  {{ form_label(userform.plainPassword.second) }}
+                                  {{ form_widget(userform.plainPassword.second, {'attr' : {'class' : 'form-control'}}) }}
+                                    <span class="text-danger">{{ form_errors(userform.plainPassword.second) }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+                                <a href="{{ path('fos_user_security_login') }}" >J'ai déjà un compte</a>
+                            </div>
+                            <div class="row" hidden>
+                                <div class="col-md-12 form-group">
+                                  {{ form_widget(userform.agence) }}
+                                  {{ form_widget(userform.roles) }}
+                                </div>
+                            </div>
+
+
+                          {{ form_end(userform) }}
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

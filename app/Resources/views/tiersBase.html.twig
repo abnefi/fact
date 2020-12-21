@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block sousmenu %}
+    <div class="nav-scroller bg-white box-shadow">
+        <nav class="nav nav-underline">
+            <a id="fournisseur" class="nav-link " href="{{ path('tiersfournisseur_index') }}"> <b>Fournisseur</b></a>
+            <a id="client" class="nav-link" href="{{ path('tiersclient_index') }}"><b>Client</b></a>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#tiers').addClass('active_menu');
+    </script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'tiersfournisseur/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Fournisseur </h6>
+                <small> Affichage d'un fournisseur</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a class="btn btn-outline-dark" href="{{ path('tiersfournisseur_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            <a class="btn btn-outline-dark"
+               href="{{ path('tiersfournisseur_edit', { 'id': tiersFournisseur.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>
+            {{ include("messageSucces.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Code</th>
+                    <td>{{ tiersFournisseur.code }}</td>
+                </tr>
+                <tr>
+                    <th>Nom Fournisseur</th>
+                    <td>{{ tiersFournisseur.nom }}</td>
+                </tr>
+
+                <tr>
+                    <th>Adresse</th>
+                    <td>{{ tiersFournisseur.adresse }}</td>
+                </tr>
+                <tr>
+                    <th>Téléphone</th>
+                    <td>{{ tiersFournisseur.telephone }}</td>
+                </tr>
+                <tr>
+                    <th>Mail</th>
+                    <td>{% if tiersFournisseur.mail %} {{ tiersFournisseur.mail }} {% endif %}</td>
+                </tr>
+                <tr>
+                    <th>N° IFU</th>
+                    <td>{% if tiersFournisseur.ifu %} {{ tiersFournisseur.ifu }} {% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Pays</th>
+                    <td>{% if tiersFournisseur.pays %} {{ tiersFournisseur.pays }} {% endif %}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </main>
+{% endblock %}

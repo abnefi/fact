@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block sousmenu %}
+    <div class="nav-scroller bg-white box-shadow">
+        <nav class="nav nav-underline">
+            <a id="facture" class="nav-link " href="{{ path('clientfacture_index') }}"> <b>Factures</b></a>
+            <a id="devis" class="nav-link " href="{{ path('clientdevis_index') }}"> <b>Devis</b></a>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#operations_client').addClass('active_menu');
+    </script>
+{% endblock %}

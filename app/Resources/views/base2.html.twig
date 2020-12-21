@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+
+    <title>{% block title %}Facturation{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('set/bootstrap.min.css') }}" />
+
+        <link href="{{ asset('frontend/css/offcanvas.css') }}" rel="stylesheet">
+        <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
+        {#<link href="{{ asset('frontend/css/style_contrat.css') }}" rel="stylesheet">#}
+        <link href="{{ asset('frontend/css/open-iconic-bootstrap.min.css') }}" rel="stylesheet">
+        {#<link rel="stylesheet" href="{{ asset('frontend/css/chosen.css') }}"/>#}
+        {#<link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-chosen.css') }}"/>#}
+        <link rel="stylesheet" href="{{ asset('frontend/css/flatpickr.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('frontend/css/loading.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('frontend/css/jquery.timepicker.min.css') }}"/>
+        {#<link rel="stylesheet" href="{{ asset('frontend/css/sidebar/simple-sidebar.css') }}"/>#}
+        <link href="{{ asset('set/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+        <link href="{{ asset('set/google_font.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('set/google_font2.css') }}" rel="stylesheet" type="text/css">
+
+        {# summer note #}
+        <link href="{{ asset('set/summernote.min.css') }}" rel="stylesheet">
+        <script src="{{ asset('frontend/summernote-0.8.16-dist/css/summernote-bs4.min.css') }}"></script>
+        <link rel="stylesheet" href="{{ asset('frontend/css/responsive.dataTables.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('frontend/css/dataTables.bootstrap4.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('frontend/css/component-chosen.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('frontend/css/select2.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('frontend/css/nel.css') }}"/>
+    {% endblock %}
+</head>
+
+<body class="bg-light">
+{% block body %}
+    {% block menu %}
+        {{ render(controller('AppBundle:Dashboard:menu')) }}
+    {% endblock %}
+
+{% endblock %}
+
+{% block sousmenu %}
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block fos_user_content %}
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+
+    <script src="{{ asset('set/jquery-3.3.1.slim.min.js') }}"></script>
+
+    <script src="{{ asset('set/jquery.min.js') }}"></script>
+
+    <script src="{{ asset('set/imask.js') }}"></script>
+
+    <script src="{{ asset('frontend/js/chosen.jquery.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/codeajax.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery.timepicker.min.js') }}"></script>
+
+    <script src="{{ asset('frontend/js/codeAjax.js') }}"></script>
+
+    <script src="{{ asset('frontend/js/popper.js') }}"></script>
+    <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('frontend/js/holder.js') }}"></script>
+    <script src="{{ asset('frontend/js/offcanvas.js') }}"></script>
+    <script src="{{ asset('frontend/js/chosen.jquery.min.js') }}"></script>
+
+    <script src="{{ asset('frontend/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('frontend/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/buttons.colVis.min.js') }}"></script>
+
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    {#Plugin pour la validation de formulaire#}
+    <script src="{{ asset('frontend/js/jquery-validation-1.19.0/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery-validation-1.19.0/additional-methods.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery-validation-1.19.0/localization/messages_fr.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/alex-date-time.js') }}"></script>
+    <script src="{{ asset('frontend/js/select2.js') }}"></script>
+    <script src="{{ asset('frontend/js/jquery.mask.js') }}"></script>
+    <script src="{{ asset('frontend/js/clientfacture/searchClient.js') }}"></script>
+    <script src="{{ asset('set/guest/js/register.js') }}"></script>
+
+    {##}
+
+    <!-- Menu Toggle Script -->
+    <script src="{{ asset('frontend/summernote-0.8.16-dist/js/summernote-bs4.min.js') }}"></script>
+    <!-- include summernote-fr-FR -->
+    <script src="{{ asset('frontend/summernote-0.8.16-dist/lang/summernote-fr-FR.min.js') }}"></script>
+    {# initialize summer note#}
+    <script>
+        $(document).ready(function () {
+            //todo: astérisque pour les libellé des champs requis
+            $("label.required").append("<span id='as' style='color: red'> *</span>");
+            let as = document.getElementById('as');
+            var node=document.getElementById('configbundle_configagence_societe_typeEntreprise').childNodes
+            var tab=[];
+            for (var a=0;a<=node.length - 1;a++){
+                if(node[a].className=="required"){
+                    node[a].removeChild(node[a].childNodes[1])
+                 }
+            }
+
+            $('.summernote_editor').summernote({
+                lang: 'fr-FR',
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        })
+    </script>
+
+{% endblock %}
+</body>
+</html>

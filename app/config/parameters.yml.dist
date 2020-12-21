@@ -1,0 +1,27 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host: 127.0.0.1
+    database_port: ~
+    database_name: facturation_db
+    database_user: root
+    database_password: ~
+    database_host_declaration: 127.0.0.1
+    database_port_declaration: null
+    database_name_declaration: declaration_mcf_db
+    database_user_declaration: root
+    database_password_declaration: null
+    # You should uncomment this if you want to use pdo_sqlite
+    #database_path: '%kernel.project_dir%/var/data/data.sqlite'
+
+    mailer_transport: smtp
+    mailer_host: in-v3.mailjet.com
+    mailer_user: 630df1605af095881d4917cbbdc62523
+    mailer_password: 62804653cb10484d2ce3e41da391c2a3
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: ThisTokenIsNotSoSecretChangeIt
+
+    repertoire_upload: '%kernel.project_dir%/web/uploads/'
+    repertoire_factures: '%kernel.project_dir%/web/factures/'

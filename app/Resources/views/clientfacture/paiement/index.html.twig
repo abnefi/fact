@@ -1,0 +1,123 @@
+{% extends 'clientfacture/template.html.twig' %}
+
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Facture </h6>
+                <small> Paiement d'une facture</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+
+            <div class="btn-group">
+                <a type="button" class="btn btn-outline-dark"
+                   href="{% if clientFacture.typeFacture.avoir == false %}
+                                 {{ path('clientfacturevente_show', { 'id': clientFacture.id }) }}
+                                  {% else %} {{ path('clientfactureavoir_show', { 'id': clientFacture.id }) }}{% endif %}"
+                   style="margin-bottom: 10px; margin-right: 20px"><span class="oi oi-arrow-left"></span> Retour </a>
+                {% if clientFacture.estPayee == false %}
+                    <a class="btn btn-outline-primary"
+                       href="{{ path('clientfacture_editpaiement', { 'id': clientFacture.id }) }}"
+                       style="margin-bottom: 10px;"><span class="oi oi-pencil"></span> Saisir</a>
+                {% endif %}
+            </div>
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Référence</th>
+                    <td>{{ clientFacture.reference }}</td>
+                </tr>
+                <tr>
+                    <th>Client</th>
+                    <td>{{ clientFacture.client.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Date Facture</th>
+                    <td>{% if clientFacture.dateFacture %}{{ clientFacture.dateFacture|date('d/m/Y') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Date Règlement</th>
+                    <td>{% if clientFacture.dateReglement %}{{ clientFacture.dateReglement|date('d/m/Y') }}{% endif %}</td>
+                </tr>
+
+                {#<tr>#}
+                {#<th>Est payé</th>#}
+                {#<td>{% if clientFacture.estPayee %}Oui{% else %}Non{% endif %}</td>#}
+                {#</tr>#}
+                <tr>
+                    <th>Montant net à payer</th>
+                    <td>
+                        <strong>{{ montantTotalAPayer |number_format(0, ',', ' ') }} {{ clientFacture.devise.symbole }}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Déjà payé</th>
+                    <td>
+                        <strong>{{ montantDejaPaye |number_format(0, ',', ' ') }} {{ clientFacture.devise.symbole }}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Restant à payer</th>
+                    <td>
+                        <strong>{{ montantRestantAPayer |number_format(0, ',', ' ') }} {{ clientFacture.devise.symbole }}</strong>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h5>Détails des paiements</h5>
+            {#<p>#}
+            {#<button type="button" class='btn btn-primary' data-toggle="modal" data-target="#modal_paiement">#}
+            {#<span class="oi oi-plus"></span> Ajouter un paiement#}
+            {#</button>#}
+            {#</p>#}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Date Paiement</th>
+                    <th>Mode Paiement</th>
+                    <th>Montant</th>
+                    {#<th>Taux TVA</th>#}
+                    {#<th>Taux AIB</th>#}
+                    {#<th>Actions</th>#}
+                </tr>
+                </thead>
+                <tbody id="sectionsPaiement" class="paiements_wrapper">
+                {% for paiement in paiements %}
+                    <tr>
+                        <td>{% if paiement.datePaiement %}{{ paiement.datePaiement|date('d/m/Y') }}{% endif %}</td>
+                        <td>{{ paiement.modePaiement.libelle }}</td>
+                        <td>{{ paiement.montant }}</td>
+                        {#<td>#}
+                        {#<div class="btn-group">#}
+                        {#<button class="btn btn-primary btn_edit_paiement"#}
+                        {#title="Télécharger PDF" data-id="{{ paiement.id }}">#}
+                        {#<span class="oi oi-pencil"></span></button>#}
+                        {#<button class="btn btn-danger btn_delete_paiement" title="Supprimer"#}
+                        {#data-id="{{ paiement.id }}" data-trigger="focus" data-toggle="popover"#}
+                        {#data-placement="bottom">#}
+                        {#<i class="oi oi-trash"></i>#}
+                        {#</button>#}
+                        {#</div>#}
+                        {#</td>#}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </main>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

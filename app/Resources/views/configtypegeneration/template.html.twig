@@ -1,0 +1,7 @@
+{% extends 'configBase.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#generationCode').addClass('activecousmenu');
+    </script>
+{% endblock %}

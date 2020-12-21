@@ -1,0 +1,123 @@
+{% extends 'superadmin/templateUserAdmin.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Administrateurs </h6>
+                <small> Liste des Administrateurs</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+
+            {% if is_granted(['ROLE_ADMIN']) %}
+            <a type="button" class="btn btn-outline-dark" href="{{ path('new_admin_user_register') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-plus"></span> Nouveau Admin</a>
+            {% endif %}
+
+            <a type="button" class="btn btn-outline-dark ubnow activebtnnow"
+               href="{{ path('index_liste_users') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-dashboard"></span> Tout</a>
+
+            <a type="button" id="userVerifier" class="btn btn-outline-dark ubnow"
+               style="margin-bottom: 10px;"><span class="oi oi-sort-ascending"></span> Vérifier</a>
+
+            <a type="button" id="userAutoriser" class="btn btn-outline-dark ubnow"
+               style="margin-bottom: 10px;"><span class="oi oi-play-circle"></span> Déja Autorisé</a>
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+
+            {% if users is not empty %}
+                <table class="table table-bordered dataTable" id="tableuser">
+                    <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Nom et Prénoms</th>
+                        <th>Nom d'utilisateur</th>
+                        <th>Email</th>
+                        <th>Societe</th>
+                        <th>Agence</th>
+                        <th>Dernière connexion</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            {# <td><a href="{{ path('stockarticle_show', { 'id': user.id }) }}">{{ loop.index }}</a> #}
+                            <td>{{ loop.index }}</td>
+                            <td>{{ user.nom }} {{ user.prenoms }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            {% if user.agence == null %}
+                                <td> Pas de societe</td>
+                                <td> Aucune agence</td>
+                            {% else %}
+                                <td>{{ user.agence.societe }}</td>
+                                <td>{{ user.agence.libelle }}</td>
+                            {% endif %}
+                            <td>{% if user.lastLogin %}{{ user.lastLogin | date('d/m/Y') }}{% endif %}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" data-toggle="tooltip"
+                                       data-placement="top" title="Voir"
+                                       href="{{ path('admin_user_show', { 'id': user.id }) }}">
+                                        <span class="oi oi-eye"></span>
+                                    </a>
+                                    {% if user.estVerifier == 1 and user.estActiver == 0 %}
+                                        <a class="btn btn--anon" data-toggle="tooltip" data-placement="top"
+                                           title="Activer"
+                                           href="{{ path('activer_admin', { 'id': user.id }) }}">
+                                            <span class="oi oi-check"></span>
+                                        </a>
+                                    {% elseif user.estVerifier == 1 and user.estActiver == 1 %}
+                                        <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                                           title="Désactiver"
+                                           href="{{ path('activer_admin', { 'id': user.id }) }}">
+                                            <span class="oi oi-trash"></span>
+                                        </a>
+                                    {% endif %}
+
+
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <table class="table table-bordered dataTable">
+                    <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Nom et Prénoms</th>
+                        <th>Nom d'utilisateur</th>
+                        <th>Email</th>
+                        <th>Societe</th>
+                        <th>Agence</th>
+                        <th>Dernière connexion</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr align="center">
+                        <td colspan="9" class="alert-danger">Aucun admin trouver !</td>
+                    </tr>
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <div id="mliste">
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('frontend/js/parametrage/dsgf615df.js') }}"></script>
+    <script>
+
+    </script>
+{% endblock %}

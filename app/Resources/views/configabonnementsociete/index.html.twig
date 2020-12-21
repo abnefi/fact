@@ -1,0 +1,194 @@
+{% extends 'configabonnementsociete/template.html.twig' %}
+
+{% block content %}
+  <main role="main" class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+      <div class="lh-100">
+        <h6 class="mb-0 text-white lh-100"> Gestion Abonnement </h6>
+        <small> Liste des Abonnements</small>
+      </div>
+    </div>
+
+    <div class="col-md-12 bg-white rounded box-shadow">
+
+      <a type="button" class="btn btn-primary" data-target="#modal_DemandeAbonnement" data-toggle="modal"
+         style="margin-bottom: 10px;margin-right: 10px"><span class="oi oi-play-circle"></span> S'abonner
+      </a>
+
+      <a type="button" class="btn btn-outline-dark"
+         href="{{ path('config_abonnement_societe_historique') }}"
+         style="margin-bottom: 10px;"><span class="oi oi-dashboard"></span> Historique</a>
+
+      {{ include("messageEchec.html.twig") }}
+      {{ include("messageSucces.html.twig") }}
+      {#<br><br>#}
+      <div class="row py-3">
+        {# firt product #}
+        <div class="col-sm-12 col-md-4">
+          <div class="card productShadow">
+            <img class="card-img-top" src="{{ asset('frontend/img/computerscience.jpg') }}"
+                 alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{ configAbonnements[2].libelle }}</h5>
+              <p class="card-text">Bénéficiez d’une application modulaire conçu pour la gestion quotidienne de votre PME
+                et de votre développement commercial:
+              </p>
+              <ul class="pl-1-5">
+                <li>Prix: {{ configAbonnements[2].prix }} Fcfa</li>
+                <li>Nombre d'Agence: {{ configAbonnements[2].limiteAgence }}</li>
+                <li>Durée: {{ configAbonnements[2].nombreJour }} Jours</li>
+              </ul>
+            </div>
+          </div>
+
+
+          {# Modal de demanade d'activation d'abonnement #}
+          <div class="modal fade" id="modal_DemandeAbonnement" role="dialog"
+               aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header" style="background-color: #14346c">
+                  <h5 class="modal-title" style="margin-left: 5%;color: #fff">
+                    Demande d'abonnement pour votre société </h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color: red">&times;</span>
+                  </button>
+                </div>
+                <br/>
+
+                {{ form_start(form, {'action': path('configabonnementsociete_new'), 'method': 'POST'} ) }}
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-6 form-group">
+                        {{ form_label(form.libelle) }}
+                        {{ form_widget(form.libelle, {'attr' : {'class' : 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.libelle) }}</span>
+                      </div>
+                      <div class="col-md-6 form-group">
+                        {{ form_label(form.typeAbonnement) }}
+                        {{ form_widget(form.typeAbonnement, {'attr' : {'class' : 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.typeAbonnement) }}</span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3 form-group">
+                        <label for="configbundle_configabonnementsociete_duree">Durée (Jours)</label>
+                        {{ form_widget(form.duree, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                        <span class="text-danger">{{ form_errors(form.duree) }}</span>
+                      </div>
+                      <div class="col-md-3 form-group">
+                        <label for="montant_abonnement">Montant(Fcfa)</label>
+                        <input type="text" id="montant_abonnement" name="montant_abonnement"
+                               readonly class="form-control">
+                      </div>
+                      <div class="col-md-3 form-group" id="divBanque">
+                        {{ form_label(form.banque) }}
+                        {{ form_widget(form.banque, {'attr' : {'class' : 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.banque) }}</span>
+                      </div>
+                      <div class="col-md-3 form-group" id="reabonneAuto" align="center" style="margin-top: 10px">
+                        {{ form_label(form.reabonnementAuto) }}
+                        {{ form_widget(form.reabonnementAuto, {'attr' : {'class' : 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.reabonnementAuto) }}</span>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 form-group">
+                        {{ form_label(form.fichierPaie) }}
+                        {{ form_widget(form.fichierPaie, {'attr' : {'class' : 'form-control','required':'true','accept':'.pdf'}}) }}
+                        <span class="text-danger">{{ form_errors(form.fichierPaie) }}</span>
+                      </div>
+
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 form-group">
+                        {{ form_label(form.noteDetails) }}
+                        {{ form_widget(form.noteDetails, {'attr' : {'class' : 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.noteDetails) }}</span>
+                      </div>
+                    </div>
+                    <div class="row" hidden>
+                      <div class="col-md-6 form-group">
+                        {{ form_label(form.debutAbonnement) }}
+                        {{ form_widget(form.debutAbonnement, {'attr' : {'class' : 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.debutAbonnement) }}</span>
+                      </div>
+                      <div class="col-md-6 form-group">
+                        {{ form_label(form.finAbonnement) }}
+                        {{ form_widget(form.finAbonnement, {'attr' : {'class' : 'form-control'}}) }}
+                        <span class="text-danger">{{ form_errors(form.finAbonnement) }}</span>
+                      </div>
+                      {{ form_widget(form.estActif, {'attr' : {'class' : 'form-control'}}) }}
+                      {{ form_widget(form.estSupprimer, {'attr' : {'class' : 'form-control'}}) }}
+                      {{ form_widget(form.decisionAdmin, {'attr' : {'class' : 'form-control'}}) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <input type="submit" class="btn btn-primary" value="Valider"/>
+                </div>
+                {{ form_end(form) }}
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {# seconds product  #}
+        <div class="col-sm-12 col-md-4">
+          <div class="card productShadow">
+            <img class="card-img-top" src="{{ asset('frontend/img/shutterstock.jpg') }}"
+                 alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{ configAbonnements[1].libelle }}</h5>
+              <p class="card-text">Suivez vos activités de production au quotidien et facilitez votre croissance externe
+                et internationale:
+              </p>
+
+              <ul class="pl-1-5">
+                <li>Prix: {{ configAbonnements[1].prix }} Fcfa</li>
+                <li>Nombre d'Agence: {{ configAbonnements[1].limiteAgence }}</li>
+                <li>Durée: {{ configAbonnements[1].nombreJour }} Jours
+                </li>
+              </ul>
+              {#<p class="card-text"><small class="text-white">Finances - Achats - Stocks</small></p>#}
+            </div>
+          </div>
+        </div>
+
+        {# third product #}
+        <div class="col-sm-12 col-md-4">
+          <div class="card productShadow">
+            <img class="card-img-top" src="{{ asset('frontend/img/ComputerBS.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{ configAbonnements[0].libelle }}</h5>
+              <p class="card-text">Conçu pour les PME, IGO-Facturation est l'application des organisations
+                décentralisées
+                avec des besoins de profondeur fonctionnelle :
+              </p>
+              <ul class="pl-1-5">
+                <li>Prix: {{ configAbonnements[0].prix }} Fcfa</li>
+                <li>Nombre d'Agence: {{ configAbonnements[0].limiteAgence }}</li>
+                <li>Durée: {{ configAbonnements[0].nombreJour }} Jours</li>
+              </ul>
+              <p class="card-text">
+                <small class="text-secondary">Finances - Achats - Stocks</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('frontend/js/abonnement/demandeAbonnement.js') }}"></script>
+{% endblock %}

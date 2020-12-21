@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Configtypegenerationsocietes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Estgenere</th>
+                <th>Created</th>
+                <th>Createdby</th>
+                <th>Updateat</th>
+                <th>Updateby</th>
+                <th>Estsupprimer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for configTypeGenerationSociete in configTypeGenerationSocietes %}
+            <tr>
+                <td><a href="{{ path('configtypegenerationsociete_show', { 'id': configTypeGenerationSociete.id }) }}">{{ configTypeGenerationSociete.id }}</a></td>
+                <td>{% if configTypeGenerationSociete.estGenere %}Yes{% else %}No{% endif %}</td>
+                <td>{% if configTypeGenerationSociete.created %}{{ configTypeGenerationSociete.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ configTypeGenerationSociete.createdBy }}</td>
+                <td>{% if configTypeGenerationSociete.updateAt %}{{ configTypeGenerationSociete.updateAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ configTypeGenerationSociete.updateBy }}</td>
+                <td>{% if configTypeGenerationSociete.estSupprimer %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('configtypegenerationsociete_show', { 'id': configTypeGenerationSociete.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('configtypegenerationsociete_edit', { 'id': configTypeGenerationSociete.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('configtypegenerationsociete_new') }}">Create a new configTypeGenerationSociete</a>
+        </li>
+    </ul>
+{% endblock %}

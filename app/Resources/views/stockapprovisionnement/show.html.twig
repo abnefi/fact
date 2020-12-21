@@ -1,0 +1,68 @@
+{% extends 'stockapprovisionnement/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Approvisionnement </h6>
+                <small> Affichage d'un approvisionnement</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('stockapprovisionnement_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+            <a class="btn btn-outline-dark"
+               href="{{ path('stockapprovisionnement_edit', { 'id': stockApprovisionnement.id }) }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span>Modifier</a>
+            {{ include("messageSucces.html.twig") }}
+
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>Référence</th>
+                    <td>{{ stockApprovisionnement.reference }}</td>
+                </tr>
+                <tr>
+                    <th>Fournisseur</th>
+                    <td>{{ stockApprovisionnement.fournisseur.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Date Réception</th>
+                    <td>{% if stockApprovisionnement.dateReception %}{{ stockApprovisionnement.dateReception|date('d/m/Y') }}{% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+            <caption>Articles</caption>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Référence Article</th>
+                    <th>Désignation</th>
+                    <th>Quantité</th>
+                    <th>Coût Achat Unitaire</th>
+                    <th>Montant</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for detail in stockApprovisionnement.details %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ detail.article.reference }}</td>
+                        <td>{{ detail.article.designation }}</td>
+                        <td>{{ detail.quantite }}</td>
+                        <td>{{ detail.coutAchatUnitaire  |number_format(0, ',', ' ') }}</td>
+                        <td>{{ (detail.quantite * detail.coutAchatUnitaire) |number_format(0, ',', ' ') }}</td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+<div>
+    <p>Montant total: <strong>{{ montantTotal |number_format(0, ',', ' ') }} Fcfa</strong> </p>
+</div>
+        </div>
+    </main>
+{% endblock %}

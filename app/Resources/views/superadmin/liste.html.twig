@@ -1,0 +1,73 @@
+{% if SocietesEnAttentes is not empty %}
+    <table class="table table-bordered dataTable ">
+        <thead>
+        <tr>
+            <th>N°</th>
+            <th>Date</th>
+            <th>Code</th>
+            <th>Raison Sociale</th>
+            <th>Forme Juridique</th>
+            <th>Telephone</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+         {% for societe in SocietesEnAttentes %}
+        <tr>
+            <td> {{  loop.index }} </td>
+            <td> {{ societe.created|date('d/m/Y')  }} </td>
+            <td> {{ societe.code }} </td>
+            <td> {{ societe.raisonSociale }} </td>
+            <td> {{ societe.formeJuridique }} </td>
+            <td> {{ societe.telephone }} </td>
+            <td>{% if societe.estActif %}Oui{% else %}Non{% endif %}</td>
+
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-primary" data-toggle="tooltip"
+                       data-placement="top" title="Voir"
+                       href=" {{ path('show_une_societe', { 'id': societe.id }) }} ">
+                        <span class="oi oi-eye"></span>
+                    </a>
+
+                    {% if societe.estActif == 0 and societe.estSupprimer ==0 %}
+                        <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                           title="Activer"
+                           href=" {{ path('activer_societe', { 'id': societe.id }) }} ">
+                            <span class="oi oi-check"></span>
+                        </a>
+                    {% else %}
+                        <a class="btn btn-outline-warning" data-toggle="tooltip" data-placement="top"
+                           title="Désactiver"
+                           href=" {{ path('activer_societe', { 'id': societe.id }) }} ">
+                            <span class="oi oi-trash"></span>
+                        </a>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+         {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <table class="table table-bordered dataTable ">
+        <thead>
+        <tr>
+            <th>N°</th>
+            <th>Date</th>
+            <th>Code</th>
+            <th>Raison Sociale</th>
+            <th>Forme Juridique</th>
+            <th>Telephone</th>
+            <th>Active</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr align="center">
+            <td colspan="8" class="alert-danger" >Aucune société trouver ! </td>
+        </tr>
+        </tbody>
+    </table>
+{% endif %}

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clientpaiements list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datepaiement</th>
+                <th>Montant</th>
+                <th>Created</th>
+                <th>Updatedat</th>
+                <th>Userpublicid</th>
+                <th>Supprimer</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for clientPaiement in clientPaiements %}
+            <tr>
+                <td><a href="{{ path('clientpaiement_show', { 'id': clientPaiement.id }) }}">{{ clientPaiement.id }}</a></td>
+                <td>{% if clientPaiement.datePaiement %}{{ clientPaiement.datePaiement|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ clientPaiement.montant }}</td>
+                <td>{% if clientPaiement.created %}{{ clientPaiement.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if clientPaiement.updatedAt %}{{ clientPaiement.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ clientPaiement.userPublicId }}</td>
+                <td>{% if clientPaiement.supprimer %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('clientpaiement_show', { 'id': clientPaiement.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('clientpaiement_edit', { 'id': clientPaiement.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('clientpaiement_new') }}">Create a new clientPaiement</a>
+        </li>
+    </ul>
+{% endblock %}

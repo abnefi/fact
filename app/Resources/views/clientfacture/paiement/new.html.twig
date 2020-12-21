@@ -1,0 +1,28 @@
+{{ form_start(form) }}
+<div class="col-md-12 form-group">
+    {{ form_label(form.datePaiement) }}
+    {{ form_widget(form.datePaiement) }}
+    <span class="text-danger">{{ form_errors(form.datePaiement) }}</span>
+</div>
+<div class="col-md-12 form-group">
+    {{ form_label(form.modePaiement) }}
+    {{ form_widget(form.modePaiement) }}
+    <span class="text-danger">{{ form_errors(form.modePaiement) }}</span>
+</div>
+<div class="col-md-12 form-group">
+    {{ form_label(form.montant) }}
+    {{ form_widget(form.montant) }}
+    <span class="text-danger">{{ form_errors(form.montant) }}</span>
+</div>
+<button class="btn btn-success" type="submit">Enregistrer</button>
+{{ form_end(form) }}
+
+<script>
+    $('.date').flatpickr({
+        // altInput: true,
+        // altFormat: "d/m/Y",
+        dateFormat: "Y-m-d",
+        // defaultDate: 'today'
+    })
+    $('.date').css("background-color", "white");
+</script>

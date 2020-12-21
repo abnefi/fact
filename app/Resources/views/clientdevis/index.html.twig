@@ -1,0 +1,61 @@
+{% extends 'clientdevis/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container" xmlns="">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Devis </h6>
+                <small> Liste des devis</small>
+            </div>
+        </div>
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" href="{{ path('clientdevis_new') }}" class="btn btn-outline-dark"
+                    style="margin-bottom: 10px;"><i class="oi oi-plus"></i> Nouveau
+            </a>
+            <table class="table table-bordered dataTable">
+                <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Référence</th>
+                    <th>Date Devis</th>
+                    <th>Client</th>
+                    <th>Est validé ?</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for clientFacture in clientDevis %}
+                    <tr>
+                        <td><a href="{{ path('clientdevis_show', { 'id': clientFacture.id }) }}">{{ (clientDevis|length - loop.index0)|abs }}</a>
+                        </td>
+                        <td>{{ clientFacture.reference }}</td>
+                        <td>{% if clientFacture.dateFacture %}{{ clientFacture.dateFacture|date('d/m/Y') }}{% endif %}</td>
+                        <td>{{ clientFacture.client.nom }}</td>
+                        <td>{% if clientFacture.estValide %}Oui{% else %}Non{% endif %}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" data-toggle="tooltip"
+                                   data-placement="top" title="Voir"
+                                   href="{{ path('clientdevis_show', { 'id': clientFacture.id }) }}">
+                                    <span class="oi oi-eye"></span>
+                                </a>
+                                {% if clientFacture.estValide == false %}
+                                    <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                       title="Modifier"
+                                       href=" {{ path('clientdevis_edit', { 'id': clientFacture.id }) }}">
+                                        <span class="oi oi-pencil"></span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

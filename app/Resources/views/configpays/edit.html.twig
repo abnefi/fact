@@ -1,0 +1,77 @@
+{% extends 'configpays/template.html.twig' %}
+
+{% block content %}
+
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Pays </h6>
+                <small> Modification d'un Pays</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <div class="row">
+                <a type="button" class="btn btn-outline-dark" href="{{ path('configpays_index') }}"
+                   style="margin-bottom: 10px;margin-right: 10px"><span class="oi oi-arrow-left"></span> Retour à la
+                    liste</a>
+
+                <a type="button" class="btn btn-outline-dark"
+                   href="{{ path('supprimmer_configpays', { 'id': configPay.id }) }}"
+                   style="margin-bottom: 10px;margin-right: 10px"><span class="oi oi-delete"></span> Supprimer</a>
+            </div>
+
+            {{ form_start(edit_form) }}
+
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(edit_form.isoCode) }}
+                    {{ form_widget(edit_form.isoCode, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.isoCode) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(edit_form.callPrefix) }}
+                    {{ form_widget(edit_form.callPrefix, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.callPrefix) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    {{ form_label(edit_form.TauxTva, 'Taux TVA') }}
+                    {{ form_widget(edit_form.TauxTva, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.TauxTva) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(edit_form.TauxAIB, 'Taux AIB') }}
+                    {{ form_widget(edit_form.TauxAIB, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.TauxAIB) }}</span>
+                </div>
+
+            </div>
+
+
+            <div class="row" hidden>
+                <div class="col-md-6 form-group">
+                    {{ form_label(edit_form.active, 'Actif') }}
+                    {{ form_widget(edit_form.active, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.active) }}</span>
+                </div>
+                <div class="col-md-6 form-group">
+                    {{ form_label(edit_form.estSupprimer, 'Supprimer') }}
+                    {{ form_widget(edit_form.estSupprimer, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(edit_form.estSupprimer) }}</span>
+                </div>
+
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+            </div>
+
+            {{ form_end(edit_form) }}
+        </div>
+    </main>
+
+{% endblock %}
+

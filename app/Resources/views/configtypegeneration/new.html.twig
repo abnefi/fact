@@ -1,0 +1,89 @@
+{% extends 'configtypegeneration/template.html.twig' %}
+
+{% block content %}
+
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100"> Codes / Référence </h6>
+                <small> Gestion des codes et réferences</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configtypegeneration_index') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-arrow-left"></span> Retour à la liste</a>
+
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.code) }}
+                    {{ form_widget(form.code, {'attr' : {'class' : 'form-control','value': codeSociete }}) }}
+                    <span class="text-danger">{{ form_errors(form.code) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.libelle) }}
+                    {{ form_widget(form.libelle, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.libelle) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.codeSociete) }}
+                    {{ form_widget(form.codeSociete, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.codeSociete) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.codeAgence) }}
+                    {{ form_widget(form.codeAgence, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.codeAgence) }}</span>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.codeFournisseur) }}
+                    {{ form_widget(form.codeFournisseur, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.codeFournisseur) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.codeClient) }}
+                    {{ form_widget(form.codeClient, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.codeClient) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.referenceArticle) }}
+                    {{ form_widget(form.referenceArticle, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.referenceArticle) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.referenceService) }}
+                    {{ form_widget(form.referenceService, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.referenceService) }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.referenceApprovisionnement) }}
+                    {{ form_widget(form.referenceApprovisionnement, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.referenceApprovisionnement) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.referenceFacture) }}
+                    {{ form_widget(form.referenceFacture, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.referenceFacture) }}</span>
+                </div>
+                <div class="col-md-3 form-group">
+                    {{ form_label(form.referenceInventaire) }}
+                    {{ form_widget(form.referenceInventaire, {'attr' : {'class' : 'form-control'}}) }}
+                    <span class="text-danger">{{ form_errors(form.referenceInventaire) }}</span>
+                </div>
+            </div>
+
+            <div>
+                <input type="submit" class="btn btn-primary" value="Enregistrer"/>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </main>
+
+{% endblock %}

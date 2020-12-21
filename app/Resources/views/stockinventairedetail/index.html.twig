@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Stockinventairedetails list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Stocktheorique</th>
+                <th>Stockreel</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for stockInventaireDetail in stockInventaireDetails %}
+            <tr>
+                <td><a href="{{ path('stockinventairedetail_show', { 'id': stockInventaireDetail.id }) }}">{{ stockInventaireDetail.id }}</a></td>
+                <td>{{ stockInventaireDetail.stockTheorique }}</td>
+                <td>{{ stockInventaireDetail.stockReel }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('stockinventairedetail_show', { 'id': stockInventaireDetail.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

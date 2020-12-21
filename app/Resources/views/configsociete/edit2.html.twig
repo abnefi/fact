@@ -1,0 +1,294 @@
+{% extends 'base2.html.twig' %}
+
+{% block menu %}
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-gradient-primary-to-secondary">
+        <a class="navbar-brand mr-auto mr-lg-5" href="#">IGO-Facturation</a>
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+
+            <ul class="navbar-nav ml-auto">
+
+                <li class="text-right">
+                    <a class="nav-link btn btn-white-fill"> <span
+                                class="fa fa-user-circle"></span> {{ user.username }}</a>
+                </li>
+
+                <li>
+                    <a class="nav-link btn btn-white-fill" href="{{ path('fos_user_security_logout') }}">
+                        <span class="fa fa-sign-out"></span> Se Déconnecter</a>
+                </li>
+
+
+                <li style="display: none">
+                    <a class="nav-link" href=""></a>
+                </li>
+
+
+            </ul>
+        </div>
+    </nav>
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block fos_user_content %}
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <main role="main" class="container">
+
+                <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+                    <img class="mr-3"
+                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+                         alt=""
+                         width="48" height="48">
+                    <div class="lh-100">
+                        <h6 class="mb-0 text-white lh-100">Veuillez mettre à jour les informations professionnelles suivantes pour finaliser votre inscription.</h6>
+                    </div>
+                </div>
+
+                <div class="my-3 p-3 bg-white rounded box-shadow">
+                    <div class="card">
+
+                        <div class="card-body">
+                            {{ form_start(agenceForm)}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h6 class="text-info">TYPE D'ENTREPRISE</h6>
+                                            {#{{ form_label(agenceForm.societe.typeEntreprise) }}#}
+                                            {{ form_widget(agenceForm.societe.typeEntreprise) }}
+                                            <span class="text-danger">{{ form_errors(agenceForm.societe.typeEntreprise) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            {#content form#}
+                            <div class="row">
+                                {#Coordonnées#}
+                                <div class="col-md-6">
+                                    {#première ranger de la première colonne#}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="text-info">COORDONNÉES</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.prenom) }}
+                                                            {{ form_widget(agenceForm.societe.prenom, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.prenom) }}</span>
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.nom) }}
+                                                            {{ form_widget(agenceForm.societe.nom, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.nom) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.ville) }}
+                                                            {{ form_widget(agenceForm.societe.ville, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.ville) }}</span>
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.pays) }}
+                                                            {{ form_widget(agenceForm.societe.pays, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.pays) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.adresse) }}
+                                                            {{ form_widget(agenceForm.societe.adresse, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.adresse) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.fonctionRepresentant) }}
+                                                            {{ form_widget(agenceForm.societe.fonctionRepresentant, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.fonctionRepresentant) }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#2ème ranger de la première colonne#}
+                                    {#Activité#}
+                                    <div class="row py-3">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="text-info">ACTIVITÉ</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group sigle">
+                                                            {{ form_label(agenceForm.societe.raisonSociale) }}
+                                                            {{ form_widget(agenceForm.societe.raisonSociale) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.raisonSociale) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.typeActivite) }}
+                                                            {{ form_widget(agenceForm.societe.typeActivite, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.typeActivite) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.ifu) }}
+                                                            {{ form_widget(agenceForm.societe.ifu, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.ifu) }}</span>
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.registreCommerce) }}
+                                                            {{ form_widget(agenceForm.societe.registreCommerce, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.registreCommerce) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.banque) }}
+                                                            {{ form_widget(agenceForm.societe.banque, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.banque) }}</span>
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.rib) }}
+                                                            {{ form_widget(agenceForm.societe.rib) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.rib) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row assujetiTva">
+                                                        <div class="col-md-6 form-group">
+                                                            {{ form_label(agenceForm.societe.assujetiTva) }}
+                                                            {{ form_widget(agenceForm.societe.assujetiTva, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.assujetiTva) }}</span>
+                                                        </div>
+                                                        <div class="col-md-6 form-group">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="text-info">CONTACT</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.email) }}
+                                                            {{ form_widget(agenceForm.societe.email, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.email) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.telephone) }}
+                                                            {{ form_widget(agenceForm.societe.telephone, {'attr' : {'class' : 'form-control telMask'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.telephone) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.siteWeb) }}
+                                                            {{ form_widget(agenceForm.societe.siteWeb) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.siteWeb) }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row py-3">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6 class="text-info">PIECE</h6>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.ifuFile) }}
+                                                            {{ form_widget(agenceForm.societe.ifuFile, {'attr' : {'class' : 'form-control' }}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.ifuFile) }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 form-group">
+                                                            {{ form_label(agenceForm.societe.registreFile) }}
+                                                            {{ form_widget(agenceForm.societe.registreFile, {'attr' : {'class' : 'form-control'}}) }}
+                                                            <span class="text-danger">{{ form_errors(agenceForm.societe.registreFile) }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row py-3 professionLiberale">
+                                        <div class="col-md-12">
+                                            {{ form_label(agenceForm.societe.estProfessionLiberale) }}
+                                            {{ form_widget(agenceForm.societe.estProfessionLiberale, {'attr' : {'class' : 'form-control'}}) }}
+                                            <span class="text-danger">{{ form_errors(agenceForm.societe.estProfessionLiberale) }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" hidden>
+                                    {{ form_widget(agenceForm.societe.devise) }}
+                                    {{ form_widget(agenceForm.societe.exportation) }}
+                                    {{ form_widget(agenceForm.societe.formeJuridique) }}
+                                    {{ form_widget(agenceForm.code) }}
+                                    {{ form_widget(agenceForm.libelle) }}
+                                    {{ form_widget(agenceForm.numeroMCF) }}
+                                    {{ form_widget(agenceForm.societe.code) }}
+                                    {{ form_widget(agenceForm.societe.capital) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" type="submit">Modifier</button>
+                                </div>
+                            </div>
+                            {{ form_end(agenceForm) }}
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        //cacher l'agence compte tenu du rôle
+        // $( "#configbundle_configagence_societe_ifuFile").load(function() {
+        //     alert('ok');
+        // });
+        // $( window ).load(function() {
+        //     let val = $("#configbundle_configagence_societe_ifuFile").val();
+        //     alert(val);
+        // });
+
+
+    </script>
+
+{% endblock %}

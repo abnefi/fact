@@ -1,0 +1,62 @@
+{% extends 'admin/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Utilisateur </h6>
+                <small> Liste des utilisateurs</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('fos_user_registration_register') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-plus"></span> Nouvel utilisateur</a>
+            {{ include("messageSucces.html.twig") }}
+            <table class="table table-bordered dataTable">
+                <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Nom</th>
+                    <th>Prénoms</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Agence</th>
+                    <th>Dernière connexion</th>
+                    {#                    <th>Stock alerte</th>#}
+                    {#                    <th>Stock minimum</th>#}
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        {#<td><a href="{{ path('stockarticle_show', { 'id': user.id }) }}">{{ loop.index }}</a>#}
+                        <td>{{  loop.index }}</td>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.prenoms }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.agence.libelle }}</td>
+                        <td>{% if user.lastLogin %}{{ user.lastLogin | date('d/m/Y') }}{% endif %}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" data-toggle="tooltip"
+                                   data-placement="top" title="Voir"
+                                   href="{{ path('fosuser_show', { 'id': user.id }) }}">
+                                    <span class="oi oi-eye"></span>
+                                </a>
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                   title="Modifier"
+                                   href="{{ path('fosuser_edit', { 'id': user.id }) }}">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

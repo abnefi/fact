@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block sousmenu %}
+    <div class="nav-scroller bg-white box-shadow">
+        <nav class="nav nav-underline">
+            <a class="nav-link " href="#"> <b>Tableau de bord </b></a>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#dashboard').addClass('active_menu');
+    </script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'configagence/template.html.twig' %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">Agence </h6>
+                <small> Liste des agences</small>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+            <a type="button" class="btn btn-outline-dark" href="{{ path('configagence_editliste') }}"
+               style="margin-bottom: 10px;"><span class="oi oi-pencil"></span> Editer la liste</a>
+            {{ include("messageSucces.html.twig") }}
+            {{ include("messageEchec.html.twig") }}
+            <table class="table table-bordered dataTable">
+                <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Libellé</th>
+                    <th>Code</th>
+                    <th>Numéro MCF</th>
+                    <th>Pays</th>
+                    <th>Ville</th>
+                    <th title="Port Serveur">PS</th>
+                    <th>Etat</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for configAgence in configAgences %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('configagence_show', { 'id': configAgence.id }) }}">{{ loop.index }}</a>
+                        </td>
+                        <td>{{ configAgence.libelle }}</td>
+                        <td>{{ configAgence.code }}</td>
+                        <td>{{ configAgence.numeroMCF }}</td>
+
+                        {%  if configAgence.paysSise != null %}
+                            <td>{{ configAgence.paysSise }}</td>
+                        {% else %}
+                            <td style="text-align: center"> - </td>
+                        {% endif %}
+
+                        {%  if configAgence.ville != null %}
+                            <td>{{ configAgence.ville }}</td>
+                        {% else %}
+                            <td style="text-align: center"> - </td>
+                        {% endif %}
+
+                        {%  if configAgence.ville != null %}
+                            <td>{{ configAgence.portServeur }}</td>
+                        {% else %}
+                            <td style="text-align: center"> - </td>
+                        {% endif %}
+
+                        {% if configAgence.estActif %}
+                        <td style="color:green"> Active  </td>
+                        {% elseif configAgence.etatDemande == 0 %}
+                        <td style   ="color:red"> Désactiver </td>
+                        {% else %}
+                        <td style="color:#4b134f"> En attente </br> d'activation </td>
+                        {% endif %}
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                   title="Afficher"
+                                   href=" {{ path('configagence_show', { 'id': configAgence.id }) }} ">
+                                    <span class="oi oi-eye"></span>
+                                </a>
+                                {% if configAgence.estActif == 0 %}
+                                    <a class="btn btn--anon" data-toggle="tooltip" data-placement="top"
+                                       title="Demande d'activation"
+                                       href=" {{ path('demande_activer_agence', { 'id': configAgence.id }) }} ">
+                                            <span class="oi oi-play-circle"></span>
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-warning" data-toggle="tooltip" data-placement="top"
+                                       title="Désactiver"
+                                       href=" {{ path('desactivation_de_agence', { 'id': configAgence.id }) }} ">
+                                        <span class="oi oi-x"></span>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

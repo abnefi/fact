@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+
+  <title>{% block title %}Facturation{% endblock %}</title>
+  {% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('set/bootstrap.min.css') }}"/>
+
+    <link href="{{ asset('frontend/css/offcanvas.css') }}" rel="stylesheet">
+    {#<link href="{{ asset('frontend/css/style_contrat.css') }}" rel="stylesheet">#}
+    <link href="{{ asset('frontend/css/open-iconic-bootstrap.min.css') }}" rel="stylesheet">
+    {#<link rel="stylesheet" href="{{ asset('frontend/css/chosen.css') }}"/>#}
+    {#<link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-chosen.css') }}"/>#}
+    <link rel="stylesheet" href="{{ asset('frontend/css/flatpickr.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/loading.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/jquery.timepicker.min.css') }}"/>
+    {#<link rel="stylesheet" href="{{ asset('frontend/css/sidebar/simple-sidebar.css') }}"/>#}
+    <link href="{{ asset('set/font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('set/google_font.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('set/google_font2.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/responsive.dataTables.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/dataTables.bootstrap4.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/component-chosen.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/select2.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('frontend/css/nel.css') }}"/>
+    <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
+  {% endblock %}
+</head>
+
+<body class="bg-light">
+{% block body %}
+  <div class="row">
+    <div style="display: none;font-size: 15px;position: fixed;right: 4px;top: 30px;z-index: 999999999999999999;"
+         class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12 alert text-center" id="alert-raw">
+      <div class="row">
+        <div class="col-md-11">
+          <p></p>
+        </div>
+        <div class="col-md-1">
+          <button type="button" class="close btn btn-warning user-close-message-box" aria-label="Close">
+            <span aria-hidden="true" style="font-size: 1.2em;">&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block menu %}
+    {{ render(controller('AppBundle:Dashboard:menu')) }}
+  {% endblock %}
+
+{% endblock %}
+
+{% block sousmenu %}
+
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block fos_user_content %}
+
+{% endblock %}
+
+{% block javascripts %}
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  {#<script src="{{ asset('frontend/js/sidebar/bootstrap.bundle.min.js') }}"></script>#}
+  <script src="{{ asset('set/jquery-3.3.1.slim.min.js') }}"></script>
+
+  <script src="{{ asset('set/jquery.min.js') }}"></script>
+  {#<script src="{{ asset('frontend/js/jquery-3.js') }}"></script>#}
+  {#<script src="{{ asset('frontend/js/highcharts.js') }}"></script>#}
+  {#<script src="https://code.highcharts.com/highcharts.js"></script>#}
+  {#<script src="https://code.highcharts.com/modules/exporting.js"></script>#}
+  {#<script src="https://code.highcharts.com/modules/export-data.js"></script>#}
+  <script src="{{ asset('set/imask.js') }}"></script>
+
+  <script src="{{ asset('frontend/js/chosen.jquery.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/flatpickr.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/codeajax.js') }}"></script>
+  <script src="{{ asset('frontend/js/jquery.timepicker.min.js') }}"></script>
+
+  <script src="{{ asset('frontend/js/codeAjax.js') }}"></script>
+
+  <script src="{{ asset('frontend/js/popper.js') }}"></script>
+  <script src="{{ asset('frontend/js/bootstrap.js') }}"></script>
+  <script src="{{ asset('frontend/js/holder.js') }}"></script>
+  <script src="{{ asset('frontend/js/offcanvas.js') }}"></script>
+
+  <script src="{{ asset('frontend/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/dataTables.buttons.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/dataTables.responsive.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/buttons.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/jszip.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/pdfmake.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/vfs_fonts.js') }}"></script>
+  <script src="{{ asset('frontend/js/buttons.html5.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/buttons.print.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/buttons.colVis.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/jquery.mask.js') }}"></script>
+
+  <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+  <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+  {#Plugin pour la validation de formulaire#}
+  <script src="{{ asset('frontend/js/jquery-validation-1.19.0/jquery.validate.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/jquery-validation-1.19.0/additional-methods.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/jquery-validation-1.19.0/localization/messages_fr.min.js') }}"></script>
+  <script src="{{ asset('frontend/js/alex-date-time.js') }}"></script>
+  <script src="{{ asset('frontend/js/select2.js') }}"></script>
+  <script src="{{ asset('frontend/js/clientfacture/searchClient.js') }}"></script>
+  {##}
+  <!-- Menu Toggle Script -->
+  {#<script>#}
+  {#$("#menu_toggle").click(function(e) {#}
+  {#e.preventDefault();#}
+  {#$("#wrapper").toggleClass("toggled");#}
+  {#});#}
+  {#</script>#}
+  {#plugin pour pouvoir les colonnes de type date avec les data tables#}
+  {# summernote #}
+  {#<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>#}
+  {#<script src="{{ asset('frontend/summernote-0.8.16-dist/js/summernote-bs4.min.js') }}"></script>#}
+  <!-- include summernote-fr-FR -->
+  <script src="{{ asset('frontend/summernote-0.8.16-dist/lang/summernote-fr-FR.min.js') }}"></script>
+  {# initialize summer note#}
+  <script>
+    $(document).ready(function () {
+      /*$('.summernote_editor').summernote({
+          lang: 'fr-FR',
+          toolbar: [
+              // [groupName, [list of button]]
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              ['font', ['strikethrough', 'superscript', 'subscript']],
+              ['fontsize', ['fontsize']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['height', ['height']]
+          ]
+      });*/
+    })
+  </script>
+
+
+  <!-- Masque de saisie nombres à virgule -->
+  {#<script src="{{ asset('frontend/js/imask.js') }}"></script>#}
+  <script src="{{ asset('set/imask.js') }}"></script>
+  <script>
+    // $(document).ready(function () {
+    function initInputMaskDouble(element) {
+      // var element = document.getElementById('stockbundle_stockinventaire_details_0_stockReel');
+      // var element = $('.input_float');
+      var numberMask = IMask(element, {
+        mask: Number,  // enable number mask
+
+        // other options are optional with defaults below
+        scale: 2,  // digits after point, 0 for integers
+        signed: false,  // disallow negative
+        thousandsSeparator: '',  // any single char
+        padFractionalZeros: false,  // if true, then pads zeros at end to the length of scale
+        normalizeZeros: true,  // appends or removes zeros at ends
+        radix: ',',  // fractional delimiter
+        mapToRadix: ['.']    // symbols to process as radix
+
+        // additional number interval options (e.g.)
+        // min: -10000,
+        // max: 10000
+      });
+    }
+
+    // })
+  </script>
+
+  {#<script src="{{ asset('frontend/js/jquery.masknumber.min.js') }}"></script>#}
+  <script src="{{ asset('frontend/js/jquery.masknumber.js') }}"></script>
+  <script>
+    $('.input_double').maskNumber({
+      decimal: ',',
+      thousands: ' ',
+      integer: true,
+    });
+  </script>
+
+
+  <script src="{{ asset('set/fr.js') }}"></script>
+  <script src="{{ asset('frontend/js/initialiserDatePeriode.js') }}"></script>
+  <script>
+    initPeriode();
+  </script>
+  {#<script src="{{ asset('frontend/js/bootstrap.bundle.min.js') }}"></script>#}
+  <script src="{{ asset('set/date-uk.js') }}"></script>
+
+  <script>
+    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+      "date-uk-pre": function (a) {
+        if (a == null || a == "") {
+          return 0;
+        }
+        var ukDatea = a.split('/');
+        return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+      },
+
+      "date-uk-asc": function (a, b) {
+        return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+      },
+
+      "date-uk-desc": function (a, b) {
+        return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+      }
+    });
+  </script>
+  <script>
+    $(".chosen-select").chosen({
+      width: "100%",
+      placeholder_text_single: "Sélectionner une option"
+    })
+  </script>
+
+  <script>
+    let options = {
+      dateFormat: "Y-m-d",
+    }
+    let $date = $('.date')
+    $date.flatpickr(options)
+    $date.css("background-color", "white");
+
+    options.defaultDate = 'today'
+
+    let $fromToDay = $('.fromToDay')
+    $fromToDay.flatpickr({...options, minDate: 'today'})
+    $fromToDay.css("background-color", "white");
+
+    let $toToDay = $('.toToDay')
+    $toToDay.flatpickr({...options, maxDate: 'today'})
+    $toToDay.css("background-color", "white");
+
+    $('.timePicker').flatpickr({
+      // altInput: true,
+      // altFormat: "d/m/Y",
+      dateFormat: "H:i",
+      // dateFormat: "h:m",
+      enableTime: true,
+      // enableSeconds: true,
+      time_24hr: true,
+      // allowInput:true,
+      noCalendar: true
+      // defaultDate: 'today'
+    })
+    // $('.timePicker').css("background-color", "white");
+  </script>
+
+  <script>
+    $('.dateNaissance').flatpickr({
+      // altInput: true,
+      // altFormat: "d/m/Y",
+      dateFormat: "Y-m-d",
+      // defaultDate: '1990-01-01',
+      maxDate: 'today'
+    })
+    $('.dateNaissance').css("background-color", "white");
+  </script>
+  {#<script>#}
+  {#$('.periode').flatpickr({#}
+  {#altInput: true,#}
+  {#altFormat: "d/m/Y",#}
+  {#dateFormat: "Y-m-d",#}
+  {#// defaultDate: 'today'#}
+  {#})#}
+  {#$('.periode').prop('readonly', false);#}
+  {#</script>#}
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var table = $('.dataTable').DataTable({
+        lengthChange: true,
+        ordering: false,
+        dom: 'Bfrtip',
+        buttons: [{
+          extend: 'print',
+          text: 'Imprimer',
+          autoPrint: true,
+          exportOptions: {
+            columns: ':visible',
+          },
+          customize: function (win) {
+            $(win.document.body).find('table').addClass('display').css('font-size', '9px');
+            $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
+              $(this).css('background-color', '#D0D0D0');
+            });
+            $(win.document.body).find('h1').css('text-align', 'center');
+          }
+        }, 'excel', 'pdf', 'colvis'],
+        language: {
+          buttons: {
+            print: 'Imprimer',
+            pdf: 'PDF',
+            excel: 'Excel',
+            colvis: 'Masquer',
+            search: 'Chercher',
+          },
+          search: 'Chercher',
+        }
+
+      });
+
+      table.buttons().container()
+        .appendTo($('#print'));
+    });
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var tableResponsive = $('.dataTableResponsive').DataTable({
+        lengthChange: true,
+        responsive: true,
+        dom: 'Bfrtip',
+        "paging": false,
+        // "ordering": false,
+        "info": false,
+        "searching": false,
+
+      });
+
+    });
+  </script>
+
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+  <script>
+    $('.allLettersMaj').on('keyup', function () {
+      var nom = $(this).val();
+      nom = nom.toUpperCase();
+      $(this).val(nom);
+    })
+    $('.firstLetterMaj').on('keyup', function () {
+      var prenom = $(this).val();
+      $(this).val(prenom.substr(0, 1).toUpperCase() + prenom.substr(1, prenom.length));
+      prenom = prenom.substr(0, 1).toUpperCase() + prenom.substr(1, prenom.length);
+      for (var i = 0; i < prenom.length; i++) {
+        if (prenom[i] == " ") {
+          prenom = prenom.substr(0, i + 1) + prenom.substr(i + 1, 1).toUpperCase()
+            + prenom.substr(i + 2, prenom.length - i - 2);
+        }
+      }
+      $(this).val(prenom);
+    })
+  </script>
+  <script>
+    $('.inputDouble').on('keyup', function () {
+      console.log('on edit');
+      var RegExp = new RegExp(/^\d*\.?\d*$/);
+      var val = $(this).val();
+      if (RegExp.test($(this).val())) {
+        val = $(this).val();
+        // el_down.innerHTML = "Typed Valid Character.";
+      } else {
+        $(this).val(val);
+        // el_down.innerHTML = "Typed Invalid Character.";
+      }
+    })
+  </script>
+  <script>
+    function redColorForAsterix() {
+      var allAsterix = $('label')
+      allAsterix.each(function (index, asterix) {
+        var text = asterix.innerHTML
+        if (text.indexOf('*') != '-1') {
+          var newText = text.replace('*', '') + '<span style="color: red">*</span>';
+          asterix.innerHTML = newText
+        }
+      })
+    }
+  </script>
+  <script>
+    $(document).ready(function () {
+      //todo: astérisque pour les libellé des champs requis
+      $("label.required").append("<span id='as' style='color: red'> *</span>");
+        let as = document.getElementById('as');
+        var node=document.getElementById('configbundle_configsociete_typeEntreprise').childNodes
+        var tab=[];
+        for (var a=0;a<=node.length - 1;a++){
+            if(node[a].className=="required"){
+                node[a].removeChild(node[a].childNodes[1])
+            }
+        }
+
+
+      redColorForAsterix();
+
+        /* todo: mask téléphone*/
+        $('.telMask').mask('+(000).00.00.00.00', {placeholder: '+(229).__.__.__.__'});
+    })
+  </script>
+  <script>
+    function blackColorForLine() {
+      $('hr').css({"backgroundColor": "rgba(145, 145, 145, 0.75)"});
+    }
+  </script>
+  <script>
+    $('.timepicker').timepicker({
+      timeFormat: 'h:mm p',
+      interval: 60,
+      minTime: '10',
+      maxTime: '6:00pm',
+      defaultTime: '11',
+      startTime: '10:00',
+      dynamic: false,
+      dropdown: true,
+      scrollbar: true
+    });
+
+  </script>
+  <script>
+    $('.disButton').on('click', function () {
+      $(this).attr('disabled', true);
+      console.log('disButton');
+    });
+  </script>
+
+  <script>
+    $('form').submit(function () {
+      $('button:submit').attr('disabled', 'disabled');
+      $('input:submit').attr('disabled', 'disabled');
+      setTimeout(function () {
+        $('button:submit').removeAttr('disabled');
+        $('input:submit').removeAttr('disabled');
+      }, 5000);
+    })
+  </script>
+  {#<script>#}
+  {#$(document).ready(function(){#}
+  {#$('[data-toggle="popover"]').popover();#}
+  {#});#}
+  {#</script>#}
+  <script>
+    function formaterDate(intialDate) {
+      var twoDigitMonth = ((intialDate.getMonth() + 1) < 10) ? '0' + (intialDate.getMonth() + 1) : (intialDate.getMonth() + 1);
+      var twoDigitDay = (intialDate.getDate() < 10) ? '0' + (intialDate.getDate()) : (intialDate.getDate());
+      var dateFormate = twoDigitDay + "/" + twoDigitMonth + "/" + intialDate.getFullYear();
+      return dateFormate;
+    }
+  </script>
+{% endblock %}
+</body>
+</html>

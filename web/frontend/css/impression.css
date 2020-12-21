@@ -1,0 +1,85 @@
+.detail {
+    padding-left: 30px;
+}
+
+.image {
+    margin-top: -75px;
+}
+
+/*.page {*/
+/*page-break-after: always;*/
+/*}*/
+
+@font-face {
+    font-family: 'Century Gothic Regular';
+    src: url('../fonts/GOTHIC.woff');
+}
+
+@font-face {
+    font-family: 'Century Gothic Italic';
+    src: url('../fonts/GOTHICI.woff');
+}
+
+@font-face {
+    font-family: 'Century Gothic Bold';
+    src: url('../fonts/GOTHICB.woff');
+}
+
+@font-face {
+    font-family: 'Century Gothic Bold Italic';
+    src: url('../fonts/GOTHICBI.woff');
+}
+
+@media print {
+    .new-page {
+        page-break-before: always;
+    }
+}
+
+.bordure_noire {
+    border: 1px solid #343a40 !important;
+    padding: 10px;
+}
+
+.titre1{
+    font-size:16.0pt;
+}
+
+.titre2{
+    font-size:14.0pt;
+}
+
+.p1{
+    font-size:13.0pt;
+}
+
+.p2{
+    font-size:12.0pt;
+}
+
+.p2{
+    font-size:10.0pt;
+}
+
+
+p.article {
+    break-inside: avoid;
+    /*display: inline-block;*/
+    page-break-inside: avoid;
+}
+
+div.article {
+    break-inside: avoid;
+    /*display: inline-block;*/
+    page-break-inside: avoid;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+div.breakable_article {
+    /*break-inside: avoid;*/
+    /*!*display: inline-block;*!*/
+    /*page-break-inside: avoid;*/
+    margin-right: 0px;
+    margin-left: 0px;
+}

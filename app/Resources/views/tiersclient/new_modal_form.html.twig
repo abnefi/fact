@@ -1,0 +1,74 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Nouveau client</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+{{ form_start(formNewClient, {action: path('form_modal_new_client'), method: 'GET', 'attr': {id: 'formNewClient'}}) }}
+<div class="modal-body">
+  <div id="form_shortcut_new_client">
+
+    <div class="alert alert-danger" style="display: none" id="ctl_al" role="alert">
+      Veuillez renseigner tout les champs requis!
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded box-shadow">
+
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label>Code *</label>
+          {{ form_widget(formNewClient.code) }}
+          <span class="text-danger">{{ form_errors(formNewClient.code) }}</span>
+        </div>
+        <div class="col-md-6 form-group">
+          <label>Nom Client *</label>
+          {{ form_widget(formNewClient.nom) }}
+          <span class="text-danger">{{ form_errors(formNewClient.nom) }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label>Adresse *</label>
+          {{ form_widget(formNewClient.adresse) }}
+          <span class="text-danger">{{ form_errors(formNewClient.adresse) }}</span>
+        </div>
+        <div class="col-md-6 form-group">
+          <label>N° IFU</label>
+          {{ form_widget(formNewClient.ifu) }}
+          <span class="text-danger">{{ form_errors(formNewClient.ifu) }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label>Mail</label>
+          {{ form_widget(formNewClient.mail) }}
+          <span class="text-danger">{{ form_errors(formNewClient.mail) }}</span>
+        </div>
+        <div class="col-md-3 form-group">
+          <label>Téléphone *</label>
+          {{ form_widget(formNewClient.telephone) }}
+          <span class="text-danger">{{ form_errors(formNewClient.telephone) }}</span>
+        </div>
+        <div class="col-md-3 form-group text-center">
+          <label>
+            Est Personne Moral ?
+            <br>
+            {{ form_widget(formNewClient.estPersonneMoral) }}
+          </label>
+        </div>
+        <div class="col-md-3 form-group">
+          <label>Pays</label>
+          {{ form_widget(formNewClient.pays) }}
+          <span class="text-danger">{{ form_errors(formNewClient.pays) }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success" id="save_new_client">Enregistrer</button>
+  <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+</div>
+{{ form_end(formNewClient) }}

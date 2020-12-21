@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Stockinventairedetail</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ stockInventaireDetail.id }}</td>
+            </tr>
+            <tr>
+                <th>Stocktheorique</th>
+                <td>{{ stockInventaireDetail.stockTheorique }}</td>
+            </tr>
+            <tr>
+                <th>Stockreel</th>
+                <td>{{ stockInventaireDetail.stockReel }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('stockinventairedetail_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}
