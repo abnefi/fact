@@ -220,6 +220,7 @@ class ConfigSocieteController extends Controller
             'configAbonnements' => $configAbonnements,
             'form' => $form->createView(),
         ));
+        
     }
 
     /**

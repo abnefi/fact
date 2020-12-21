@@ -27,9 +27,10 @@ class SuperAdminController extends Controller
      */
     public function GestionCompte(Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
         $em = $this->getDoctrine()->getManager();
@@ -46,7 +47,8 @@ class SuperAdminController extends Controller
 
         $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN']);
         if (!$auth) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 
@@ -54,55 +56,55 @@ class SuperAdminController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
-            $monId=$request->get('monId');
+            $monId = $request->get('monId');
 
-            if ($monId=="listeAttente")
-            {
-                $liste_societes = $em->getRepository("ConfigBundle:ConfigSociete")->findBy(['estActif'=>0,'estSupprimer'=>0], ['created' => 'DESC']);
+            if ($monId == "listeAttente") {
+                $liste_societes = $em->getRepository("ConfigBundle:ConfigSociete")->findBy([
+                    'estActif'     => 0,
+                    'estSupprimer' => 0
+                ], ['created' => 'DESC']);
 
-            } elseif ($monId=="listeIncomplete")
-            {
-                $liste_users = $em->getRepository("UserBundle:FosUser")->findBy(['estActiver'=>0,'estVerifier'=>0,'estSupprimer'=>0], ['created' => 'DESC']);
+            } elseif ($monId == "listeIncomplete") {
+                $liste_users = $em->getRepository("UserBundle:FosUser")->findBy([
+                    'estActiver'   => 0,
+                    'estVerifier'  => 0,
+                    'estSupprimer' => 0
+                ], ['created' => 'DESC']);
 
-                $listeUsersAmin=array();
+                $listeUsersAmin = [];
 
-                foreach ($liste_users as $user)
-                {
-                    if ($user->hasRole('ROLE_CLT_ADMIN'))
-                    {
-                        $listeUsersAmin[$user->getId()]=$user;
+                foreach ($liste_users as $user) {
+                    if ($user->hasRole('ROLE_CLT_ADMIN')) {
+                        $listeUsersAmin[$user->getId()] = $user;
                     }
                 }
-              // dump($listeUsersAmin);die();
-                $liste_societes = array();
+                // dump($listeUsersAmin);die();
+                $liste_societes = [];
 
-                foreach ($listeUsersAmin as $user)
-                {
-                    if ($user->getAgence() ==null)
-                    {
-                        $liste_societes=[];
-                    } else
-                    {
-                        if ($user->getAgence()->getSociete() == null)
-                        {
-                            $liste_societes=[];
-                        } else
-                        {
+                foreach ($listeUsersAmin as $user) {
+                    if ($user->getAgence() == null) {
+                        $liste_societes = [];
+                    } else {
+                        if ($user->getAgence()->getSociete() == null) {
+                            $liste_societes = [];
+                        } else {
                             $users_soc = $user->getAgence()->getSociete();
-                            $liste_societes[$users_soc->getId()]=$users_soc;
+                            $liste_societes[$users_soc->getId()] = $users_soc;
                         }
                     }
                 }
 
-            } elseif ($monId=="listeDejaActiver")
-            {
-                $liste_societes = $em->getRepository("ConfigBundle:ConfigSociete")->findBy(['estActif'=>1,'estSupprimer'=>0], ['created' => 'DESC']);
+            } elseif ($monId == "listeDejaActiver") {
+                $liste_societes = $em->getRepository("ConfigBundle:ConfigSociete")->findBy([
+                    'estActif'     => 1,
+                    'estSupprimer' => 0
+                ], ['created' => 'DESC']);
 
             }
 
-            return $this->render('superadmin/liste.html.twig', array(
+            return $this->render('superadmin/liste.html.twig', [
                 'SocietesEnAttentes' => $liste_societes,
-            ));
+            ]);
         }
     }
 
@@ -124,13 +126,13 @@ class SuperAdminController extends Controller
             $em->persist($superAdmin);
             $em->flush();
 
-            return $this->redirectToRoute('superadmin_show', array('id' => $superAdmin->getId()));
+            return $this->redirectToRoute('superadmin_show', ['id' => $superAdmin->getId()]);
         }
 
-        return $this->render('superadmin/new.html.twig', array(
+        return $this->render('superadmin/new.html.twig', [
             'superAdmin' => $superAdmin,
-            'form' => $form->createView(),
-        ));
+            'form'       => $form->createView(),
+        ]);
     }
 
     /**
@@ -139,33 +141,34 @@ class SuperAdminController extends Controller
      * @Route("/affichage/de/chaque/societe/par/admin/show/{id}", name="show_une_societe")
      * @Method("GET")
      */
-    public function showAction(Request $request,ConfigSociete $configSociete)
+    public function showAction(Request $request, ConfigSociete $configSociete)
     {
 
-        if(!is_null($configSociete->getIfuFile()) || $configSociete->getIfuFile() !== '' ){
+        if (!is_null($configSociete->getIfuFile()) || $configSociete->getIfuFile() !== '') {
             $urlifu = $request->getScheme() . '://' . $request->getHttpHost() .
                 $request->getBasePath() . '/uploads/societe/' . $configSociete->getIfuFile();
-        }
-        else{
+        } else {
             $urlifu = '';
         }
 
-        if(!is_null($configSociete->getRegistreFile() || $configSociete->getRegistreFile() !== '') ){
+        if (!is_null($configSociete->getRegistreFile() || $configSociete->getRegistreFile() !== '')) {
             $urlregiste = $request->getScheme() . '://' . $request->getHttpHost() .
                 $request->getBasePath() . '/uploads/societe/' . $configSociete->getRegistreFile();
-        }
-        else{
+        } else {
             $urlregiste = '';
         }
 
-        $configAgences = $this->getDoctrine()->getRepository('ConfigBundle:ConfigAgence')->findBy(['estSupprimer'=>0,'societe'=>$configSociete]);
+        $configAgences = $this->getDoctrine()->getRepository('ConfigBundle:ConfigAgence')->findBy([
+            'estSupprimer' => 0,
+            'societe'      => $configSociete
+        ]);
 
-        return $this->render('superadmin/show.html.twig', array(
-            'societe' => $configSociete,
-            'urlIfu'=>$urlifu,
-            'urlRegiste'=>$urlregiste,
-            'configAgences'=>$configAgences
-        ));
+        return $this->render('superadmin/show.html.twig', [
+            'societe'       => $configSociete,
+            'urlIfu'        => $urlifu,
+            'urlRegiste'    => $urlregiste,
+            'configAgences' => $configAgences
+        ]);
     }
 
 
@@ -177,25 +180,33 @@ class SuperAdminController extends Controller
      */
     public function activerSociete(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN'])) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN', 'ROLE_ADMIN'])) {
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 
         $em = $this->getDoctrine()->getManager();
         $portServeur = $request->request->get('portServeur');
         $idSociete = $request->request->get('idSocieteCliquer');
-        $societe = $em->getRepository('ConfigBundle:ConfigSociete')->findOneBy(array('id' => $idSociete, 'estSupprimer' => 0));
-        $agence = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy(array('societe' => $societe, 'libelle' => 'Agence principal'), array('created' => 'DESC'));
-        $ag = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy(array('portServeur' => $portServeur));
+        $societe = $em->getRepository('ConfigBundle:ConfigSociete')->findOneBy([
+            'id'           => $idSociete,
+            'estSupprimer' => 0
+        ]);
+        $agence = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy([
+            'societe' => $societe,
+            'libelle' => 'Agence principal'
+        ], ['created' => 'DESC']);
+        $ag = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy(['portServeur' => $portServeur]);
 
-        if ($societe !== null){
-            if ($agence !== null){
-                if ($ag !== null){
-                    $request->getSession()->getFlashBag()->add('avertir', 'Ce port serveur est déjà rattaché à une agence.');
+        if ($societe !== null) {
+            if ($agence !== null) {
+                if ($ag !== null) {
+                    $request->getSession()->getFlashBag()->add('avertir',
+                        'Ce port serveur est déjà rattaché à une agence.');
                     return $this->redirectToRoute('index_gestion_societe');
-                }else{
-                    if ($societe->getEstActif() == false){
+                } else {
+                    if ($societe->getEstActif() == false) {
                         $societe->setEstActif(true);
                         $agence->setPortServeur($portServeur);
                         $societe->setUpdateBy($this->getUser()->getSlug());
@@ -206,10 +217,10 @@ class SuperAdminController extends Controller
                     }
                 }
             }
-         }else{
-             $request->getSession()->getFlashBag()->add('success', 'La société n\'existe pas.');
-             return $this->redirectToRoute('index_gestion_societe');
-         }
+        } else {
+            $request->getSession()->getFlashBag()->add('success', 'La société n\'existe pas.');
+            return $this->redirectToRoute('index_gestion_societe');
+        }
 //
     }
 
@@ -221,16 +232,20 @@ class SuperAdminController extends Controller
      */
     public function desactiverSociete(Request $request, ConfigSociete $societe)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN'])) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN', 'ROLE_ADMIN'])) {
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 
         $em = $this->getDoctrine()->getManager();
-        $agence = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy(array('societe' => $societe, 'libelle' => 'Agence principal'), array('created' => 'DESC'));
-        if ($societe !== null){
-            if ($agence !== null){
-                if ($societe->getEstActif()){
+        $agence = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy([
+            'societe' => $societe,
+            'libelle' => 'Agence principal'
+        ], ['created' => 'DESC']);
+        if ($societe !== null) {
+            if ($agence !== null) {
+                if ($societe->getEstActif()) {
                     $societe->setEstActif(false);
                     $agence->setPortServeur(null);
                     $societe->setUpdateBy($this->getUser()->getSlug());
@@ -240,10 +255,10 @@ class SuperAdminController extends Controller
                     return $this->redirectToRoute('index_gestion_societe');
                 }
             }
-         }else{
-             $request->getSession()->getFlashBag()->add('success', 'La société n\'existe pas.');
-             return $this->redirectToRoute('index_gestion_societe');
-         }
+        } else {
+            $request->getSession()->getFlashBag()->add('success', 'La société n\'existe pas.');
+            return $this->redirectToRoute('index_gestion_societe');
+        }
     }
 
 
@@ -255,22 +270,21 @@ class SuperAdminController extends Controller
      */
     public function rejeterSociete(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN'])) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN', 'ROLE_ADMIN'])) {
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 
-        $idSociete=$request->request->get('idSocieteCliquer');
-        $raisonRejet=$request->request->get('raisonrejet');
+        $idSociete = $request->request->get('idSocieteCliquer');
+        $raisonRejet = $request->request->get('raisonrejet');
 
         $em = $this->getDoctrine()->getManager();
         $societe = $em->getRepository('ConfigBundle:ConfigSociete')->find($idSociete);
         $configRejet = new ConfigRaisonRejet();
 
-        if (!$societe->getEstSupprimer())
-        {
-            if (!$societe->getEstActif())
-            {
+        if (!$societe->getEstSupprimer()) {
+            if (!$societe->getEstActif()) {
                 $configRejet->setLue(0);
                 $configRejet->setRaison($raisonRejet);
                 $configRejet->setSociete($societe);
@@ -279,15 +293,14 @@ class SuperAdminController extends Controller
                 $em->persist($configRejet);
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('success', 'Rejet reussit avec succes');
-                return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+                return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
             } else {
                 $request->getSession()->getFlashBag()->add('avertir', ' Cette société est déja activée. Merci');
-                return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+                return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
             }
-        } else
-        {
+        } else {
             $request->getSession()->getFlashBag()->add('fail', 'Désolé, cette société est supprimé.');
-            return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+            return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
         }
     }
 
@@ -322,10 +335,9 @@ class SuperAdminController extends Controller
     private function createDeleteForm(ConfigSociete $configSociete)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('configSociete_delete', array('id' => $configSociete->getId())))
+            ->setAction($this->generateUrl('configSociete_delete', ['id' => $configSociete->getId()]))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
 
@@ -337,23 +349,22 @@ class SuperAdminController extends Controller
      */
     public function supprimmer(ConfigSociete $configSociete, Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
         $em = $this->getDoctrine()->getManager();
 
 
-        if ($configSociete->getEstSupprimer())
-        {
+        if ($configSociete->getEstSupprimer()) {
             $configSociete->setEstSupprimer(false);
             $configSociete->setUpdateBy($this->getUser()->getSlug());
             $configSociete->setUpdateAt(new \DateTime());
             $request->getSession()->getFlashBag()->add('success', 'Annulation de Suppression réussie.');
 
-        } else
-        {
+        } else {
             $configSociete->setEstSupprimer(true);
             $configSociete->setUpdateBy($this->getUser()->getSlug());
             $configSociete->setUpdateAt(new \DateTime());
@@ -374,9 +385,10 @@ class SuperAdminController extends Controller
      */
     public function desactivationDagenceAdmin(ConfigAgence $configAgence, Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 
@@ -391,7 +403,7 @@ class SuperAdminController extends Controller
         $em->flush();
 
         $request->getSession()->getFlashBag()->add('success', 'Désactivation  réussie.');
-        return $this->redirectToRoute('show_une_societe',array('id'=>$configAgence->getSociete()->getId()));
+        return $this->redirectToRoute('show_une_societe', ['id' => $configAgence->getSociete()->getId()]);
 
     }
 
@@ -404,37 +416,41 @@ class SuperAdminController extends Controller
      */
     public function ActivationAgenceAdmin(Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN','ROLE_ADMIN'])) {
-            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_FNS_ADMIN', 'ROLE_ADMIN'])) {
+            $request->getSession()->getFlashBag()->add('echec',
+                'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 
         $em = $this->getDoctrine()->getManager();
 
-        $idAgence=$request->request->get('idAgenceCliquer');
-        $port=$request->request->get('portServeur');
+        $idAgence = $request->request->get('idAgenceCliquer');
+        $port = $request->request->get('portServeur');
 
         $configAgence = $em->getRepository('ConfigBundle:ConfigAgence')->find($idAgence);
         $societe = $configAgence->getSociete();
 
-        $ExisteAgence = $em->getRepository('ConfigBundle:ConfigAgence')->findBy(['portServeur'=>$port]);
+        $ExisteAgence = $em->getRepository('ConfigBundle:ConfigAgence')->findBy(['portServeur' => $port]);
 
         if ($ExisteAgence != null) {
             $request->getSession()->getFlashBag()->add('avertir', 'Désolé, Une Agence est deja associe à ce port.');
-            return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
-        } else
-        {
-            if($societe->getEstActif())
-            {
-                $AbonementSocAgence = $em->getRepository('ConfigBundle:ConfigAbonnementSociete')->findOneBy(['societe'=>$societe,'estActif'=>1,'estSupprimer'=>0]);
+            return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
+        } else {
+            if ($societe->getEstActif()) {
+                $AbonementSocAgence = $em->getRepository('ConfigBundle:ConfigAbonnementSociete')->findOneBy([
+                    'societe'      => $societe,
+                    'estActif'     => 1,
+                    'estSupprimer' => 0
+                ]);
 
-                if ($AbonementSocAgence !== null)
-                {
+                if ($AbonementSocAgence !== null) {
                     $limiteAgence = $AbonementSocAgence->getTypeAbonnement()->getLimiteAgence();
-                    $NombreAgenceActif = count($em->getRepository('ConfigBundle:ConfigAgence')->findBy(['societe'=>$societe,'estActif'=>1]));
+                    $NombreAgenceActif = count($em->getRepository('ConfigBundle:ConfigAgence')->findBy([
+                        'societe'  => $societe,
+                        'estActif' => 1
+                    ]));
 
-                    if ($NombreAgenceActif  < $limiteAgence)
-                    {
+                    if ($NombreAgenceActif < $limiteAgence) {
                         if (!$configAgence->getEstSupprimer()) {
                             if ($configAgence->getEtatDemande()) {
                                 $configAgence->setEtatDemande(false);
@@ -444,31 +460,31 @@ class SuperAdminController extends Controller
                                 $configAgence->setUpdateAt(new \DateTime());
                                 $em->flush();
                                 $request->getSession()->getFlashBag()->add('success', 'Activation reussit avec succes');
-                                return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+                                return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
                             } else {
-                                $request->getSession()->getFlashBag()->add('avertir', ' Aucune demande d\'activation n\'est liée à cette agence. Merci');
-                                return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+                                $request->getSession()->getFlashBag()->add('avertir',
+                                    ' Aucune demande d\'activation n\'est liée à cette agence. Merci');
+                                return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
                             }
-                        } else
-                        {
+                        } else {
                             $request->getSession()->getFlashBag()->add('fail', 'Désolé, cette agence est supprimé.');
-                            return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+                            return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
                         }
-                    } else
-                    {
-                        $request->getSession()->getFlashBag()->add('avertir', 'Désolé, Vous avez atteint le nombre limite d\'agence pour cet abonnement');
-                        return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+                    } else {
+                        $request->getSession()->getFlashBag()->add('avertir',
+                            'Désolé, Vous avez atteint le nombre limite d\'agence pour cet abonnement');
+                        return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
                     }
 
-                } else
-                {
-                    $request->getSession()->getFlashBag()->add('avertir', 'Désolé, Vous n\'avez aucun abonnement actif pour le moment');
-                    return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+                } else {
+                    $request->getSession()->getFlashBag()->add('avertir',
+                        'Désolé, Vous n\'avez aucun abonnement actif pour le moment');
+                    return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
                 }
-            } else
-            {
-                $request->getSession()->getFlashBag()->add('avertir', 'Désolé, La société de cette agence n\'est pas encore ativer.');
-                return $this->redirectToRoute('show_une_societe',array('id'=>$societe->getId()));
+            } else {
+                $request->getSession()->getFlashBag()->add('avertir',
+                    'Désolé, La société de cette agence n\'est pas encore ativer.');
+                return $this->redirectToRoute('show_une_societe', ['id' => $societe->getId()]);
             }
         }
     }

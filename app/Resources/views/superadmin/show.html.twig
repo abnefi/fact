@@ -338,17 +338,17 @@
               <form method="post" action="{{ path('activer_agence_par_admin') }}">
                 <div class="modal-body">
                   <div class="row">
-                      <div class="col-md-12">
-                          <label>Port Serveur</label>
-                          <input class="form-control" name="portServeur" id="portServeur"
-                               type="number" required="true"/>
-                      </div>
+                    <div class="col-md-12">
+                      <label>Port Serveur</label>
+                      <input class="form-control" name="portServeur" id="portServeur"
+                             type="number" required="true"/>
+                    </div>
 
-                      <input id="idAgenceCliquer" name="idAgenceCliquer" hidden>
+                    <input id="idAgenceCliquer" name="idAgenceCliquer" hidden>
                   </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Valider"/>
+                  <input type="submit" class="btn btn-primary" value="Valider"/>
                 </div>
               </form>
 
@@ -371,19 +371,19 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <form method="post" action="{{ path('rejeter_societe_par_admin') }}" >
+              <form method="post" action="{{ path('rejeter_societe_par_admin') }}">
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-md-12">
                       <label>Raison rejet</label>
-                      <textarea class="form-control" name="raisonrejet" id="raisonrejet"  required="true" ></textarea>
+                      <textarea class="form-control" name="raisonrejet" id="raisonrejet" required="true"></textarea>
                     </div>
 
                     <input id="idSocieteCliquer" name="idSocieteCliquer" hidden>
                   </div>
                 </div>
                 <div class="modal-footer" style="margin-right: 5%">
-                  <input type="submit" class="btn btn-primary" value="Valider" />
+                  <input type="submit" class="btn btn-primary" value="Valider"/>
                 </div>
               </form>
 
@@ -444,7 +444,7 @@
       $('.activer_societe').on('click', function (e) {
         e.preventDefault()
         idSociete = $(this).data('val')
-          console.log('ok');
+        console.log('ok');
         $("#idSocieteCliquer").val(idSociete)
         $('#modal_activation_societe').modal('show')
       })

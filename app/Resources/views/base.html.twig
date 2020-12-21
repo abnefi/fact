@@ -324,8 +324,8 @@
         dom: 'Bfrtip',
         "paging": false,
         // "ordering": false,
-        "info": false,
-        "searching": false,
+        "info": true,
+        "searching": true,
 
       });
 
@@ -386,20 +386,22 @@
     $(document).ready(function () {
       //todo: astérisque pour les libellé des champs requis
       $("label.required").append("<span id='as' style='color: red'> *</span>");
-        let as = document.getElementById('as');
-        var node=document.getElementById('configbundle_configsociete_typeEntreprise').childNodes
-        var tab=[];
-        for (var a=0;a<=node.length - 1;a++){
-            if(node[a].className=="required"){
-                node[a].removeChild(node[a].childNodes[1])
-            }
+      let as = document.getElementById('as');
+      var node = document.getElementById('configbundle_configsociete_typeEntreprise')
+      if (!!node) {
+        node = node.childNodes
+        var tab = [];
+        for (var a = 0; a <= node.length - 1; a++) {
+          if (node[a].className == "required") {
+            node[a].removeChild(node[a].childNodes[1])
+          }
         }
-
+      }
 
       redColorForAsterix();
 
-        /* todo: mask téléphone*/
-        $('.telMask').mask('+(000).00.00.00.00', {placeholder: '+(229).__.__.__.__'});
+      /* todo: mask téléphone*/
+      $('.telMask').mask('+(000).00.00.00.00', {placeholder: '+(229).__.__.__.__'});
     })
   </script>
   <script>
