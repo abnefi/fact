@@ -17,7 +17,7 @@
                 </button>
             </div>
         {% endfor %}
-        <div class="my-3 p-3 bg-white rounded box-shadow">
+        <div class="my-3 p-3 bg-white rounded box-shadow  table-responsive">
             <a class="btn btn-outline-dark" href="{{ path('configsociete_edit', { 'id': configSociete.id }) }}"
                style="margin-bottom: 10px;"><span class="oi oi-pencil"></span> Modifier</a>
             {{ include("messageSucces.html.twig") }}

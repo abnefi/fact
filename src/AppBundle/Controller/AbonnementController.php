@@ -203,7 +203,7 @@ class AbonnementController extends Controller
                 $typeAbonnement=$configAbonnementSociete->getTypeAbonnement()->getId();
                 if ($soc->getDejaEssayer()==1 and $typeAbonnement == 4)
                 {
-                    $request->getSession()->getFlashBag()->add('avertir', 'La version d\'essaie est deja essayer.');
+                    $request->getSession()->getFlashBag()->add('avertir', 'La version d\'essaie est deja expirée.');
                     return $this->redirectToRoute('configabonnement_show_demande', array('id' => $configAbonnementSociete->getId()));
 
                 } else

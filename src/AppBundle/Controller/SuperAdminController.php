@@ -218,7 +218,7 @@ class SuperAdminController extends Controller
                 }
             }
         } else {
-            $request->getSession()->getFlashBag()->add('success', 'La société n\'existe pas.');
+            $request->getSession()->getFlashBag()->add('avertir', 'Désolé, La société n\'existe pas.');
             return $this->redirectToRoute('index_gestion_societe');
         }
 //

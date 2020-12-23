@@ -7,7 +7,7 @@ $("#configbundle_configabonnementsociete_typeAbonnement:last").change(function (
   let inputDuree = $("#configbundle_configabonnementsociete_duree");
   let inputMontant = $("#montant_abonnement");
 
-  if (idAbonnement == 4) {
+  if (idAbonnement == 1) {
     $("#reabonneAuto").hide('slow')
     $("#divBanque").attr("class", 'col-md-6')
   } else {

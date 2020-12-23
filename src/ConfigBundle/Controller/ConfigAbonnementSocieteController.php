@@ -38,36 +38,16 @@ class ConfigAbonnementSocieteController extends Controller
 
         $configAbonnements = $em->getRepository('ConfigBundle:ConfigAbonnement')->findBy(['estActif' => true, 'estSupprimer' => false]);
 
-        $PremierconfigAbonnements = $em->getRepository('ConfigBundle:ConfigAbonnement')->findOneBy(['estActif' => true, 'estSupprimer' => false]);
-
-        if ($PremierconfigAbonnements != null)
-        {
-            $idPremier=$PremierconfigAbonnements->getId();
-        }
-
         $configAbonnementSocietes = $em->getRepository('ConfigBundle:ConfigAbonnementSociete')->findBy(['societe' => $soc, 'estSupprimer' => false], ['createdAt' => 'DESC']);
 
         $configAbonnementSociete = new Configabonnementsociete();
         $form = $this->createForm('ConfigBundle\Form\ConfigAbonnementSocieteType', $configAbonnementSociete, ['etatEssaie'=>$etatEssaie]);
-
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            dump($request->request);die();
-
-            $em = $this->getDoctrine()->getManager();
-            $configAbonnementSociete->setSociete($this->getUser()->getAgence()->getSociete());
-            $em->persist($configAbonnementSociete);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('success', 'Activation réussie.');
-            return $this->redirectToRoute('configabonnementsociete_index');
-        }
         return $this->render('configabonnementsociete/index.html.twig', array(
             'configAbonnementSocietes' => $configAbonnementSocietes,
             'configAbonnementSociete' => $configAbonnementSociete,
             'configAbonnements' => $configAbonnements,
-            'idPremier' => $idPremier,
             'etatEssaie' => $etatEssaie,
             'form' => $form->createView()
         ));
@@ -157,13 +137,12 @@ class ConfigAbonnementSocieteController extends Controller
         $form->handleRequest($request);
 
 
-
         if ($form->isSubmitted())
         {
             // Vérifier si c'est pdf
             $typefichier = $form->get('fichierPaie')->getData()->getMimeType();
 
-            if ($typefichier != "application/pdf" )
+            if ($typefichier != "application/pdf")
             {
                 $request->getSession()->getFlashBag()->add('fail', 'Désolé, Veuillez selectionner un fichier de type PDF.');
                 return $this->redirectToRoute('configabonnementsociete_index');

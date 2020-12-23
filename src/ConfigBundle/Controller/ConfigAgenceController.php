@@ -6,7 +6,8 @@ use ConfigBundle\Entity\ConfigAgence;
 use OperationsClientBundle\Entity\ClientFacture;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
@@ -25,7 +26,7 @@ class ConfigAgenceController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -35,7 +36,7 @@ class ConfigAgenceController extends Controller
         $soc = $this->getUser()->getAgence()->getSociete();
         $em = $this->getDoctrine()->getManager();
 
-        $configAgences = $em->getRepository('ConfigBundle:ConfigAgence')->findBy(['estSupprimer'=>0,'societe'=>$soc]);
+        $configAgences = $em->getRepository('ConfigBundle:ConfigAgence')->findBy(['estSupprimer' => 0, 'societe' => $soc]);
 
         return $this->render('configagence/index.html.twig', array(
             'configAgences' => $configAgences,
@@ -50,7 +51,7 @@ class ConfigAgenceController extends Controller
      */
     public function editListeAgenceAction(Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -92,7 +93,7 @@ class ConfigAgenceController extends Controller
      */
     public function newAction(Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -133,9 +134,9 @@ class ConfigAgenceController extends Controller
      * @Route("/{id}", name="configagence_show")
      * @Method("GET")
      */
-    public function showAction(Request $request,ConfigAgence $configAgence)
+    public function showAction(Request $request, ConfigAgence $configAgence)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -157,7 +158,7 @@ class ConfigAgenceController extends Controller
      */
     public function editAction(Request $request, ConfigAgence $configAgence)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -192,7 +193,7 @@ class ConfigAgenceController extends Controller
      */
     public function deleteAction(Request $request, ConfigAgence $configAgence)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -223,8 +224,7 @@ class ConfigAgenceController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('configagence_delete', array('id' => $configAgence->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
 
@@ -236,18 +236,17 @@ class ConfigAgenceController extends Controller
      */
     public function supprimmer(Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 
-        $monCode=$request->request->get('codeAgenceCliquer');
+        $monCode = $request->request->get('codeAgenceCliquer');
         $em = $this->getDoctrine()->getManager();
-        $configAgence = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy(['code'=>$monCode]);
+        $configAgence = $em->getRepository('ConfigBundle:ConfigAgence')->findOneBy(['code' => $monCode]);
 
-        if ($configAgence->getEstSupprimer())
-        {
+        if ($configAgence->getEstSupprimer()) {
             $configAgence->setEstSupprimer(false);
             $configAgence->setUpdateBy($this->getUser()->getSlug());
             $configAgence->setUpdateAt(new \DateTime());
@@ -278,7 +277,7 @@ class ConfigAgenceController extends Controller
      */
     public function desactivationDagence(ConfigAgence $configAgence, Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -306,7 +305,7 @@ class ConfigAgenceController extends Controller
      */
     public function demandeActivationAgence(Request $request, ConfigAgence $configAgence)
     {
-        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_ADMIN'])) {
+        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN', 'ROLE_ADMIN'])) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
@@ -314,7 +313,8 @@ class ConfigAgenceController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if (!$configAgence->getEstSupprimer()) {
-            if (!$configAgence->getEtatDemande()) {
+            if (!$configAgence->getEtatDemande())
+            {
                 $configAgence->setEtatDemande(true);
                 $configAgence->setUpdateBy($this->getUser()->getSlug());
                 $configAgence->setUpdateAt(new \DateTime());
@@ -322,12 +322,10 @@ class ConfigAgenceController extends Controller
                 $request->getSession()->getFlashBag()->add('success', 'Votre demande d\'activation est envoyée. Merci de patienter');
                 return $this->redirectToRoute('configagence_index');
             } else {
-
                 $request->getSession()->getFlashBag()->add('avertir', 'Une demande d\'activation est déja en cours. Merci de patienter');
                 return $this->redirectToRoute('configagence_index');
             }
-        } else
-        {
+        } else {
             $request->getSession()->getFlashBag()->add('fail', 'Désolé, ce utilisateur est supprimé.');
             return $this->redirectToRoute('configagence_index');
         }

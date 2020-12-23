@@ -25,8 +25,8 @@ class StockServiceController extends Controller
     {
         $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
 
-        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
-            return $this->redirectToRoute('logout');
+        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            return $this->redirectToRoute('fos_user_security_login');
         }
         $em = $this->getDoctrine()->getManager();
         $soc = $this->getUser()->getAgence()->getSociete();
@@ -37,7 +37,6 @@ class StockServiceController extends Controller
             'stockServices' => $stockServices,
         ));
     }
-
 
 
     /**
@@ -51,8 +50,8 @@ class StockServiceController extends Controller
 
         $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
 
-        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
-            return $this->redirectToRoute('logout');
+        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            return $this->redirectToRoute('fos_user_security_login');
         }
         $em = $this->getDoctrine()->getManager();
         $stockService->setEstSupprimer(true);
@@ -78,8 +77,8 @@ class StockServiceController extends Controller
     {
         $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
 
-        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
-            return $this->redirectToRoute('logout');
+        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            return $this->redirectToRoute('fos_user_security_login');
         }
         $stockService = new Stockservice();
         $em = $this->getDoctrine()->getManager();
@@ -124,8 +123,8 @@ class StockServiceController extends Controller
     {
         $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
 
-        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
-            return $this->redirectToRoute('logout');
+        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            return $this->redirectToRoute('fos_user_security_login');
         }
         $deleteForm = $this->createDeleteForm($stockService);
         $prixUnitaireTTC = $this->get('stock_operations')->calculerPrixUnitaireTTC($stockService);
@@ -145,10 +144,10 @@ class StockServiceController extends Controller
      */
     public function editAction(Request $request, StockService $stockService)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_ADMIN','ROLE_CONTROLEUR','ROLE_COMPTABLE','ROLE_CAISSE','ROLE_AGENT','ROLE_VENDEUR']);
-        if (!$auth) {
-            $request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
-            return $this->redirectToRoute('logout');
+        $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
+
+        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            return $this->redirectToRoute('fos_user_security_login');
         }
         $deleteForm = $this->createDeleteForm($stockService);
         $em = $this->getDoctrine()->getManager();
@@ -194,10 +193,10 @@ class StockServiceController extends Controller
      */
     public function deleteAction(Request $request, StockService $stockService)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_ADMIN']);
-        if (!$auth) {
-            $request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
-            return $this->redirectToRoute('logout');
+        $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
+
+        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN','ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('acces', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+            return $this->redirectToRoute('fos_user_security_login');
         }
         $form = $this->createDeleteForm($stockService);
         $form->handleRequest($request);
