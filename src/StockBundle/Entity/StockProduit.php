@@ -89,7 +89,7 @@ class StockProduit
 
     /**
      * @var string
-     * @ORM\Column(name="description", type="string", length=100, nullable=true)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 

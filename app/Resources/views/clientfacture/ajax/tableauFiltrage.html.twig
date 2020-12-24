@@ -134,6 +134,7 @@
         var table = $('.dataTable').DataTable({
             lengthChange: true,
             dom: 'Bfrtip',
+            ordering: false,
             columnDefs: [
                 {type: 'date-uk', targets: 7}
             ],
@@ -146,8 +147,6 @@
                 orientation: 'landscape',
                 exportOptions: {
                     columns: ':visible',
-                    //                    columns: [ 0, 1, 2, 3 ]
-
                 },
 
                 customize: function (win) {
@@ -158,7 +157,6 @@
                     $(win.document.body).find('h1').css('text-align', 'center');
                 }
             },
-
                 {
                     // extend: 'excel',
                     extend: 'excelHtml5',
@@ -191,7 +189,6 @@
                 },
                 search: 'Chercher',
             }
-
         });
 
         table.buttons().container()

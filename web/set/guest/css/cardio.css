@@ -288,7 +288,7 @@ section {
 }
 
 .cut-top {
-	content: ' ';
+	content: '';
 	position: absolute;
 	z-index: 1;
 	top: -80px;

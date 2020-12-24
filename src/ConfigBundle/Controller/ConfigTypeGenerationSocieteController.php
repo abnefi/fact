@@ -81,16 +81,12 @@ class ConfigTypeGenerationSocieteController extends Controller
      */
     public function showAction(Request $request,ConfigTypeGenerationSociete $configTypeGenerationSociete)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_ADMIN','ROLE_FNS_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
-        $this->denyAccessUnlessGranted(['ROLE_ADMIN'], null,
-            'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            return $this->redirectToRoute('login');
-        }
+
         $deleteForm = $this->createDeleteForm($configTypeGenerationSociete);
 
         return $this->render('configtypegenerationsociete/show.html.twig', array(
@@ -107,7 +103,7 @@ class ConfigTypeGenerationSocieteController extends Controller
      */
     public function editAction(Request $request, ConfigTypeGenerationSociete $configTypeGenerationSociete)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_ADMIN','ROLE_FNS_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
@@ -142,7 +138,7 @@ class ConfigTypeGenerationSocieteController extends Controller
      */
     public function deleteAction(Request $request, ConfigTypeGenerationSociete $configTypeGenerationSociete)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_ADMIN','ROLE_FNS_ADMIN']);
+        $auth = $this->get('security.authorization_checker')->isGranted(['ROLE_CLT_ADMIN']);
         if (!$auth) {
             $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');

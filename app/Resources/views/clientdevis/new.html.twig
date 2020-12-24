@@ -268,8 +268,10 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="{{ asset('set/dist/facturation/check_input.js') }}"></script>
-  <script src="{{ asset('set/dist/facturation/formulaire.js') }}"></script>
+  {#<script src="{{ asset('set/dist/facturation/check_input.js') }}"></script>#}
+  {#<script src="{{ asset('set/dist/facturation/formulaire.js') }}"></script>#}
+  <script src="{{ asset('src/facturation/check_input.js') }}"></script>
+  <script src="{{ asset('src/facturation/formulaire.js') }}"></script>
   <script type="application/javascript">
     $(function () {
       $('#operationsclientbundle_clientdevis_details').hide()

@@ -36,18 +36,22 @@ class ClientFactureController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
+        $authentication = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
+        $authorisation = $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR', 'ROLE_FNS_ADMIN']);
 
-        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+        if (!$authentication || $authorisation) {
+            $request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
-        $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $societe = $user->getAgence()->getSociete();
+        $em = $this->getDoctrine()->getManager();
+        $agence = $user->getAgence();
+        $societe = $agence->getSociete();
 
         $codesFactures = ['FV', 'EV', 'FA', 'EA'];
+
         $clientFactures = $em->getRepository('OperationsClientBundle:ClientFacture')
-            ->getFacturesAvoirEtVente($codesFactures,$societe);
+            ->getFacturesAvoirEtVente($codesFactures,$agence);
         $typesFactures = $em->getRepository('ConfigBundle:ConfigTypeFacture')
             ->findBy(['actif' => true, 'devis' => false, 'export' => false,'estSupprimer'=>0]);
 
@@ -56,17 +60,18 @@ class ClientFactureController extends Controller
         foreach ($facturesAvoir as $factureAvoir) {
             $referencesOriginesFacturesAvoir[] = $factureAvoir->getReferenceFactureOrigine();
         }
+
         $facturesVente_SansAvoirs = $em->getRepository('OperationsClientBundle:ClientFactureVente')
             ->findBy(['estValide' => true, 'hasAvoir' => false,'estSupprimer'=>0,'societe'=>$societe]);
 
-        $clients = $em->getRepository('TiersBundle:TiersClient')->findBy(['societe' => $societe,'estSupprimer'=>0,'societe'=>$societe]);
+        $clients = $em->getRepository('TiersBundle:TiersClient')->findBy(['societe' => $societe,'estSupprimer'=>0]);
 
         $configEtat = $em->getRepository('ConfigBundle:ConfigEtat')->findBy(['estSupprimer' => 0]);
 //        dump($configEtat);die();
         $data = [
             'clientFactures'           => $clientFactures,
             'typesFactures'            => $typesFactures,
-            'facturesVente_SansAvoirs' => $facturesVente_SansAvoirs,
+//            'facturesVente_SansAvoirs' => $facturesVente_SansAvoirs,
             'clients'                  => $clients,
             'etats'                     => $configEtat,
         ];

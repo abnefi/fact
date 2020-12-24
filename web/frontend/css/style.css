@@ -30,16 +30,15 @@
 }
 
 .bg-gradient-primary-to-secondary {
-    background-color: #0061f2;
-    background-image: linear-gradient(135deg, #0061f2 0%, rgba(105, 0, 199, 0.8) 100%);
+    background-color: #0061f2   ;
+    /*background-image: linear-gradient(135deg, #0061f2 0%, rgba(105, 0, 199, 0.8) 100%);*/
 }
 
 .bg-dark {
     background-color: #1d4d9d !important;
 }
 .active {
-    background-color: white ;
-
+    background-color: white;
 }
 
 .loader {
@@ -86,9 +85,13 @@
    /* background-color: #195541;
     border-color: #195541;*/
 
-    background-color: #1d4d9d;
-    border-color: #1d4d9d;
+    background-color: #14346c;
+    border-color: #14346c;
 }
+
+/*.bande{*/
+    /*background-color: #5c3c92;*/
+/*}*/
 
 fieldset
 {

@@ -1,17 +1,13 @@
 {% extends 'base2.html.twig' %}
 
 {% block menu %}
-
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-gradient-primary-to-secondary">
         <a class="navbar-brand mr-auto mr-lg-5" href="#">IGO-Facturation</a>
         <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
             <span class="navbar-toggler-icon"></span>
         </button>
-
         <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-
             <ul class="navbar-nav ml-auto">
-
                 <li>
                     <a class="nav-link btn btn-white-fill" href="{{ path('fos_user_security_logout') }}"> <span
                                 class="fa fa-arrow-left"></span> Accueil</a>
@@ -20,13 +16,9 @@
                     <a class="nav-link btn btn-white-fill" href="{{ path('fos_user_security_logout') }}"> <span
                                 class="fa fa-sign-out"></span> Déconnexion</a>
                 </li>
-
-
                 <li style="display: none">
                     <a class="nav-link" href=""></a>
                 </li>
-
-
             </ul>
         </div>
     </nav>
@@ -48,28 +40,28 @@
                         <small class="text-secondary" style="text-align: center">Votre compte est en attente d'activation. Veuillez patienter pendant que l'administrateur possède à l'activation de votre compte. Merci</small>
                     </div>
                     <br>
-                    {% if count > 0 %}
-                        <div class="card form-control">
-                            <div class="card-header">
-                                Voici les raisons pour lesquels votre compte n'est pas encore activer {{ count }}
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                {#<li class="list-group-item">Cras justo odio</li>#}
-                                {% for message in app.session.flashbag.get('raison') %}
-                                    <li class="list-group-item"><strong>{{ message }}</strong></li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    {% endif %}
+                  {% if count > 0 %}
+                      <div class="card form-control">
+                          <div class="card-header">
+                              Voici les raisons pour lesquels votre compte n'est pas encore activer {{ count }}
+                          </div>
+                          <ul class="list-group list-group-flush">
+                            {#<li class="list-group-item">Cras justo odio</li>#}
+                            {% for message in app.session.flashbag.get('raison') %}
+                                <li class="list-group-item"><strong>{{ message }}</strong></li>
+                            {% endfor %}
+                          </ul>
+                      </div>
+                  {% endif %}
 
 
                     <hr>
                     <div class="row text-center">
-                        {% if id != null %}
-                            <div class="col-md-12">
-                                <a class="btn btn-outline-primary btn-sm" href="{{ path('society_agence_edit', { 'id': id }) }}"> <span class="fa fa-pencil"></span>   Mettre à jour les infos de votre société</a>
-                            </div>
-                        {% endif %}
+                      {% if id != null %}
+                          <div class="col-md-12">
+                              <a class="btn btn-outline-primary btn-sm" href="{{ path('society_agence_edit', { 'id': id }) }}"> <span class="fa fa-pencil"></span>   Mettre à jour les infos de votre société</a>
+                          </div>
+                      {% endif %}
 
                     </div>
 
@@ -80,7 +72,7 @@
     <div class="element_center">
         <div class="row py-3">
 
-            {# Modal de demanade d'activation d'abonnement #}
+          {# Modal de demanade d'activation d'abonnement #}
             <div class="modal fade" id="modal_DemandeAbonnement" role="dialog"
                  aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
@@ -94,26 +86,25 @@
                             </button>
                         </div>
                         <br/>
-
-                        {{ form_start(form, {'action': path('configabonnementsociete_new'), 'method': 'POST'} ) }}
+                      {{ form_start(form, {'action': path('configabonnementsociete_new'), 'method': 'POST'} ) }}
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6 form-group">
-                                        {{ form_label(form.libelle) }}
-                                        {{ form_widget(form.libelle, {'attr' : {'class' : 'form-control'}}) }}
+                                      {{ form_label(form.libelle) }}
+                                      {{ form_widget(form.libelle, {'attr' : {'class' : 'form-control'}}) }}
                                         <span class="text-danger">{{ form_errors(form.libelle) }}</span>
                                     </div>
                                     <div class="col-md-6 form-group">
-                                        {{ form_label(form.typeAbonnement) }}
-                                        {{ form_widget(form.typeAbonnement, {'attr' : {'class' : 'form-control'}}) }}
+                                      {{ form_label(form.typeAbonnement) }}
+                                      {{ form_widget(form.typeAbonnement, {'attr' : {'class' : 'form-control'}}) }}
                                         <span class="text-danger">{{ form_errors(form.typeAbonnement) }}</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-3 form-group">
                                         <label for="configbundle_configabonnementsociete_duree">Durée (Jours)</label>
-                                        {{ form_widget(form.duree, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
+                                      {{ form_widget(form.duree, {'attr' : {'class' : 'form-control','readonly':'true'}}) }}
                                         <span class="text-danger">{{ form_errors(form.duree) }}</span>
                                     </div>
                                     <div class="col-md-3 form-group">
@@ -122,63 +113,58 @@
                                                readonly class="form-control">
                                     </div>
                                     <div class="col-md-3 form-group" id="divBanque">
-                                        {{ form_label(form.banque) }}
-                                        {{ form_widget(form.banque, {'attr' : {'class' : 'form-control'}}) }}
+                                      {{ form_label(form.banque) }}
+                                      {{ form_widget(form.banque, {'attr' : {'class' : 'form-control'}}) }}
                                         <span class="text-danger">{{ form_errors(form.banque) }}</span>
                                     </div>
                                     <div class="col-md-3 form-group" id="reabonneAuto" align="center" style="margin-top: 10px">
-                                        {{ form_label(form.reabonnementAuto) }}
-                                        {{ form_widget(form.reabonnementAuto, {'attr' : {'class' : 'form-control'}}) }}
+                                      {{ form_label(form.reabonnementAuto) }}
+                                      {{ form_widget(form.reabonnementAuto, {'attr' : {'class' : 'form-control'}}) }}
                                         <span class="text-danger">{{ form_errors(form.reabonnementAuto) }}</span>
                                     </div>
-
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 form-group">
-                                        {{ form_label(form.fichierPaie) }}
-                                        {{ form_widget(form.fichierPaie, {'attr' : {'class' : 'form-control','required':'true','accept':'.pdf'}}) }}
+                                      {{ form_label(form.fichierPaie) }}
+                                      {{ form_widget(form.fichierPaie, {'attr' : {'class' : 'form-control','required':'true','accept':'.pdf'}}) }}
                                         <span class="text-danger">{{ form_errors(form.fichierPaie) }}</span>
                                     </div>
-
-
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 form-group">
-                                        {{ form_label(form.noteDetails) }}
-                                        {{ form_widget(form.noteDetails, {'attr' : {'class' : 'form-control'}}) }}
+                                      {{ form_label(form.noteDetails) }}
+                                      {{ form_widget(form.noteDetails, {'attr' : {'class' : 'form-control'}}) }}
                                         <span class="text-danger">{{ form_errors(form.noteDetails) }}</span>
                                     </div>
                                 </div>
                                 <div class="row" hidden>
                                     <div class="col-md-6 form-group">
-                                        {{ form_label(form.debutAbonnement) }}
-                                        {{ form_widget(form.debutAbonnement, {'attr' : {'class' : 'form-control'}}) }}
+                                      {{ form_label(form.debutAbonnement) }}
+                                      {{ form_widget(form.debutAbonnement, {'attr' : {'class' : 'form-control'}}) }}
                                         <span class="text-danger">{{ form_errors(form.debutAbonnement) }}</span>
                                     </div>
                                     <div class="col-md-6 form-group">
-                                        {{ form_label(form.finAbonnement) }}
-                                        {{ form_widget(form.finAbonnement, {'attr' : {'class' : 'form-control'}}) }}
+                                      {{ form_label(form.finAbonnement) }}
+                                      {{ form_widget(form.finAbonnement, {'attr' : {'class' : 'form-control'}}) }}
                                         <span class="text-danger">{{ form_errors(form.finAbonnement) }}</span>
                                     </div>
-                                    {{ form_widget(form.estActif, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_widget(form.estSupprimer, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_widget(form.decisionAdmin, {'attr' : {'class' : 'form-control'}}) }}
+                                  {{ form_widget(form.estActif, {'attr' : {'class' : 'form-control'}}) }}
+                                  {{ form_widget(form.estSupprimer, {'attr' : {'class' : 'form-control'}}) }}
+                                  {{ form_widget(form.decisionAdmin, {'attr' : {'class' : 'form-control'}}) }}
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Valider"/>
                         </div>
-                        {{ form_end(form) }}
+                      {{ form_end(form) }}
 
                     </div>
                 </div>
             </div>
 
-
             <div class="card-deck justify-content-center">
-
-                {# firt product basic#}
+              {# firt product basic#}
                 <div class="card productShadow" style="width: 20rem;">
                     <img height="200px" class="card-img-top" src="{{ asset('frontend/img/Gestion.jpg') }}"
                          alt="Card image cap">
@@ -205,7 +191,7 @@
                     </div>
                 </div>
 
-                {# seconds product medium#}
+              {# seconds product medium#}
                 <div class="card productShadow" style="width: 20rem;">
                     <img height="200px" class="card-img-top" src="{{ asset('frontend/img/shutterstock.jpg') }}"
                          alt="Card image cap">
@@ -233,9 +219,9 @@
                         </button>
                     </div>
                 </div>
-                {#</div>#}
+              {#</div>#}
 
-                {# third product premium#}
+              {# third product premium#}
                 <div class="card productShadow" style="width: 20rem;">
                     <img height="200px" class="card-img-top" src="{{ asset('frontend/img/stock-management.jpg') }}" alt="Card image cap">
                     <div class="card-body">
@@ -261,17 +247,12 @@
                         </button>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 {% endblock %}
 
-
-
-
 {% block javascripts %}
-    {{ parent() }}
+  {{ parent() }}
     <script src="{{ asset('frontend/js/abonnement/demandeAbonnement.js') }}"></script>
 {% endblock %}

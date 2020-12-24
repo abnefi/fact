@@ -72,26 +72,90 @@ class ClientFactureRepository extends \Doctrine\ORM\EntityRepository
         return $tab[0][1];
     }
 
-//    public function getFacturesAvoirEtVente(ConfigAgence $agence, $codesFactures)
-    public function getFacturesAvoirEtVente($codesFactures, $societe)
+    /**
+     * @param $codesFactures
+     * @param $agence
+     *
+     * @return ClientFacture[]
+     */
+    public function getFacturesAvoirEtVente($codesFactures, ConfigAgence $agence)
     {
-        $qb = $this
+        return $this
             ->createQueryBuilder('f')
             ->leftJoin('f.typeFacture', 'tf')
-//            ->where('f.agence = :agence')
-//            ->setParameter('agence', $agence)
-            ->andWhere('tf.code IN (:codesFactures) and f.societe = :soc')
+            ->where('f.agence = :agence')
+            ->andWhere('tf.code IN (:codesFactures)')
             ->setParameter('codesFactures', $codesFactures)
-            ->setParameter('soc', $societe)
-            ->orderBy('f.dateFacture', 'desc');
-
-        return $qb
+            ->setParameter('agence', $agence)
+            ->setMaxResults(20)
+            ->orderBy('f.dateFacture', 'desc')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
-    public function getByFiltres($tempsFactureActif, $typeTemps, $tempsFacturation, $arrayTypesFacture, $arrayClients, $configSociete, $etatfactures)
+
+    public function getByFiltres($tempsFactureActif, $tempsFacturation, $arrayTypesFacture, $arrayClients, $etatfactures, $configSociete)
     {
+        $params = [
+            'societe' => $configSociete
+        ];
+        $wherePeriod = $whereClient = $whereEtat = $leftJoinClient = $leftJoinEtat = '';
+        $leftJoinTypeFacture = 'left join ConfigBundle:ConfigTypeFacture tf with f.typeFacture = tf';
+
+        if ($tempsFactureActif === 'true') {
+            $parts = explode(' au ', $tempsFacturation);
+            $wherePeriod = 'and f.dateFacture >= :dateDebut and f.dateFacture <= :dateFin';
+            $params['dateDebut'] = new \DateTime($parts[0]);
+            $params['dateFin'] = new \DateTime($parts[1]);
+        }
+
+        if ($arrayTypesFacture !== '') {
+            $params['typeFacture'] = $arrayTypesFacture;
+            $whereTypeFacture = 'and tf in (:typeFacture)';
+        } else {
+            $whereTypeFacture = 'and tf.code in (:typeFacture)';
+            $params['typeFacture'] = ['FV', 'FA'];
+        }
+
+        if ($arrayClients !== '') {
+            $leftJoinClient = 'left join TiersBundle:TiersClient cl with f.client = cl';
+            $whereClient = 'and cl in (:clients)';
+            $params['clients'] = $arrayClients;
+        }
+
+        if ($etatfactures !== '') {
+            $leftJoinEtat = 'left join ConfigBundle:ConfigEtat et with f.etatDeclaration = et';
+            $whereEtat = 'and et in (:etatFacture)';
+            $params['etatFacture'] = $etatfactures;
+        }
+
+        $dql = "
+            select f
+            from OperationsClientBundle:ClientFacture f
+            {$leftJoinTypeFacture}
+            {$leftJoinClient}
+            {$leftJoinEtat}
+            where f.societe = :societe
+            {$wherePeriod}
+            {$whereTypeFacture}
+            {$whereClient}
+            {$whereEtat}
+            order by f.dateFacture desc
+        ";
+        dump($dql, $params); //die();
+        $result = $this->_em->createQuery($dql)
+            ->setMaxResults(20)
+            ->setParameters($params)
+            ->getResult()
+        ;
+        dump($result); //die();
+
+        return $result;
+        /*
+        $req = $this->_em->createQuery()->setParameters($params)
+            ->getResult();
+
         $qb = $this
             ->createQueryBuilder('f')
             ->leftJoin('f.typeFacture', 'tf')
@@ -133,9 +197,9 @@ class ClientFactureRepository extends \Doctrine\ORM\EntityRepository
 
         $qb->orderBy('f.dateFacture', 'desc');
 
-        return $qb
+        result $qb
             ->getQuery()
-            ->getResult();
+            ->getResult();*/
     }
 
 

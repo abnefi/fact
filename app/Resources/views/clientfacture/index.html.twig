@@ -41,27 +41,21 @@
                 <legend>FILTRAGE</legend>
                 <div class="row">
                     <div class="col-md-3 form-group">
-                        <div class="btn-group" role="group" aria-label="basic-addon1">
-                            <input id="date_facture_radio" type="radio" name="type_temps_facture"
-                                   value="date" style="padding-right: 20px" disabled>Date
-                            <span style="color: white">____</span>
-                            <input id="periode_facture_radio" type="radio" name="type_temps_facture"
-                                   value="periode" disabled>Période<br>
-                        </div>
+                        <label>Période</label>
                         <div class="input-group mb-4">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
                                     <input type="checkbox" id="check_temps_facture">
                                 </div>
                             </div>
-                            <input id="temps_facture" type="text" class="form-control date_etat" name="temps_facture"
+                            <input id="temps_facture" type="text" class="form-control {#date_etat#}periode_facture" name="temps_facture"
                                    disabled onchange="ajaxFacture.filtrerFactures()"/>
                         </div>
                     </div>
                     <div class="col-md-3 form-group">
                         <label>Type Facture</label>
                         <select class="form- chosen-select" id="type_facture" name="type_facture"
-                                multiple data-placeholder="Veuillez sélectionner"
+                                multiple data-placeholder="Sélectionnez un type"
                                 onchange="ajaxFacture.filtrerFactures()">
                             {# <option value="0">Choisir un type de facture</option> #}
                             {% for typeFacture in typesFactures %}
@@ -73,7 +67,7 @@
                     <div class="col-md-3 form-group">
                         <label>Client</label>
                         <select class="form-control chosen-select" id="select_clients" name="select_clients"
-                                multiple data-placeholder="Veuillez sélectionner"
+                                multiple data-placeholder="Sélectionnez un client"
                                 onchange="ajaxFacture.filtrerFactures()">
                             {% for client in clients %}
                                 <option value="{{ client.id }}">{{ client.nom }}</option>
@@ -84,8 +78,9 @@
                     <div class="col-md-3 form-group">
                         <label>Etat</label>
                         <select class="form-control chosen-select" id="select_etats" name="select_etats"
-                                 data-placeholder="Veuillez sélectionner"
+                                 data-placeholder="Sélectionnez un état"
                                 onchange="ajaxFacture.filtrerFactures()">
+                            <option value="">Sélectionnez un état</option>
                             {% for etat in etats %}
                                 <option value="{{ etat.id }}">{{ etat.libelle }}</option>
                             {% endfor %}
@@ -93,7 +88,6 @@
                     </div>
                     <br>
                 </div>
-
             </fieldset>
             <br>
 

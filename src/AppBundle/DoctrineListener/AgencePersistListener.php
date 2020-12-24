@@ -43,15 +43,15 @@ class AgencePersistListener
             $totalSociete = $entityManager->getRepository(ConfigSociete::class)->taille()+1;
             $totalAgence = $entityManager->getRepository(ConfigAgence::class)->tailles() + 1;
             $code = 'SOT' . $totalSociete . 'AGPR' . $totalAgence;
-
-        } else {
+        } else
+            {
             $typeG_Societe=$confg_type->getTypeGeneration();
             $code = $confg_type->getSociete()->getCode().$typeG_Societe->getCodeAgence().$numOrdre1.$num.$numOrdre2;
         }
 
         $verifie_code = $entityManager->getRepository('ConfigBundle:ConfigAgence')->findBy(['code'=>$code]);
 
-        if (($verifie_code != null && $verifie_code != '' && $verifie_code != [] && count($verifie_code) > 0)) {
+        if ($verifie_code != null && $verifie_code != '' && $verifie_code != [] && count($verifie_code) > 0) {
             goto a;
         }
 

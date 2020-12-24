@@ -37,6 +37,7 @@ class ConfigTypeGenerationController extends Controller
         $configTypeGenerationSociete = new Configtypegenerationsociete();
         $form = $this->createForm('ConfigBundle\Form\ConfigTypeGenerationSocieteType', $configTypeGenerationSociete);
         $form->handleRequest($request);
+        
         $ltGenerations = $em->getRepository('ConfigBundle:ConfigTypeGeneration')->findBy(['estSupprimer' => 0, 'societe' => $soc]);
         $configTypeSoc = $em->getRepository('ConfigBundle:ConfigTypeGenerationSociete')->findBy(['estSupprimer' => 0, 'societe' => $soc, 'estGenere' => 1], ['created' => 'DESC']);
 
@@ -46,14 +47,15 @@ class ConfigTypeGenerationController extends Controller
 
             if (($ltGenerations != null && $ltGenerations != '' && $ltGenerations != [] && count($ltGenerations) > 0))
             {
-                if (($configTypeSoc != null && $configTypeSoc != '' && $configTypeSoc != [] && count($configTypeSoc) > 0)) {
+                if ($configTypeSoc != null && $configTypeSoc != '' && $configTypeSoc != [] && count($configTypeSoc) > 0)
+                {
                     $dateUsed = $configTypeSoc[0]->getCreated();
 
                     $dateLimite = new \DateTime(($dateUsed)->format('Y') . '-12-31');
                     $datetypeCodeNow= new \DateTime();
 
                     if ($datetypeCodeNow < $dateLimite) {
-                        $request->getSession()->getFlashBag()->add('success', 'Une Génération est déja activer, veuillez réesayer plus tard.');
+                        $request->getSession()->getFlashBag()->add('avertir', 'Une Génération est déja activer, veuillez réesayer plus tard.');
                         return $this->redirectToRoute('configtypegeneration_index');
                     } else {
                         $configTypeGenerationSociete->setTypeGeneration($Conftype);

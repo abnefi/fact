@@ -144,9 +144,7 @@ class ConfigSocieteController extends Controller
 
             $configSociete->setCreated(new \DateTime());
             $configSociete->setCreatedBy($user->getSlug());
-//            $configSociete->setPortServeur('12');
-
-//            dump($configSociete->getEstProfessionLiberale());die();
+//
             //Todo: remplir la table agence
             $configAgence->setSociete($configSociete);
 
@@ -182,13 +180,6 @@ class ConfigSocieteController extends Controller
 
     }
 
-
-    /**
-     * Search fonction
-     *
-     * @Route("/get/fonction", name="get_fonction", options={"expose" = true})
-     * @Method({"POST"})
-     */
 
     /**
      * society register succes a new configSociete entity.

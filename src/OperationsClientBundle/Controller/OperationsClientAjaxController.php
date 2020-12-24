@@ -179,20 +179,16 @@ class OperationsClientAjaxController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->isXmlHttpRequest()) {
-
             $selectedTypesFacture = $request->get('selectTypesFacture');
             $tempsFactureActif = $request->get('tempsFactureActif');
-            $typeTemps = $request->get('typeTemps');
             $tempsFacture = $request->get('tempsFacture');
             $selectedClients = $request->get('selectClients');
-            $selectedEtatDeclaration = $request->get('selectEtatDeclaration');
+            $etatDeclarationId = $request->get('selectEtatDeclaration');
 
             $configSociete = $this->getUser()->getAgence()->getSociete();
-            $etatfactures = $em->getRepository("ConfigBundle:ConfigEtat")->find($selectedEtatDeclaration);
 
             $factures = $em->getRepository("OperationsClientBundle:ClientFacture")->getByFiltres($tempsFactureActif,
-                $typeTemps, $tempsFacture, $selectedTypesFacture, $selectedClients, $configSociete, $etatfactures);
-
+                $tempsFacture, $selectedTypesFacture, $selectedClients, $etatDeclarationId, $configSociete);
 
             if ($factures == null) {
                 return new Response('<html><body><div class="alert alert-info alert-danger" role="alert">

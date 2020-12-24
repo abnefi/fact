@@ -168,6 +168,7 @@ class ClientDevisController extends DefaultController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            dump($clientDevis); die();
             $details = $clientDevis->getDetails();
             /** @var ClientFactureDetail $detail */
             foreach ($details as $detail) {

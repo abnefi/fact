@@ -4,7 +4,7 @@ function initPeriode() {
     var periodeDebut = Date.parse(new Date(annee, moisDebut, 1));
     // console.log(periodeDebut);
     var mindate = new Date().getTime() - 31540000000
-    $('.periode').flatpickr(
+    $('.periode_facture').flatpickr(
         {
             mode: "range",
             locale: "fr",
@@ -21,11 +21,11 @@ function initPeriode() {
             ]
         }
     );
-    $('.periode').on('focus', function () {
+    $('.periode_facture').on('focus', function () {
         $(this).blur();
     });
     // $('.periode').prop('readonly', false);
-    $('.periode').css("background-color", "white");
+    $('.periode_facture').css("background-color", "white");
 }
 
 function initDate() {
