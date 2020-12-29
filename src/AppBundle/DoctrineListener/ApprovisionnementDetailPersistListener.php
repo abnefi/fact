@@ -10,7 +10,6 @@ class ApprovisionnementDetailPersistListener
 {
     public function prePersist(LifecycleEventArgs $args)
     {
-//        dump($args);die();
         $entity = $args->getObject();
         $entityManager = $args->getObjectManager();
 
@@ -22,7 +21,5 @@ class ApprovisionnementDetailPersistListener
 
         $article->setStockDisponible($newStockDispo);
         $entityManager->persist($article);
-//        $entityManager->flush();
-//        $this->stockOperation->updateStockDisponibleArticle($entity);
     }
 }

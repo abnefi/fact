@@ -67,10 +67,10 @@
                     <th>Taux TVA</th>
                     <td>{{ clientFacture.tauxTVA }}</td>
                 </tr>
-                <tr>
+                {#<tr>
                     <th>Taux AIB</th>
-                    <td>{#{{ clientFacture.tauxAIB }}#}NEL</td>
-                </tr>
+                    <td>#}{#{{ clientFacture.tauxAIB }}#}{#NEL</td>
+                </tr>#}
                 <tr>
                     <th>Est validé</th>
                     <td>{% if clientFacture.estValide %}Oui{% else %}Non{% endif %}</td>
@@ -87,9 +87,9 @@
                     <th>Unité Mesure</th>
                     <th>Qté</th>
                     <th>Prix Unité</th>
-                    <th>Taux Remise (%)</th>
+                    {#<th>Taux Remise (%)</th>#}
                     <th>Montant HT</th>
-                    <th>Taxable ?</th>
+                    <th>Groupe taxe</th>
                     <th>Description</th>
                     <th>Taxe Spécifique</th>
                     <th>Changement Prix Origine ?</th>
@@ -105,9 +105,9 @@
                         <td>{{ detail.uniteMesure.libelle }}</td>
                         <td>{{ detail.quantite }}</td>
                         <td>{{ detail.prixVenteUnitaire  |number_format(0, ',', ' ') }}</td>
-                        <td>{{ detail.tauxRemise }}</td>
+                        {#<td>{{ detail.tauxRemise }}</td>#}
                         <td>{{ ((detail.quantite * detail.prixVenteUnitaire)*(1-(detail.tauxRemise/100))) |number_format(0, ',', ' ') }}</td>
-                        <td>{#{% if detail.produit.taxable %}Oui{% else %}Non{% endif %}#}NEL</td>
+                        <td>{{ detail.produit.taxeGroupe.code }}</td>
                         <td>
                             {% if detail.description %}
                                 {{ detail.description }}
@@ -142,73 +142,7 @@
                                 </div>
                             {% endif %}
                         </td>
-                        {# <td>{{ detail.tauxTVA }}</td> #}
-                        {# <td>{% if detail.produit.hasTaxeSpecifique %}Oui{% else %}Non{% endif %}</td> #}{# <td>{{ detail.tauxTVA }}</td> #}
-                        {# <td>{{ detail.tauxAIB }}</td> #}
-                        {# <td> #}
-                        {# <div class="btn-group"> #}
-                        {# <a class="btn btn-primary" data-toggle="tooltip" #}
-                        {# data-placement="top" title="Voir" #}
-                        {# href="{{ path('stockarticle_show', { 'id': stockArticle.id }) }}"> #}
-                        {# <span class="oi oi-eye"></span> #}
-                        {# </a> #}
-                        {# <button class="btn btn-primary popover_detail" title="Voir plus" #}
-                        {# data-id="{{ detail.id }}" data-trigger="focus" #}
-                        {# data-toggle="popover" data-placement="bottom"> #}
-                        {# <i class="oi oi-eye"></i> #}
-                        {# Supprimer #}
-                        {# </button> #}
-                        {# <a class="btn btn-primary" data-toggle="tooltip" data-placement="top" #}
-                        {# title="Modifier" #}
-                        {# href="{{ path('stockarticle_edit', { 'id': stockArticle.id }) }}"> #}
-                        {# <span class="oi oi-pencil"></span> #}
-                        {# </a> #}
-                        {# </div> #}
-                        {# </td> #}
                     </tr>
-                    {# <tr> #}
-                    {# {% if detail.description %} #}
-                    {# <td colspan="4"> #}
-                    {# <p class="card-header text-center"><b>Description Article</b></p> #}
-                    {# <div class="card"> #}
-                    {# <div class="card-body"> #}
-                    {# <span><b><u>Description:</u></b></span> #}
-                    {# {{ detail.description }} #}
-                    {# </div> #}
-                    {# </div> #}
-                    {# </td> #}
-                    {# {% endif %} #}
-                    {# {% if detail.produit.hasTaxeSpecifique %} #}
-                    {# <td colspan="3"> #}
-                    {# <p class="card-header text-center"><b>Taxe #}
-                    {# Spécifique:</b> {{ detail.produit.valeurTaxeSpecifique }} % #}
-                    {# </p> #}
-                    {# <div class="card"> #}
-                    {# <div class="card-body"> #}
-                    {# <span><b><u>Taxe Spécifique:</u></b></span> {{ detail.taxeSpecifique }} % #}
-                    {# <span><b><u>Description:</u></b></span> #}
-                    {# {{ detail.produit.descriptionTaxeSpecifique |raw }} #}
-                    {# <br> #}
-                    {# <span><b><u>Montant:</u></b></span> #}
-                    {# {{ ((detail.quantite * detail.prixVenteUnitaire)*(1-(detail.tauxRemise/100)) #}
-                    {# *(detail.produit.valeurTaxeSpecifique/100)) |number_format(0, ',', ' ') }} #}
-                    {# </div> #}
-                    {# </div> #}
-                    {# </td> #}
-                    {# {% endif %} #}
-                    {# {% if detail.changementPrixUnitaireTTC %} #}
-                    {# <td colspan="3"> #}
-                    {# <p class="card-header text-center"><b>Dernier Prix Origine:</b></p> #}
-                    {# <div class="card"> #}
-                    {# <div class="card-body"> #}
-                    {# <span><b><u>Valeur:</u></b></span> {{ detail.dernierPrixOrigine }} {{ clientFacture.devise.symbole }} #}
-                    {# <br> #}
-                    {# <span><b><u>Cause du changement:</u></b></span> {{ detail.descriptionPrixOrigine }} #}
-                    {# </div> #}
-                    {# </div> #}
-                    {# </td> #}
-                    {# {% endif %} #}
-                    {# </tr> #}
                 {% endfor %}
                 </tbody>
             </table>
@@ -224,7 +158,6 @@
                     </div>
                 </div>
                 <div class="col-md-2 form-group">
-
                 </div>
                 <div class="col-md-4 form-group">
                     {# <p>Montant total: <strong>{{ montantTotal |number_format(0, ',', ' ') }} Fcfa</strong></p> #}

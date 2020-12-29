@@ -134,7 +134,9 @@ class ClientOperations
     public function calculerMontantAIBFacture(ClientFacture $facture)
     {
         $details = $facture->getDetails();
+        // dump($details); die();
         $montantAIB = 0;
+        /** @var ClientFactureDetail $detail */
         foreach ($details as $detail) {
 //            $detail = new ClientFactureDetail();
             if ($detail->getAibDeductible()) {

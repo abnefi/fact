@@ -613,6 +613,9 @@ class ClientFactureDetail
      */
     public function setTauxAIB($tauxAIB)
     {
+        if ($tauxAIB > 1) {
+            $tauxAIB /= 100;
+        }
         $this->tauxAIB = $tauxAIB;
 
         return $this;

@@ -168,11 +168,11 @@ class ClientDevisController extends DefaultController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            dump($clientDevis); die();
             $details = $clientDevis->getDetails();
             /** @var ClientFactureDetail $detail */
             foreach ($details as $detail) {
-                $detail->setFacture($clientDevis);
+                //$detail->setFacture($clientDevis);
+                $detail->setTauxAIB($detail->getTauxAIB()/$detail->getPrixVenteUnitaire());
 
                 $detail->setUpdateBy($this->getUser()->getSlug());
                 $detail->setUpdatedAt(new \DateTime());
@@ -187,6 +187,7 @@ class ClientDevisController extends DefaultController
                     $detail->setCreated(new DateTime());
                 }
             }
+//            dump($clientDevis); die();
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', 'Modification effectuée avec succès');
@@ -194,6 +195,8 @@ class ClientDevisController extends DefaultController
         }
 
         $donnees['delete_form'] = $deleteForm->createView();
+
+//        dump($data); die();
 
         return $this->render('clientdevis/new.html.twig', $data);
     }
