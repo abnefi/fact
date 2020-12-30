@@ -103,7 +103,7 @@ class ClientPaiementController extends Controller
     {
         $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
 
-        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+        if (!$auth || !$this->get('security.authorization_checker')->isGranted(['ROLE_CAISSE'])) {$request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
         $deleteForm = $this->createDeleteForm($clientPaiement);
@@ -177,9 +177,8 @@ class ClientPaiementController extends Controller
      */
     public function supprimmer(ClientPaiement $clientPaiement, Request $request)
     {
-        $auth = $this->get('security.authorization_checker')->isGranted(['IS_AUTHENTICATED_FULLY']);
 
-        if (!$auth || $this->get('security.authorization_checker')->isGranted(['ROLE_VISITEUR','ROLE_FNS_ADMIN'])) {$request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
+        if (!$this->get('security.authorization_checker')->isGranted(['ROLE_CAISSE'])) {$request->getSession()->getFlashBag()->add('echec', 'Désolé, vous n\'avez pas le droit d\'accès à cette page.');
             return $this->redirectToRoute('fos_user_security_login');
         }
 

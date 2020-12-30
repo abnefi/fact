@@ -12,10 +12,12 @@
                 <a id="service" class="nav-link " href="{{ path('stockservice_index') }}"> <b>Service</b></a>
             {% endif %}
             {% if typeActivite != 'prestation_service' %}
-                <a id="appro" class="nav-link " href="{{ path('stockapprovisionnement_index') }}">
-                <b>Approvisionnement</b></a>
-                <a id="inventaire" class="nav-link " href="{{ path('stockinventaire_index') }}">
-                    <b>Inventaire</b></a>
+                {% if is_granted(['ROLE_CONTROLEUR']) %}
+                    <a id="appro" class="nav-link " href="{{ path('stockapprovisionnement_index') }}">
+                    <b>Approvisionnement</b></a>
+                    <a id="inventaire" class="nav-link " href="{{ path('stockinventaire_index') }}">
+                        <b>Inventaire</b></a>
+                {% endif %}
             {% endif %}
         </nav>
     </div>

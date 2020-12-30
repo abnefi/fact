@@ -3,23 +3,17 @@
     <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
         <span class="navbar-toggler-icon"></span>
     </button>
-    {#<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"#}
-            {#aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
-        {#<span class="navbar-toggler-icon"></span>#}
-    {#</button>#}
     <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-md-auto">
-            {% if is_granted(['ROLE_CLT_ADMIN','ROLE_CONTROLEUR','ROLE_COMPTABLE','ROLE_CAISSE','ROLE_AGENT','ROLE_VENDEUR']) %}
-            <li id="dashboard" class="nav-item">
-                {#<a class="nav-link" href="{{ path('homepage') }}">Tableau de bord <span class="sr-only"></span></a>#}
-                <a class="nav-link" href="{{ path('dashboard_index') }}">Tableau de bord <span
-                            class="sr-only"></span></a>
-            </li>
+            {% if is_granted(['ROLE_CLT_ADMIN','ROLE_CONTROLEUR','ROLE_CAISSE','ROLE_VENDEUR']) %}
+                <li id="dashboard" class="nav-item">
+                    <a class="nav-link" href="{{ path('dashboard_index') }}">Tableau de bord <span
+                                class="sr-only"></span></a>
+                </li>
             {% endif %}
 
             {% if is_granted(['ROLE_ADMIN','ROLE_FNS_ADMIN']) %}
                 <li id="dashboard" class="nav-item">
-                    {#<a class="nav-link" href="{{ path('homepage') }}">Tableau de bord <span class="sr-only"></span></a>#}
                     <a class="nav-link" href="{{ path('dashboard_admin_index') }}">
                         Tableau de bord <span class="sr-only"></span>
                     </a>
@@ -27,75 +21,53 @@
             {% endif %}
 
             {% if is_granted(['ROLE_ADMIN','ROLE_CLT_ADMIN']) %}
-            <li id="config" class="nav-item">
-                <a class="nav-link" href="{{ path('configsociete_show') }}">Paramétrages <span
-                            class="sr-only"></span></a>
-            </li>
+                <li id="config" class="nav-item">
+                    <a class="nav-link" href="{{ path('configsociete_show') }}">Paramétrages <span
+                                class="sr-only"></span></a>
+                </li>
             {% endif %}
 
-            {% if is_granted(['ROLE_ADMIN','ROLE_CONTROLEUR','ROLE_COMPTABLE','ROLE_CAISSE','ROLE_AGENT','ROLE_VENDEUR']) %}
-            <li id="tiers" class="nav-item">
-                <a class="nav-link" href="{{ path('tiersfournisseur_index') }}">Tiers<span
-                            class="sr-only"></span></a>
-            </li>
-            {% set typeActivite = app.session.get('type_activite') %}
-            <li id="stock" class="nav-item">
-                <a class="nav-link"
-                        {% if typeActivite == 'vente_article' or typeActivite == 'article_service' %}
-                            href="{{ path('stockarticle_index') }}"
-                        {% else %}
-                            href="{{ path('stockservice_index') }}"
-                        {% endif %}
-                >Stock <span class="sr-only"></span></a>
-            </li>
-            <li id="operations_client" class="nav-item"><a class="nav-link" href="{{ path('clientfacture_index') }}">Opérations
-                    Clients
-                    <span class="sr-only"></span></a>
-            </li>
+            {% if is_granted(['ROLE_ADMIN','ROLE_CONTROLEUR','ROLE_CAISSE','ROLE_VENDEUR']) %}
+
+                <li id="tiers" class="nav-item">
+                    <a class="nav-link" href="{{ path('tiersclient_index') }}">Tiers<span class="sr-only"></span></a>
+                </li>
+            {% endif %}
+
+            {% if is_granted(['ROLE_ADMIN','ROLE_CONTROLEUR','ROLE_VENDEUR']) %}
+
+                {% set typeActivite = app.session.get('type_activite') %}
+                <li id="stock" class="nav-item">
+                    <a class="nav-link"
+                            {% if typeActivite == 'vente_article' or typeActivite == 'article_service' %}
+                                href="{{ path('stockarticle_index') }}"
+                            {% else %}
+                                href="{{ path('stockservice_index') }}"
+                            {% endif %}
+                    >Stock <span class="sr-only"></span></a>
+                </li>
+            {% endif %}
+
+
+            {% if is_granted(['ROLE_ADMIN','ROLE_CONTROLEUR','ROLE_CAISSE','ROLE_VENDEUR']) %}
+
+                <li id="operations_client" class="nav-item">
+                    <a class="nav-link" href="{{ path('clientfacture_index') }}"> Opérations Clients
+                        <span class="sr-only"></span></a>
+                </li>
+
             {% endif %}
 
             {% if is_granted(['ROLE_ADMIN','ROLE_FNS_ADMIN']) %}
-            <li id="gestion_compte" class="nav-item"><a class="nav-link" href="{{ path('index_gestion_societe') }}"> Gestion Compte
-                 <span class="sr-only"></span></a>
-            </li>
+                <li id="gestion_compte" class="nav-item"><a class="nav-link" href="{{ path('index_gestion_societe') }}">
+                        Gestion Compte
+                        <span class="sr-only"></span></a>
+                </li>
             {% endif %}
 
         </ul>
 
         <ul class="navbar-nav ml-auto">
-
-            {#<li class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-bell-o"></i>
-                  {% set totalNotif=app.user|getNumNotif %}
-                    <style>
-                        .notif_number {
-                            position: absolute;
-                            top: -5px;
-                            right: {{ totalNotif>9 ? 10 : 18 }}px;
-                            border: 1px solid #ffbc00;
-                            padding: 0px 3px;
-                            background: #ffbc00;
-                            font-size: small;
-                            border-radius: 3px;
-                        }
-                    </style>
-                    <span class="label label-warning notif_number">{{ totalNotif }}</span>
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 275px">
-                    <div class="dropdown-divider">
-
-                    </div>
-                    <div class="text-center">
-                        <a class="nav-link" style="padding-top: 0px; padding-bottom: 0px; color: blue" href="#">Tout afficher</a>
-
-                    </div>
-                </div>
-            </li>#}
-
-
             <li>
                 <a class="navbar-brand " href="#" id="libelle_ste">
                     <strong style="font-size: 11.0px">{{ societe.raisonSociale |upper }}</strong>

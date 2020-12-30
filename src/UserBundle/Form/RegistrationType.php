@@ -77,7 +77,7 @@ class RegistrationType extends BaseType
                     'choices' =>
                         [
 //                            'ROLE_CLT_ADMIN' => 'ROLE_CLT_ADMIN',
-                            'Controleur' => 'ROLE_CONTROLEURUR',
+                            'Controleur' => 'ROLE_CONTROLEUR',
                             'Caissier' => 'ROLE_CAISSE',
                             'Vendeur' => 'ROLE_VENDEUR',
                             'Comptable' => 'ROLE_COMPTABLE',

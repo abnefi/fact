@@ -9,9 +9,12 @@
             </div>
         </div>
         <div class="my-3 p-3 bg-white rounded box-shadow table-responsive">
+            {% if is_granted(['ROLE_CONTROLEUR','ROLE_VENDEUR']) %}
             <a type="button" href="{{ path('clientdevis_new') }}" class="btn btn-outline-dark"
                     style="margin-bottom: 10px;"><i class="oi oi-plus"></i> Nouveau
             </a>
+            {% endif %}
+
             <table class="table table-bordered dataTable">
                 <thead>
                 <tr>
@@ -40,11 +43,13 @@
                                     <span class="oi oi-eye"></span>
                                 </a>
                                 {% if clientFacture.estValide == false %}
-                                    <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                                       title="Modifier"
-                                       href=" {{ path('clientdevis_edit', { 'id': clientFacture.id }) }}">
-                                        <span class="oi oi-pencil"></span>
-                                    </a>
+                                    {% if is_granted(['ROLE_CONTROLEUR','ROLE_VENDEUR']) %}
+                                        <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                           title="Modifier"
+                                           href=" {{ path('clientdevis_edit', { 'id': clientFacture.id }) }}">
+                                            <span class="oi oi-pencil"></span>
+                                        </a>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </td>

@@ -30,10 +30,12 @@
                                href="{{ path('clientdevis_edit', { 'id': clientFacture.id }) }}">
                                 Modifier
                             </a>
+                            {% if is_granted(['ROLE_VENDEUR']) %}
                             <a class="dropdown-item"
                                href="{{ path('clientfacturevente_new', { 'devis': clientFacture.id }) }}">
                                 Créer Facture Vente
                             </a>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -78,7 +80,7 @@
                 </tbody>
             </table>
             <caption>Détails Facture</caption>
-            <table class="table table-bordered dataTableResponsive">
+            <table class="table table-bordered table-responsive">
                 <thead>
                 <tr>
                     <th>N°</th>
@@ -87,7 +89,6 @@
                     <th>Unité Mesure</th>
                     <th>Qté</th>
                     <th>Prix Unité</th>
-                    {#<th>Taux Remise (%)</th>#}
                     <th>Montant HT</th>
                     <th>Groupe taxe</th>
                     <th>Description</th>
@@ -98,14 +99,12 @@
                 <tbody>
                 {% for detail in clientFacture.details %}
                     <tr>
-                        {# <td><a href="{{ path('stockarticle_show', { 'id': stockArticle.id }) }}">{{ loop.index }}</a> #}
                         <td>{{ loop.index }}</td>
                         <td>{{ detail.produit.reference }}</td>
                         <td>{{ detail.produit.designation }}</td>
                         <td>{{ detail.uniteMesure.libelle }}</td>
                         <td>{{ detail.quantite }}</td>
                         <td>{{ detail.prixVenteUnitaire  |number_format(0, ',', ' ') }}</td>
-                        {#<td>{{ detail.tauxRemise }}</td>#}
                         <td>{{ ((detail.quantite * detail.prixVenteUnitaire)*(1-(detail.tauxRemise/100))) |number_format(0, ',', ' ') }}</td>
                         <td>{{ detail.produit.taxeGroupe.code }}</td>
                         <td>
@@ -117,7 +116,6 @@
                             {% if detail.hasTaxeSpecifique %}
                                 <div class="card">
                                     <div class="card-body">
-                                        {# <span><b><u>Taxe Spécifique:</u></b></span> {{ detail.produit.valeurTaxeSpecifique }} % #}
                                         <span><b><u>Taux:</u></b> {{ detail.taxeSpecifique }} %</span><br>
 
                                         <span><b><u>Description:</u></b></span>
@@ -132,7 +130,6 @@
                         </td>
                         <td>
                             {% if detail.changementPrixUnitaireTTC %}
-                                {# <p class="card-header text-center"><b>Dernier Prix Origine:</b></p> #}
                                 <div class="card">
                                     <div class="card-body">
                                         <span><b><u>Dernier Prix Origine:</u></b></span> {{ detail.dernierPrixOrigine }} {{ clientFacture.devise.symbole }}
@@ -160,7 +157,6 @@
                 <div class="col-md-2 form-group">
                 </div>
                 <div class="col-md-4 form-group">
-                    {# <p>Montant total: <strong>{{ montantTotal |number_format(0, ',', ' ') }} Fcfa</strong></p> #}
                     <table class="table table-striped table-responsive">
                         <tbody>
                         <tr>
@@ -206,9 +202,6 @@
                 </div>
             </div>
 
-            {# {{ form_start(delete_form) }} #}
-            {# <input type="submit" value="Delete"> #}
-            {# {{ form_end(delete_form) }} #}
         </div>
 
         {# Modal validation #}
@@ -273,13 +266,9 @@
     <script>
         $(document).ready(function () {
             $('.dt-buttons').hide();
-            {# $(document).ready(function () { #}
-            {# $('[data-toggle="popover"]').popover(); #}
-            {# $('.popover_supprimer').popover({ #}
-            {# html: true, #}
-            {# content: $('#confirm_delete').html(), #}
         });
     </script>
+
     <!-- Aperçu PDF facture -->
     <script>
         $('#modal_print_facture').on('shown.bs.modal', function () {

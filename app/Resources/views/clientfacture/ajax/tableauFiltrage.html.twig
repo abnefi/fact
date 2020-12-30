@@ -42,31 +42,35 @@
                                   {% else %} {{ path('clientfactureavoir_show', { 'id': clientFacture.id }) }}{% endif %}">
                         <span class="oi oi-eye"></span>
                     </a>
-                    {% if clientFacture.estValide == false %}
-                        <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                           title="Modifier"
-                           href="{% if clientFacture.typeFacture.avoir == false %}
-                                 {{ path('clientfacturevente_edit', { 'id': clientFacture.id }) }}
-                                  {% else %} {{ path('clientfactureavoir_edit', { 'id': clientFacture.id }) }}{% endif %}">
-                            <span class="oi oi-pencil"></span>
-                        </a>
+
+                    {% if is_granted(['ROLE_CAISSE']) %}
+
+                        {% if clientFacture.estValide == true %}
+                            <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                               title="Paiement"
+                               href="{{ path('clientfacture_paiement', { 'id': clientFacture.id }) }}">
+                                <span class="oi oi-euro"></span>
+                            </a>
+                        {% endif %}
+
                     {% endif %}
+
+                    {% if is_granted(['ROLE_VENDEUR']) %}
+
+                        {% if clientFacture.estValide == false %}
+                            <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                               title="Modifier"
+                               href="{% if clientFacture.typeFacture.avoir == false %}
+                                                {{ path('clientfacturevente_edit', { 'id': clientFacture.id }) }}
+                                        {% else %}
+                                                {{ path('clientfactureavoir_edit', { 'id': clientFacture.id }) }}{% endif %}">
+                                <span class="oi oi-pencil"></span> </a>
+                        {% endif %}
+
+                    {% endif %}
+
+
                 </div>
-                {#<div class="dropdown">#}
-                {#<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">#}
-                {#Actions#}
-                {#</button>#}
-                {#<div class="dropdown-menu">#}
-                {#<a class="dropdown-item"#}
-                {#href="{{ path('clientfacture_show', { 'id': clientFacture.id }) }}">#}
-                {#<span class="oi oi-eye"> Voir</span>#}
-                {#</a>#}
-                {#<a class="dropdown-item"#}
-                {#href="{{ path('clientfacture_edit', { 'id': clientFacture.id }) }}">#}
-                {#<span class="oi oi-pencil"> Modifier</span>#}
-                {#</a>#}
-                {#</div>#}
-                {#</div>#}
             </td>
         </tr>
     {% endfor %}

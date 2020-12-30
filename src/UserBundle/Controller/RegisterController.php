@@ -218,7 +218,7 @@ class RegisterController extends Controller
                         $count = 0;
                         for ($i = 0, $iMax = count($raisonRejet); $i < $iMax; $i++){
                             $raison[] = $raisonRejet[$i]->getRaison();
-                            $count =+ 1;
+                            $count++;
                             $request->getSession()->getFlashBag()->add('raison', $raison[$i]);
                         }
                         return $this->redirectToRoute('verification_activation', array(

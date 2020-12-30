@@ -3,7 +3,9 @@
 {% block sousmenu %}
     <div class="nav-scroller bg-white box-shadow">
         <nav class="nav nav-underline">
+            {% if is_granted(['ROLE_CAISSE','ROLE_VENDEUR']) == false  %}
             <a id="fournisseur" class="nav-link " href="{{ path('tiersfournisseur_index') }}"> <b>Fournisseur</b></a>
+            {% endif %}
             <a id="client" class="nav-link" href="{{ path('tiersclient_index') }}"><b>Client</b></a>
         </nav>
     </div>

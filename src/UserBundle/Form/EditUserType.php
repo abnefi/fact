@@ -76,7 +76,7 @@ class EditUserType extends AbstractType
                         ],
                         'choices' =>
                             [
-                                'Controleur' => 'ROLE_CONTROLEURUR',
+                                'Controleur' => 'ROLE_CONTROLEUR',
                                 'Caissier' => 'ROLE_CAISSE',
                                 'Vendeur' => 'ROLE_VENDEUR',
                                 'Comptable' => 'ROLE_COMPTABLE',
@@ -131,7 +131,7 @@ class EditUserType extends AbstractType
                                 'ROLE_ADMIN' => 'ROLE_ADMIN',
                                 'ROLE_CLT_ADMIN' => 'ROLE_CLT_ADMIN',
                                 'ROLE_FNS_ADMIN' => 'ROLE_FNS_ADMIN',
-                                'Controleur' => 'ROLE_CONTROLEURUR',
+                                'Controleur' => 'ROLE_CONTROLEUR',
                                 'Caissier' => 'ROLE_CAISSE',
                                 'Vendeur' => 'ROLE_VENDEUR',
                                 'Comptable' => 'ROLE_COMPTABLE',

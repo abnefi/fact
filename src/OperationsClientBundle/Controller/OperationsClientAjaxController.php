@@ -63,7 +63,6 @@ class OperationsClientAjaxController extends Controller
         $responseArray['prixUnitaire'] = $produit->getPrixUnitaireVente();
         $responseArray['prixUnitaireTTC'] = $this->get('stock_operations')->calculerPrixUnitaireTTC($produit);
         $responseArray['taxable'] = $produit->getTaxable();
-//      dump($responseArray);die();
         return new JsonResponse($responseArray);
     }
 
@@ -148,11 +147,13 @@ class OperationsClientAjaxController extends Controller
         $societe = $this->getUser()->getAgence()->getSociete();
 
 
-        if ($typeProduit == 'article') {
+        if ($typeProduit == 'article')
+        {
             $produits = $em->getRepository('StockBundle:StockArticle')->findBy(['estSupprimer'=>0,'societe'=>$societe]);
         } else {
             $produits = $em->getRepository('StockBundle:StockService')->findBy(['estSupprimer'=>0,'societe'=>$societe]);
         }
+
         $arrayProduits = [];
         foreach ($produits as $produit) {
             $ligneProduit = [];

@@ -10,32 +10,27 @@
         </div>
 
         <div class="my-3 p-3 bg-white rounded box-shadow">
-
-            <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown"
-                    id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false"
-                    style="margin-bottom: 10px;"><i class="oi oi-plus"></i> Nouvelle facture
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {% for typeFacture in typesFactures %}
-                    {% if typeFacture.avoir == false %}
-                        {# {% if typeFacture.export == false %} #}
-                        <a class="dropdown-item"
-                           href="{{ path('clientfacturevente_new', { 'id': typeFacture.id }) }}">
-                            {{ typeFacture.libelle }}
-                        </a>
-                        {# {% endif %} #}
-                    {% else %}
-
-                        {# {% if typeFacture.export == false %} #}
-                        <button type="button" class="dropdown-item btn_facture_avoir" data-toggle="modal"
-                                data-id="{{ typeFacture.id }}"
-                                data-target="#modal_facture_avoir"> {{ typeFacture.libelle }}
-                        </button>
-                        {# {% endif %} #}
-
-                    {% endif %}
-                {% endfor %}
-            </div>
+            {% if is_granted(['ROLE_VENDEUR']) %}
+                <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown"
+                        id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false"
+                        style="margin-bottom: 10px;"><i class="oi oi-plus"></i> Nouvelle facture
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for typeFacture in typesFactures %}
+                        {% if typeFacture.avoir == false %}
+                            <a class="dropdown-item"
+                               href="{{ path('clientfacturevente_new', { 'id': typeFacture.id }) }}">
+                                {{ typeFacture.libelle }}
+                            </a>
+                        {% else %}
+                            <button type="button" class="dropdown-item btn_facture_avoir" data-toggle="modal"
+                                    data-id="{{ typeFacture.id }}"
+                                    data-target="#modal_facture_avoir"> {{ typeFacture.libelle }}
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <fieldset>
                 <legend>FILTRAGE</legend>
@@ -48,7 +43,8 @@
                                     <input type="checkbox" id="check_temps_facture">
                                 </div>
                             </div>
-                            <input id="temps_facture" type="text" class="form-control {#date_etat#}periode_facture" name="temps_facture"
+                            <input id="temps_facture" type="text" class="form-control {# date_etat #}periode_facture"
+                                   name="temps_facture"
                                    disabled onchange="ajaxFacture.filtrerFactures()"/>
                         </div>
                     </div>
@@ -78,7 +74,7 @@
                     <div class="col-md-3 form-group">
                         <label>Etat</label>
                         <select class="form-control chosen-select" id="select_etats" name="select_etats"
-                                 data-placeholder="Sélectionnez un état"
+                                data-placeholder="Sélectionnez un état"
                                 onchange="ajaxFacture.filtrerFactures()">
                             <option value="">Sélectionnez un état</option>
                             {% for etat in etats %}
@@ -129,6 +125,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
+
                                     <a class="btn btn-primary" data-toggle="tooltip"
                                        data-placement="top" title="Voir"
                                        href="{% if clientFacture.typeFacture.avoir == false %}
@@ -136,17 +133,35 @@
                                   {% else %} {{ path('clientfactureavoir_show', { 'id': clientFacture.id }) }}{% endif %}">
                                         <span class="oi oi-eye"></span>
                                     </a>
-                                    {% if clientFacture.estValide == false %}
-                                        <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                                           title="Modifier"
-                                           href="{% if clientFacture.typeFacture.avoir == false %}
-                                 {{ path('clientfacturevente_edit', { 'id': clientFacture.id }) }}
-                                  {% else %}
-                                      {{ path('clientfactureavoir_edit', { 'id': clientFacture.id }) }}{% endif %}">
-                                            <span class="oi oi-pencil"></span>
-                                        </a>
+
+
+                                    {% if is_granted(['ROLE_CAISSE']) %}
+
+                                        {% if clientFacture.estValide == true %}
+                                            <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                               title="Paiement"
+                                               href="{{ path('clientfacture_paiement', { 'id': clientFacture.id }) }}">
+                                               <i class="fa fa-money" style="color: white"></i>
+                                            </a>
+                                        {% endif %}
+
+                                    {% endif %}
+
+                                    {% if is_granted(['ROLE_VENDEUR']) %}
+
+                                        {% if clientFacture.estValide == false %}
+                                            <a class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                               title="Modifier"
+                                               href="{% if clientFacture.typeFacture.avoir == false %}
+                                                {{ path('clientfacturevente_edit', { 'id': clientFacture.id }) }}
+                                        {% else %}
+                                                {{ path('clientfactureavoir_edit', { 'id': clientFacture.id }) }}{% endif %}">
+                                                <span class="oi oi-pencil"></span> </a>
+                                        {% endif %}
+
                                     {% endif %}
                                 </div>
+
                             </td>
                         </tr>
                     {% endfor %}
@@ -197,35 +212,35 @@
 
 
 {% block javascripts %}
-  {{ parent() }}
+    {{ parent() }}
 
     <script src="{{ asset('frontend/js/clientfacture/facture.js') }}"></script>
 
     <script type="text/javascript">
-      // $('modal_facture_avoir').on('show.bs.modal', function () {
-      $('.btn_facture_avoir').on('click', function () {
-        $('#type_facture_avoir').val($(this).data('id'));
-        console.log($(this).data('id'))
-      })
+        // $('modal_facture_avoir').on('show.bs.modal', function () {
+        $('.btn_facture_avoir').on('click', function () {
+            $('#type_facture_avoir').val($(this).data('id'));
+            console.log($(this).data('id'))
+        })
 
-      //si le contenus du champs client chande afficher la liste de ses facture
-      $("#client").on("change", function (e) {
-        var client = $('#client').val();
+        //si le contenus du champs client chande afficher la liste de ses facture
+        $("#client").on("change", function (e) {
+            var client = $('#client').val();
 
 
-        $('#list_facture').html('<div class="spinner-border text-primary"></div>');
-        $.ajax({
-            type: "POST",
-            url: Routing.generate('facture_by_client'),
-            data: {
-              client: client
-            },
-            success: function (data) {
-              $('#list_facture').html(data)
-            }
-          }
-        )
-      });
+            $('#list_facture').html('<div class="spinner-border text-primary"></div>');
+            $.ajax({
+                    type: "POST",
+                    url: Routing.generate('facture_by_client'),
+                    data: {
+                        client: client
+                    },
+                    success: function (data) {
+                        $('#list_facture').html(data)
+                    }
+                }
+            )
+        });
     </script>
 
 
